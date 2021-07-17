@@ -13,6 +13,7 @@
       glob: true
       path: fish/conf.d/*
     ~/.config/git/ignore: git/ignore
+    ~/.config/bat/config: bat/config
     ~/.nanorc: nanorc
 
 - create: []
