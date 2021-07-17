@@ -6,6 +6,12 @@
 - clean: ['~']
 
 - link:
+    ~/.config/fish/functions/:
+      glob: true
+      path: fish/functions/*
+    ~/.config/fish/conf.d/:
+      glob: true
+      path: fish/conf.d/*
     ~/.nanorc: nanorc
 
 - create: []
