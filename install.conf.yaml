@@ -15,6 +15,7 @@
     ~/.config/git/ignore: git/ignore
     ~/.config/bat/config: bat/config
     ~/.nanorc: nanorc
+    ~/.ssh/config: ssh/config
 
 - create: []
 
