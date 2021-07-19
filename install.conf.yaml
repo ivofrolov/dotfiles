@@ -2,6 +2,11 @@
     link:
       create: true
       relink: true
+    brewfile:
+      no-lock: true
+      include: ['tap', 'brew']
+      stdout: true
+      stderr: true
 
 - clean: ['~']
 
@@ -18,6 +23,9 @@
     ~/.ssh/config: ssh/config
 
 - create: []
+
+- brewfile:
+    file: Brewfile
 
 - shell:
     - [git submodule update --init --recursive, Installing submodules]
