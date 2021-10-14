@@ -1,0 +1,9 @@
+#!/bin/sh
+
+# Prepend branch name to the commit message
+# if branch named like a bugtracker task id
+# (e.g. ID-123456).
+
+BRANCH=$(git branch --show-current)
+echo "$BRANCH" | grep -Esq "\w+-\d+" || exit 0
+grep -qs "$BRANCH" "$1" || sed -i -e "1s/^/$BRANCH /" $1
