@@ -22,7 +22,7 @@
       glob: true
       path: git/hooks/*
     ~/.config/bat/config: bat/config
-    ~/.nanorc: nanorc
+    ~/.nanorc: nano/nanorc
     ~/.ssh/config: ssh/config
 
 - create: []

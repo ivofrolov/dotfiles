@@ -1,0 +1,22 @@
+set afterends
+set atblanks
+set autoindent
+set historylog
+set linenumbers
+set multibuffer
+set noconvert
+set nohelp
+set smarthome
+set stateflags
+set suspendable
+set tabsize 4
+set tabstospaces
+
+set numbercolor brightwhite
+
+bind M-F nextword all
+bind M-B prevword all
+bind Sh-M-F formatter main
+bind Sh-M-B linter main
+
+include ~/.local/share/nano/*.nanorc
