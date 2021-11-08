@@ -24,6 +24,9 @@
     ~/.config/bat/config: bat/config
     ~/.nanorc: nano/nanorc
     ~/.ssh/config: ssh/config
+    ~/Library/Application Support/Sublime Text/Packages/User/:
+      glob: true
+      path: sublime-text/*
 
 - create: []
 
