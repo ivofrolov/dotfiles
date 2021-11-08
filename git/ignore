@@ -1,3 +1,4 @@
 pyrightconfig.json
 
-*.sublime-*
+*.sublime-project
+*.sublime-workspace
