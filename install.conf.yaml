@@ -18,9 +18,7 @@
       glob: true
       path: fish/conf.d/*
     ~/.config/git/ignore: git/ignore
-    ~/.config/git/hooks/:
-      glob: true
-      path: git/hooks/*
+    ~/.config/git/hooks/commit-msg: git/hooks/commit-msg
     ~/.config/bat/config: bat/config
     ~/.nanorc: nano/nanorc
     ~/.ssh/config: ssh/config
