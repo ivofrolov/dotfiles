@@ -2,9 +2,9 @@ set -g fish_color_command blue
 set -g fish_color_comment brblack
 set -g fish_color_cwd cyan
 set -g fish_color_end magenta
-set -g fish_color_error brred
+set -g fish_color_error red
 set -g fish_color_escape magenta
-set -g fish_color_match --background=white
+set -g fish_color_match --background=brwhite
 set -g fish_color_operator blue
 set -g fish_color_param blue
 set -g fish_color_quote green
