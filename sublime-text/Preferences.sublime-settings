@@ -15,7 +15,8 @@
 		"CVS",
 		".Trash",
 		".Trash-*",
-		"__pycache__"
+		"__pycache__",
+		".direnv"
 	],
 	"ignored_packages":
 	[
