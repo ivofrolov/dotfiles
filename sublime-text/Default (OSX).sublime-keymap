@@ -1,4 +1,5 @@
 [
+    { "keys": ["super+ctrl+w"], "command": "close_all" },
     // Dash
     { "keys": ["f1"], "command": "dash_doc"},
     // LSP
