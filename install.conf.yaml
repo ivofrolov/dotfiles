@@ -17,14 +17,23 @@
     ~/.config/fish/conf.d/:
       glob: true
       path: fish/conf.d/*
+
     ~/.config/git/ignore: git/ignore
     ~/.config/git/hooks/commit-msg: git/hooks/commit-msg
+
     ~/.config/bat/config: bat/config
+
     ~/.nanorc: nano/nanorc
+
     ~/.ssh/config: ssh/config
+
     ~/Library/Application Support/Sublime Text/Packages/User/:
       glob: true
       path: sublime-text/*
+
+    ~/.config/kitty/:
+      glob: true
+      path: kitty/*
 
 - create: []
 
