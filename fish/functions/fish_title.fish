@@ -1,11 +1,8 @@
 function fish_title
     if set -q argv[1]
-        echo -- (string sub -l 20 -- $argv[1]) (prompt_pwd)
+        echo -- (prompt_pwd) — (string sub -l 20 -- $argv[1])
     else
         set -l command (status current-command)
-        if test "$command" = fish
-            set command
-        end
-        echo -- (string sub -l 20 -- $command) (prompt_pwd)
+        echo -- (prompt_pwd) — (string sub -l 20 -- $command)
     end
 end

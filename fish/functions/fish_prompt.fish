@@ -3,7 +3,7 @@ function fish_prompt --description 'Write out the prompt'
 
     set -l color_status $fish_color_user
     if test $last_pipestatus != 0
-        set color_status $fish_color_error
+        set color_status $fish_color_status
     end
 
     set -l normal (set_color normal)
