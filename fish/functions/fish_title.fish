@@ -1,8 +1,9 @@
 function fish_title
+    set -l command
     if set -q argv[1]
-        echo -- (prompt_pwd) — (string sub -l 20 -- $argv[1])
+        set command $argv[1]
     else
-        set -l command (status current-command)
-        echo -- (prompt_pwd) — (string sub -l 20 -- $command)
+        set command (status current-command)
     end
+    echo -- (prompt_pwd) — (string replace -r '^(.{16})(.+)(.{16})$' '$1…$3' $command)
 end
