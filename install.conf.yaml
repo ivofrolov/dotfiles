@@ -2,11 +2,6 @@
     link:
       create: true
       relink: true
-    brewfile:
-      no-lock: true
-      include: ['tap', 'brew']
-      stdout: true
-      stderr: true
 
 - clean: ['~']
 
@@ -38,9 +33,6 @@
     ~/.hammerspoon/init.lua: hammerspoon/init.lua
 
 - create: []
-
-- brewfile:
-    file: Brewfile
 
 - shell:
     - [git submodule update --init --recursive, Installing submodules]
