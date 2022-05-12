@@ -35,6 +35,8 @@
       glob: true
       path: kitty/*
 
+    ~/.hammerspoon/init.lua: hammerspoon/init.lua
+
 - create: []
 
 - brewfile:
