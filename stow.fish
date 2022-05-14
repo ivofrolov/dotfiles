@@ -2,9 +2,10 @@
 
 set -l options (fish_opt --short=h --long=help)
 set options $options (fish_opt --short=v --long=verbose)
-set options $options (fish_opt --short=n --long=simulate)
+set options $options (fish_opt --short=s --long=simulate)
 set options $options (fish_opt --short=d --long=dir --optional-val)
 set options $options (fish_opt --short=t --long=target --optional-val)
+set options $options (fish_opt --short=r --long=relink)
 argparse --name=(status basename) --stop-nonopt $options -- $argv
 or return
 
@@ -13,13 +14,14 @@ function print_help
     echo
     echo -- Stow the package contents
     echo
-    echo -- usage: (status basename) [-h] [-dDIR, --dir=DIR] [-tTARGET, --target=TARGET] PACKAGE ...
-    echo -- "" -d, --dir \t stow directory, default is current
-    echo -- "" -h, --help \t print this help
-    echo -- "" -n, --simulate \t do not modify the filesystem
-    echo -- "" -t, --target \t target directory, default is stow dir parent
-    echo -- "" -v, --verbose \t increase verbosity level
-    echo -- "" package \t name in the stow directory
+    echo -- usage: (status basename) [-h] [-dDIR, --dir=DIR] [-tTARGET, --target=TARGET] [options] PACKAGE ...
+    echo -- "" -d, --dir\t stow directory, default is current
+    echo -- "" -h, --help\t print this help
+    echo -- "" -r, --relink\t force recreate symbolic links
+    echo -- "" -s, --simulate\t do not modify the filesystem
+    echo -- "" -t, --target\t target directory, default is stow dir parent
+    echo -- "" -v, --verbose\t increase verbosity level
+    echo -- "" package\t name in the stow directory
 end
 
 
@@ -48,24 +50,26 @@ function execute --inherit-variable _flag_simulate
 end
 
 
-function stow -a source_package_dir target_package_dir
+function stow -a source_package_dir target_package_dir force
     for source_path in (find $source_package_dir -type f)
         set -l source_file (string replace $source_package_dir "" $source_path)
-        set -l target_file (string replace -a -r "dot-" "." $source_file)
+        set -l target_file (string replace -a -r "/dot-" "/." $source_file)
         set -l target_path $target_package_dir$target_file
 
-        if test -L $target_path
-            if test $source_path = (realpath $target_path)
-                log -l 2 "%s skipped: link already exists" $target_file
-            else
-                log -l 1 "warning: link to %s exists but points to another file, so skipping" $target_file
-            end
-            continue
-        end
-
         if test -e $target_path
-            log -l 1 "warning: file at %s already exists, so skipping" $target_file
-            continue
+            if test -L $target_path
+                if test $force -eq 0
+                    if test $source_path = (realpath $target_path)
+                        log -l 2 "%s skipped: link already exists" $target_file
+                    else
+                        log -l 1 "warning: link to %s exists but points to another file, so skipping" $target_file
+                    end
+                    continue
+                end
+            else
+                log -l 1 "warning: file at %s already exists, so skipping" $target_file
+                continue
+            end
         end
 
         if not test -d (dirname $target_path)
@@ -73,7 +77,7 @@ function stow -a source_package_dir target_package_dir
             log -l 2 "%s directory created" (dirname $target_file)
         end
 
-        execute ln -s $source_path $target_path
+        execute ln -f -s $source_path $target_path
         log -l 2 "%s linked to %s" $source_file $target_file
     end
 end
@@ -113,5 +117,5 @@ end
 
 for package in $argv
     log -l 2 "stow package %s from %s to %s" $package $dir $target
-    stow $dir/$package $target
+    stow $dir/$package $target (count $_flag_relink)
 end
