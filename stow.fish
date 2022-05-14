@@ -1,9 +1,10 @@
 #!/usr/bin/env fish
 
 set -l options (fish_opt --short=h --long=help)
+set options $options (fish_opt --short=v --long=verbose)
+set options $options (fish_opt --short=n --long=simulate)
 set options $options (fish_opt --short=d --long=dir --optional-val)
 set options $options (fish_opt --short=t --long=target --optional-val)
-set options $options (fish_opt --short=v --long=verbose)
 argparse --name=(status basename) --stop-nonopt $options -- $argv
 or return
 
@@ -15,6 +16,7 @@ function print_help
     echo -- usage: (status basename) [-h] [-dDIR, --dir=DIR] [-tTARGET, --target=TARGET] PACKAGE ...
     echo -- "" -d, --dir \t stow directory, default is current
     echo -- "" -h, --help \t print this help
+    echo -- "" -n, --simulate \t do not modify the filesystem
     echo -- "" -t, --target \t target directory, default is stow dir parent
     echo -- "" -v, --verbose \t increase verbosity level
     echo -- "" package \t name in the stow directory
@@ -30,8 +32,19 @@ function log --inherit-variable _flag_verbose
         exit 1
     end
 
-    test $_flag_level -le (count $_flag_verbose)
-    and printf $argv >&2
+    if test $_flag_level -le (count $_flag_verbose)
+        printf $argv >&2
+        echo >&2
+    end
+end
+
+
+function execute --inherit-variable _flag_simulate
+    if set -q _flag_simulate
+        echo $argv
+    else
+        command $argv
+    end
 end
 
 
@@ -43,25 +56,25 @@ function stow -a source_package_dir target_package_dir
 
         if test -L $target_path
             if test $source_path = (realpath $target_path)
-                log -l 2 "%s skipped: link already exists\n" $target_file
+                log -l 2 "%s skipped: link already exists" $target_file
             else
-                log -l 1 "warning: link to %s exists but points to another file, so skipping\n" $target_file
+                log -l 1 "warning: link to %s exists but points to another file, so skipping" $target_file
             end
             continue
         end
 
         if test -e $target_path
-            log -l 1 "warning: file at %s already exists, so skipping\n" $target_file
+            log -l 1 "warning: file at %s already exists, so skipping" $target_file
             continue
         end
 
         if not test -d (dirname $target_path)
-            mkdir -p (dirname $target_path)
-            log -l 2 "%s directory created\n" (dirname $target_file)
+            execute mkdir -p (dirname $target_path)
+            log -l 2 "%s directory created" (dirname $target_file)
         end
 
-        ln -s $source_path $target_path
-        log -l 2 "%s linked to %s\n" $source_file $target_file
+        execute ln -s $source_path $target_path
+        log -l 2 "%s linked to %s" $source_file $target_file
     end
 end
 
@@ -69,7 +82,7 @@ end
 function resolve_dir -a dir
     set -l resolved (realpath -s (string replace -r "^~" $HOME $dir))
     if not test -d $resolved
-        log -l 0 "directory %s doesn't exists\n" $resolved
+        log -l 0 "directory %s doesn't exists" $resolved
         return 1
     end
     echo $resolved
@@ -82,7 +95,7 @@ if set -q -l _flag_help
 end
 
 if test (count $argv) -eq 0
-    log -l 0 "no packages provided\n"
+    log -l 0 "no packages provided"
     return 1
 end
 
@@ -99,6 +112,6 @@ if set -q -l _flag_target
 end
 
 for package in $argv
-    log -l 2 "stow package %s from %s to %s\n" $package $dir $target
+    log -l 2 "stow package %s from %s to %s" $package $dir $target
     stow $dir/$package $target
 end
