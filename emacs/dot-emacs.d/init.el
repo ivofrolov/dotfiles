@@ -10,7 +10,7 @@
  '(blink-cursor-mode nil)
  '(create-lockfiles nil)
  '(cursor-type 'bar)
- '(custom-enabled-themes '(wombat))
+ '(custom-enabled-themes '(modus-operandi))
  '(inhibit-startup-screen t)
  '(make-backup-files nil)
  '(package-selected-packages '(lua-mode))
