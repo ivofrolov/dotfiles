@@ -2,6 +2,6 @@ update_pyrightconfig() {
     local pyrightconfig="pyrightconfig.json"
     test ! -f $pyrightconfig && return
     local python_version=$(semver_search "$(direnv_layout_dir)" "python-")
-    grep -q "python-$python_version" $pyrightconfig && exit
+    grep -q "python-$python_version" $pyrightconfig && return
     sed -i "" -E -e "/python-([0-9]+\.?){3}/s//python-$python_version/" $pyrightconfig
 }
