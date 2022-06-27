@@ -1,6 +1,7 @@
 (set-default 'inhibit-startup-screen t)
 (tool-bar-mode 0)
 (scroll-bar-mode 0)
+(horizontal-scroll-bar-mode 0)
 
 (set-frame-font "Hack 13" nil t)
 
@@ -20,22 +21,33 @@
 (set-default 'standard-indent 4)
 (set-default 'tab-width 4)
 
-(set-default 'global-visual-line-mode t)
 (set-default 'visual-line-fringe-indicators '(nil right-curly-arrow))
+(global-visual-line-mode 1)
 
-(global-set-key (kbd "C-S-k") #'kill-whole-line)
-(global-set-key (kbd "s-c") #'clipboard-kill-ring-save)
-(global-set-key (kbd "s-x") #'clipboard-kill-region)
-(global-set-key (kbd "s-v") #'clipboard-yank)
-(set-default 'select-enable-clipboard nil)
-(set-default 'select-enable-primary t)
+(set-default 'apropos-do-all t)
 
-(global-set-key (kbd "C-c l") #'org-store-link)
-(global-set-key (kbd "C-c a") #'org-agenda)
-(global-set-key (kbd "C-c c") #'org-capture)
+(set-default 'load-prefer-newer t)
 
 (set-default 'create-lockfiles nil)
 (set-default 'make-backup-files nil)
+(save-place-mode 1)
+
+(autoload 'zap-up-to-char "misc"
+  "Kill up to, but not including ARGth occurrence of CHAR." t)
+(global-set-key (kbd "M-z") 'zap-up-to-char)
+
+(set-default 'select-enable-clipboard nil)
+(set-default 'select-enable-primary t)
+(global-set-key (kbd "s-c") 'clipboard-kill-ring-save)
+(global-set-key (kbd "s-x") 'clipboard-kill-region)
+(global-set-key (kbd "s-v") 'clipboard-yank)
+
+(global-set-key (kbd "C-x C-b") 'ibuffer)
+(global-set-key (kbd "C-S-k") 'kill-whole-line)
+
+(global-set-key (kbd "C-c l") 'org-store-link)
+(global-set-key (kbd "C-c a") 'org-agenda)
+(global-set-key (kbd "C-c c") 'org-capture)
 
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (load custom-file)
@@ -50,6 +62,10 @@
   (package-install 'use-package))
 (require 'use-package)
 
+(use-package uniquify
+  :init
+  (set-default 'uniquify-buffer-name-style 'forward))
+
 (use-package vertico
   :ensure t
   :init
@@ -59,6 +75,9 @@
   :ensure t
   :bind (("C-c d" . dash-at-point)
          ("C-c e" . dash-at-point-with-docset)))
+
+(use-package markdown-mode
+  :ensure t)
 
 (use-package elm-mode
   :ensure t)
