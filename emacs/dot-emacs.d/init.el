@@ -24,6 +24,8 @@
 (set-default 'visual-line-fringe-indicators '(nil right-curly-arrow))
 (global-visual-line-mode 1)
 
+(set-default 'read-buffer-completion-ignore-case t)
+
 (set-default 'apropos-do-all t)
 
 (set-default 'load-prefer-newer t)
@@ -53,7 +55,7 @@
 (load custom-file)
 
 (require 'package)
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+(add-to-list 'package-archives '("melpa" . "https://stable.melpa.org/packages/") t)
 (package-initialize)
 (unless package-archive-contents
   (package-refresh-contents))
@@ -70,11 +72,6 @@
   :ensure t
   :init
   (vertico-mode))
-
-(use-package dash-at-point
-  :ensure t
-  :bind (("C-c d" . dash-at-point)
-         ("C-c e" . dash-at-point-with-docset)))
 
 (use-package markdown-mode
   :ensure t)
