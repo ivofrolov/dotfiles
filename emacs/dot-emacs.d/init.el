@@ -57,6 +57,14 @@
   :config
   (vertico-mode))
 
+(use-package orderless
+  :ensure t
+  :init
+  (setq orderless-matching-styles '(orderless-initialism orderless-regexp)
+        completion-styles '(orderless basic)
+        completion-category-defaults nil
+        completion-category-overrides nil))
+
 (use-package markdown-mode
   :ensure t)
 
