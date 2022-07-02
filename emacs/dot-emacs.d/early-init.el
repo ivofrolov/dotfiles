@@ -1,0 +1,5 @@
+(tool-bar-mode 0)
+(scroll-bar-mode 0)
+(horizontal-scroll-bar-mode 0)
+(setq inhibit-startup-screen t)
+(setq load-prefer-newer t)
