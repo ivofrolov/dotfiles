@@ -6,6 +6,7 @@
     { "keys": ["super+ctrl+w"], "command": "close_all" },
     { "keys": ["super+shift+space"], "command": "expand_selection_to_paragraph" },
     { "keys": ["ctrl+shift+i"], "command": "expand_selection", "args": {"to": "indentation"} },
+    { "keys": ["ctrl+i"], "command": "reindent", "args": {"single_line": true} },
     // LSP
     {
         "command": "lsp_signature_help_show",
