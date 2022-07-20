@@ -1,9 +1,10 @@
+(require 'package)
 (setq package-native-compile t)
 (add-to-list 'package-archives '("melpa" . "https://stable.melpa.org/packages/") t)
 
 (eval-when-compile
   (unless (package-installed-p 'use-package)
-    (require 'package)
+    (package-refresh-contents)
     (package-install 'use-package))
   (require 'use-package))
 
@@ -61,6 +62,19 @@
 (use-package uniquify
   :init
   (set-default 'uniquify-buffer-name-style 'forward))
+
+(use-package ibuffer-vc
+  :ensure t
+  :init
+  (setq ibuffer-formats
+        '((mark modified read-only vc-status-mini " "
+                (name 32 32 :left :elide)
+                " "
+                (mode 16 16 :left :elide)
+                " "
+                vc-relative-file)))
+  :hook
+  (ibuffer . ibuffer-vc-set-filter-groups-by-vc-root))
 
 (use-package move-text
   :ensure t
