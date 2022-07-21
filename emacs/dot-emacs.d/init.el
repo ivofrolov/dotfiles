@@ -9,12 +9,13 @@
   (require 'use-package))
 
 (set-frame-font "Hack 13" nil t)
-(defun my-custom-prog-mode-faces ()
-  (face-remap-add-relative 'font-lock-variable-name-face :foreground "fg-main"))
-(add-hook 'prog-mode-hook #'my-custom-prog-mode-faces)
 (setq modus-themes-region '(no-extend))
 (load-theme 'modus-operandi)
 (global-set-key (kbd "<f5>") 'modus-themes-toggle)
+
+(setq font-lock-maximum-decoration
+      '((python-mode . 2)
+        (t . t)))
 
 (setq-default cursor-type 'bar)
 (blink-cursor-mode 0)
@@ -69,8 +70,9 @@
   :ensure t
   :hook
   (tree-sitter-after-on . tree-sitter-hl-mode)
-  :init
-  (global-tree-sitter-mode))
+  ;; :init
+  ;; (global-tree-sitter-mode)
+  )
 
 (use-package tree-sitter-langs
   :ensure t
