@@ -22,11 +22,14 @@
 (setq mode-line-compact 'long
       mode-line-position-column-format '(" C%C")
       mode-line-position-column-line-format '(" (%l,%C)"))
-(global-display-line-numbers-mode)
+(add-hook 'prog-mode-hook #'display-line-numbers-mode)
+;; (global-display-line-numbers-mode)
 (column-number-mode)
 
 (setq visual-line-fringe-indicators '(nil right-curly-arrow))
 ;; (global-visual-line-mode 1)
+
+(global-subword-mode)
 
 (setq-default indent-tabs-mode nil
               standard-indent 4
@@ -44,7 +47,6 @@
       make-backup-files nil)
 (save-place-mode 1)
 
-(setq read-buffer-completion-ignore-case t)
 (setq completions-detailed t)
 (fido-vertical-mode 1)
 
@@ -62,6 +64,21 @@
 (use-package uniquify
   :init
   (set-default 'uniquify-buffer-name-style 'forward))
+
+(use-package tree-sitter
+  :ensure t
+  :hook
+  (tree-sitter-after-on . tree-sitter-hl-mode)
+  :init
+  (global-tree-sitter-mode))
+
+(use-package tree-sitter-langs
+  :ensure t
+  :after tree-sitter
+  :config
+  (add-function :before-while tree-sitter-hl-face-mapping-function
+                (lambda (capture-name)
+                  (string= capture-name "keyword"))))
 
 (use-package ibuffer-vc
   :ensure t
