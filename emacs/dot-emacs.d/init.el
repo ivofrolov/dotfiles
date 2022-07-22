@@ -1,6 +1,6 @@
 (require 'package)
 (setq package-native-compile t)
-(add-to-list 'package-archives '("melpa" . "https://stable.melpa.org/packages/") t)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 
 (eval-when-compile
   (unless (package-installed-p 'use-package)
@@ -125,6 +125,13 @@
   :ensure t)
 
 (use-package lua-mode
+  :ensure t)
+
+(use-package jq-mode
+  :ensure t
+  :mode "\\.jq\\'")
+
+(use-package json-mode
   :ensure t)
 
 (use-package auto-package-update
