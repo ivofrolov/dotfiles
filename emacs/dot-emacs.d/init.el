@@ -17,6 +17,11 @@
       '((python-mode . 2)
         (t . t)))
 
+(defun my-custom-python-mode ()
+  (setq-local imenu-create-index-function
+              #'python-imenu-create-flat-index))
+(add-hook 'python-mode-hook #'my-custom-python-mode)
+
 (setq-default cursor-type 'bar)
 (blink-cursor-mode 0)
 
@@ -116,7 +121,8 @@
 (use-package eglot
   :ensure t
   :init
-  (setq eglot-ignored-server-capabilites '(:documentHighlightProvider)))
+  (setq eglot-ignored-server-capabilites '(:documentHighlightProvider)
+        eglot-stay-out-of '(imenu)))
 
 (use-package markdown-mode
   :ensure t)
