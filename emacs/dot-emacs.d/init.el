@@ -43,12 +43,6 @@
 
 (delete-selection-mode 1)
 
-(setq select-enable-clipboard nil
-      select-enable-primary t)
-(global-set-key (kbd "s-c") 'clipboard-kill-ring-save)
-(global-set-key (kbd "s-x") 'clipboard-kill-region)
-(global-set-key (kbd "s-v") 'clipboard-yank)
-
 (setq create-lockfiles nil
       make-backup-files nil)
 (save-place-mode 1)
@@ -60,6 +54,16 @@
 
 (setq use-short-answers t)
 
+(setq mouse-wheel-tilt-scroll t)
+(setq mouse-wheel-flip-direction t)
+
+(setq select-enable-clipboard nil
+      select-enable-primary t)
+(global-set-key (kbd "s-c") 'clipboard-kill-ring-save)
+(global-set-key (kbd "s-x") 'clipboard-kill-region)
+(global-set-key (kbd "s-v") 'clipboard-yank)
+
+(global-set-key (kbd "s-Z") 'undo-redo)
 (global-set-key (kbd "M-z") 'zap-up-to-char)
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 (global-set-key (kbd "C-S-k") 'kill-whole-line)
