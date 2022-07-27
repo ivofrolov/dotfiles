@@ -13,6 +13,20 @@
 (load-theme 'modus-operandi)
 (global-set-key (kbd "<f5>") 'modus-themes-toggle)
 
+(setq flymake-error-bitmap '(exclamation-mark modus-themes-fringe-red)
+      flymake-warning-bitmap '(exclamation-mark modus-themes-fringe-yellow)
+      flymake-note-bitmap '(exclamation-mark modus-themes-fringe-cyan))
+
+(defun my-project-name (project)
+  (file-name-nondirectory (directory-file-name (project-root project))))
+
+(defun my-current-project-file-suffix ()
+  (let ((project (project-current)))
+    (if (and buffer-file-name project)
+        (format " — %s" (my-project-name project)))))
+
+(setq frame-title-format '("%b" (:eval (my-current-project-file-suffix))))
+
 (setq font-lock-maximum-decoration
       '((python-mode . 2)
         (t . t)))
@@ -21,6 +35,7 @@
   (setq-local imenu-create-index-function
               #'python-imenu-create-flat-index))
 (add-hook 'python-mode-hook #'my-custom-python-mode)
+(setq python-fill-docstring-style 'pep-257-nn)
 
 (setq-default cursor-type 'bar)
 (blink-cursor-mode 0)
@@ -45,6 +60,7 @@
 
 (setq create-lockfiles nil
       make-backup-files nil)
+(setq vc-follow-symlinks t)
 (save-place-mode 1)
 
 (setq completions-detailed t)
@@ -65,11 +81,15 @@
 
 (global-set-key (kbd "s-Z") 'undo-redo)
 (global-set-key (kbd "M-z") 'zap-up-to-char)
-(global-set-key (kbd "C-x C-b") 'ibuffer)
 (global-set-key (kbd "C-S-k") 'kill-whole-line)
 (global-set-key (kbd "M-u") 'upcase-dwim)
 (global-set-key (kbd "M-l") 'downcase-dwim)
 (global-set-key (kbd "M-c") 'capitalize-dwim)
+
+(global-set-key (kbd "C-x C-b") 'ibuffer)
+(global-set-key (kbd "s-{") 'previous-buffer)
+(global-set-key (kbd "s-}") 'next-buffer)
+(global-set-key (kbd "s-w") 'kill-current-buffer)
 
 (use-package uniquify
   :init
