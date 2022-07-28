@@ -42,6 +42,8 @@
 (setq-default cursor-type 'bar)
 (blink-cursor-mode 0)
 
+(setq show-paren-when-point-inside-paren t)
+
 (setq mode-line-compact 'long
       mode-line-position-column-format '(" C%C")
       mode-line-position-column-line-format '(" (%l,%C)"))
@@ -66,7 +68,15 @@
 (save-place-mode 1)
 
 (setq completions-detailed t)
-(fido-vertical-mode 1)
+(setq completion-category-overrides
+      '((file (styles . (basic partial-completion flex)))
+        (project-file (styles . (basic substring partial-completion flex)))
+        (imenu (styles . (basic substring flex)))))
+(fido-vertical-mode)                 ; also sets flex completion style
+
+(setq isearch-repeat-on-direction-change t
+      ;; isearch-wrap-pause 'no-ding
+      )
 
 (setq split-width-threshold 144)
 
@@ -129,6 +139,13 @@
                 vc-relative-file)))
   :hook
   (ibuffer . ibuffer-vc-set-filter-groups-by-vc-root))
+
+(use-package corfu
+  :ensure t
+  :config
+  (add-hook 'minibuffer-setup-hook #'corfu-mode 1)
+  :init
+  (global-corfu-mode))
 
 (use-package move-text
   :ensure t
