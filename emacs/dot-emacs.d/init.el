@@ -2,6 +2,8 @@
 (setq package-native-compile t)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 
+(add-to-list 'load-path (locate-user-emacs-file "packages"))
+
 (eval-when-compile
   (unless (package-installed-p 'use-package)
     (package-refresh-contents)
@@ -72,6 +74,10 @@
 
 (setq mouse-wheel-tilt-scroll t)
 (setq mouse-wheel-flip-direction t)
+
+(use-package quail-russian-macintosh
+  :config
+  (setq default-input-method "russian-macintosh"))
 
 (setq select-enable-clipboard nil
       select-enable-primary t)
