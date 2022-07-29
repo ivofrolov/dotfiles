@@ -147,6 +147,10 @@
   :init
   (global-corfu-mode))
 
+(use-package expand-region
+  :ensure t
+  :bind ("C-=" . er/expand-region)) 
+
 (use-package move-text
   :ensure t
   :config
