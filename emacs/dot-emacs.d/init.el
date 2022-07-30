@@ -2,6 +2,8 @@
 (setq package-native-compile t)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 
+(add-to-list 'load-path (locate-user-emacs-file "packages"))
+
 (eval-when-compile
   (unless (package-installed-p 'use-package)
     (package-refresh-contents)
@@ -13,6 +15,20 @@
 (load-theme 'modus-operandi)
 (global-set-key (kbd "<f5>") 'modus-themes-toggle)
 
+(setq flymake-error-bitmap '(exclamation-mark modus-themes-fringe-red)
+      flymake-warning-bitmap '(exclamation-mark modus-themes-fringe-yellow)
+      flymake-note-bitmap '(exclamation-mark modus-themes-fringe-cyan))
+
+(defun my-project-name (project)
+  (file-name-nondirectory (directory-file-name (project-root project))))
+
+(defun my-current-project-file-suffix ()
+  (let ((project (project-current)))
+    (if (and buffer-file-name project)
+        (format " — %s" (my-project-name project)))))
+
+(setq frame-title-format '("%b" (:eval (my-current-project-file-suffix))))
+
 (setq font-lock-maximum-decoration
       '((python-mode . 2)
         (t . t)))
@@ -21,9 +37,12 @@
   (setq-local imenu-create-index-function
               #'python-imenu-create-flat-index))
 (add-hook 'python-mode-hook #'my-custom-python-mode)
+(setq python-fill-docstring-style 'pep-257-nn)
 
 (setq-default cursor-type 'bar)
 (blink-cursor-mode 0)
+
+(setq show-paren-when-point-inside-paren t)
 
 (setq mode-line-compact 'long
       mode-line-position-column-format '(" C%C")
@@ -43,29 +62,50 @@
 
 (delete-selection-mode 1)
 
+(setq create-lockfiles nil
+      make-backup-files nil)
+(setq vc-follow-symlinks t)
+(save-place-mode 1)
+
+(setq completions-detailed t)
+(setq completion-category-overrides
+      '((file (styles . (basic partial-completion flex)))
+        (project-file (styles . (basic substring partial-completion flex)))
+        (imenu (styles . (basic substring flex)))))
+(fido-vertical-mode)                 ; also sets flex completion style
+
+(setq isearch-repeat-on-direction-change t
+      ;; isearch-wrap-pause 'no-ding
+      )
+
+(setq split-width-threshold 144)
+
+(setq use-short-answers t)
+
+(setq mouse-wheel-tilt-scroll t)
+(setq mouse-wheel-flip-direction t)
+
+(use-package quail-russian-macintosh
+  :config
+  (setq default-input-method "russian-macintosh"))
+
 (setq select-enable-clipboard nil
       select-enable-primary t)
 (global-set-key (kbd "s-c") 'clipboard-kill-ring-save)
 (global-set-key (kbd "s-x") 'clipboard-kill-region)
 (global-set-key (kbd "s-v") 'clipboard-yank)
 
-(setq create-lockfiles nil
-      make-backup-files nil)
-(save-place-mode 1)
-
-(setq completions-detailed t)
-(fido-vertical-mode 1)
-
-(setq split-width-threshold 144)
-
-(setq use-short-answers t)
-
+(global-set-key (kbd "s-Z") 'undo-redo)
 (global-set-key (kbd "M-z") 'zap-up-to-char)
-(global-set-key (kbd "C-x C-b") 'ibuffer)
 (global-set-key (kbd "C-S-k") 'kill-whole-line)
 (global-set-key (kbd "M-u") 'upcase-dwim)
 (global-set-key (kbd "M-l") 'downcase-dwim)
 (global-set-key (kbd "M-c") 'capitalize-dwim)
+
+(global-set-key (kbd "C-x C-b") 'ibuffer)
+(global-set-key (kbd "s-{") 'previous-buffer)
+(global-set-key (kbd "s-}") 'next-buffer)
+(global-set-key (kbd "s-w") 'kill-current-buffer)
 
 (use-package uniquify
   :init
@@ -99,6 +139,17 @@
                 vc-relative-file)))
   :hook
   (ibuffer . ibuffer-vc-set-filter-groups-by-vc-root))
+
+(use-package corfu
+  :ensure t
+  :config
+  (add-hook 'minibuffer-setup-hook #'corfu-mode 1)
+  :init
+  (global-corfu-mode))
+
+(use-package expand-region
+  :ensure t
+  :bind ("C-=" . er/expand-region)) 
 
 (use-package move-text
   :ensure t
