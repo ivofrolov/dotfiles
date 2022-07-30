@@ -16,7 +16,6 @@ function focusedWindowLayout(unit)
    end
 end
 
-hs.hotkey.bind('cmd', 'left', focusedWindowLayout(hs.layout.left50))
-hs.hotkey.bind('cmd', 'right', focusedWindowLayout(hs.layout.right50))
-hs.hotkey.bind('cmd', 'up', focusedWindowLayout(hs.layout.maximized))
-hs.hotkey.bind('cmd', 'down', function() end)
+hs.hotkey.bind('cmd', 'f7', focusedWindowLayout(hs.layout.left50))
+hs.hotkey.bind('cmd', 'f9', focusedWindowLayout(hs.layout.right50))
+hs.hotkey.bind('cmd', 'f8', focusedWindowLayout(hs.layout.maximized))
