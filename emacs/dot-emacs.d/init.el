@@ -34,10 +34,14 @@
         (t . t)))
 
 (defun my-custom-python-mode ()
-  (setq-local imenu-create-index-function
-              #'python-imenu-create-flat-index))
+  (setq-local comment-inline-offset 2
+              imenu-create-index-function #'python-imenu-create-flat-index))
 (add-hook 'python-mode-hook #'my-custom-python-mode)
 (setq python-fill-docstring-style 'pep-257-nn)
+
+(defun my-custom-c-mode ()
+  (setq-local comment-style 'extra-line))
+(add-hook 'c-mode-hook #'my-custom-c-mode)
 
 (setq-default cursor-type 'bar)
 (blink-cursor-mode 0)
@@ -59,6 +63,7 @@
 (setq-default indent-tabs-mode nil
               standard-indent 4
               tab-width 4)
+(setq-default comment-column 0)
 
 (delete-selection-mode 1)
 
