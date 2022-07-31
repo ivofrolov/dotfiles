@@ -40,7 +40,7 @@
 (setq python-fill-docstring-style 'pep-257-nn)
 
 (defun my-custom-c-mode ()
-  (setq-local comment-style 'extra-line))
+  (setq-local comment-style 'multi-line))
 (add-hook 'c-mode-hook #'my-custom-c-mode)
 
 (setq-default cursor-type 'bar)
