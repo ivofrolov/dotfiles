@@ -37,7 +37,8 @@
   (setq-local comment-inline-offset 2
               imenu-create-index-function #'python-imenu-create-flat-index))
 (add-hook 'python-mode-hook #'my-custom-python-mode)
-(setq python-fill-docstring-style 'pep-257-nn)
+(setq python-fill-docstring-style 'pep-257-nn
+      python-indent-def-block-scale 1)
 
 (defun my-custom-c-mode ()
   (setq-local comment-style 'multi-line))
@@ -52,13 +53,15 @@
       mode-line-position-column-format '(" C%C")
       mode-line-position-column-line-format '(" (%l,%C)"))
 (add-hook 'prog-mode-hook #'display-line-numbers-mode)
-;; (global-display-line-numbers-mode)
+(add-hook 'conf-mode-hook #'display-line-numbers-mode)
 (column-number-mode)
 
+(setq-default truncate-lines t)
 (setq visual-line-fringe-indicators '(nil right-curly-arrow))
 ;; (global-visual-line-mode 1)
 
 (global-subword-mode)
+(electric-pair-mode)
 
 (setq-default indent-tabs-mode nil
               standard-indent 4
@@ -152,9 +155,22 @@
   :init
   (global-corfu-mode))
 
+(use-package diff-hl
+  :ensure t
+  :init
+  (global-diff-hl-mode)
+  (diff-hl-margin-mode)
+  (diff-hl-flydiff-mode))
+
 (use-package expand-region
   :ensure t
-  :bind ("C-=" . er/expand-region)) 
+  :bind ("C-=" . er/expand-region))
+
+;; (use-package multiple-cursors
+;;   :ensure t
+;;   :init
+;;   (setq  mc/match-cursor-style nil)
+;;   :bind (("s-d" . mc/mark-next-like-this)))
 
 (use-package move-text
   :ensure t
