@@ -5,3 +5,10 @@ update_pyrightconfig() {
     grep -q "python-$python_version" $pyrightconfig && return
     sed -i "" -E -e "/python-([0-9]+\.?){3}/s//python-$python_version/" $pyrightconfig
 }
+
+keep_only_last_version_of_python() {
+    find "$(direnv_layout_dir)" -maxdepth 1 -mindepth 1 -type d -name "python-*" \
+        | sort -V -r \
+        | tail -n +2 \
+        | xargs rm -r -f
+}
