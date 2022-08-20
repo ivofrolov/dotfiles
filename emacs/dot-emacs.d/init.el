@@ -1,139 +1,217 @@
+;; initialize packages
 (require 'package)
 (setq package-native-compile t)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 
 (add-to-list 'load-path (locate-user-emacs-file "packages"))
 
+;; ensure use-package
 (eval-when-compile
   (unless (package-installed-p 'use-package)
     (package-refresh-contents)
     (package-install 'use-package))
   (require 'use-package))
 
-(set-frame-font "Hack 13" nil t)
-(setq modus-themes-region '(no-extend))
-(load-theme 'modus-operandi)
-(global-set-key (kbd "<f5>") 'modus-themes-toggle)
+;; modus-themes
+(use-package emacs
+  :init
+  (setq modus-themes-region '(no-extend))
+  :config
+  (load-theme 'modus-operandi)
+  :bind ("<f5>" . modus-themes-toggle))
 
-(setq flymake-error-bitmap '(exclamation-mark modus-themes-fringe-red)
-      flymake-warning-bitmap '(exclamation-mark modus-themes-fringe-yellow)
-      flymake-note-bitmap '(exclamation-mark modus-themes-fringe-cyan))
+;; font
+(use-package frame
+  :config
+  (set-frame-font "Hack 13" nil t))
 
-(defun my-project-name (project)
-  (file-name-nondirectory (directory-file-name (project-root project))))
+;; cursor
+(use-package emacs
+  :init
+  (setq-default cursor-type 'bar)
+  :config
+  (blink-cursor-mode 0))
 
-(defun my-current-project-file-suffix ()
-  (let ((project (project-current)))
-    (if (and buffer-file-name project)
-        (format " — %s" (my-project-name project)))))
+;; misc
+(use-package emacs
+  :init
+  (setq mode-line-compact 'long
+        use-short-answers t
+        ns-use-proxy-icon nil)
+  :bind (("s-Z" . undo-redo)
+         ("M-z" . zap-up-to-char)
+         ("C-S-k" . kill-whole-line)
+         ("M-u" . upcase-dwim)
+         ("M-l" . downcase-dwim)
+         ("M-c" . capitalize-dwim)))
 
-(setq frame-title-format '("%b" (:eval (my-current-project-file-suffix))))
+;; line wrapping
+(use-package emacs
+  :init
+  (setq-default truncate-lines t)
+  (setq visual-line-fringe-indicators '(nil right-curly-arrow))
+  :hook ((text-mode help-mode) . visual-line-mode))
 
-(setq font-lock-maximum-decoration
-      '((python-mode . 2)
-        (t . t)))
+;; line:column numbers
+(use-package emacs
+  :init
+  (setq mode-line-position-column-format '(" C%C")
+        mode-line-position-column-line-format '(" (%l,%C)"))
+  :hook ((prog-mode conf-mode) . display-line-numbers-mode)
+  :config
+  (column-number-mode))
 
-(defun my-custom-python-mode ()
-  (setq-local comment-inline-offset 2
-              imenu-create-index-function #'python-imenu-create-flat-index))
-(add-hook 'python-mode-hook #'my-custom-python-mode)
-(setq python-fill-docstring-style 'pep-257-nn
-      python-indent-def-block-scale 1)
+;; indent
+(use-package emacs
+  :init
+  (setq-default indent-tabs-mode nil
+                standard-indent 4
+                tab-width 4)
+  (defun my-default-comment-indenting ()
+    (setq-local comment-column 0))
+  :hook (prog-mode . my-default-comment-indenting))
 
-(defun my-custom-c-mode ()
-  (setq-local comment-style 'multi-line))
-(add-hook 'c-mode-hook #'my-custom-c-mode)
+(use-package window
+  :init
+  (setq split-width-threshold 144)
+  :bind (("s-{" . previous-buffer)
+         ("s-}" . next-buffer)
+         ("s-w" . kill-current-buffer)))
 
-(setq-default cursor-type 'bar)
-(blink-cursor-mode 0)
+(use-package mouse
+  :config
+  (context-menu-mode))
 
-(setq show-paren-when-point-inside-paren t)
+(use-package mwheel
+  :init
+  (setq mouse-wheel-tilt-scroll t
+        mouse-wheel-flip-direction t))
 
-(setq mode-line-compact 'long
-      mode-line-position-column-format '(" C%C")
-      mode-line-position-column-line-format '(" (%l,%C)"))
-(add-hook 'prog-mode-hook #'display-line-numbers-mode)
-(add-hook 'conf-mode-hook #'display-line-numbers-mode)
-(column-number-mode)
+(use-package files
+  :init
+  (setq create-lockfiles nil
+        make-backup-files nil)
+  (if (eq system-type 'darwin)
+      ;; macOS Trash support is in master branch so next option can be set to default a while
+      ;; https://github.com/emacs-mirror/emacs/blob/d5ee49c25c8f59ab17c40eebdf38a769c2f5588b/src/nsfns.m#L2462
+      (setq trash-directory "~/.Trash"))
+  (setq delete-by-moving-to-trash t))
 
-(setq-default truncate-lines t)
-(setq visual-line-fringe-indicators '(nil right-curly-arrow))
-;; (global-visual-line-mode 1)
+(use-package vc-hooks
+  :init
+  (setq vc-follow-symlinks t))
 
-(global-subword-mode)
-(electric-pair-mode)
+(use-package saveplace
+  :config
+  (save-place-mode))
 
-(setq-default indent-tabs-mode nil
-              standard-indent 4
-              tab-width 4)
-(setq-default comment-column 0)
+(use-package my-project
+  :config
+  (setq frame-title-format '("%b" (:eval (my-current-project-file-suffix)))))
 
-(delete-selection-mode 1)
+(use-package python
+  :init
+  ;; (setq font-lock-maximum-decoration
+  ;;       '((python-mode . 2)
+  ;;         (t . t)))
+  (setq python-fill-docstring-style 'pep-257-nn
+        python-indent-def-block-scale 1)
+  (defun my-python-mode-locals ()
+    (setq-local comment-inline-offset 2
+                imenu-create-index-function #'python-imenu-create-flat-index))
+  :hook (python-mode . my-python-mode-locals))
 
-(setq create-lockfiles nil
-      make-backup-files nil)
-(setq vc-follow-symlinks t)
-(save-place-mode 1)
+(use-package cc-mode
+  :init
+  (defun my-c-mode-locals ()
+    (setq-local comment-style 'multi-line))
+  :hook (c-mode . my-c-mode-locals))
 
-(setq completions-detailed t)
-(setq completion-category-overrides
-      '((file (styles . (basic partial-completion flex)))
-        (project-file (styles . (basic substring partial-completion flex)))
-        (imenu (styles . (basic substring flex)))))
-(fido-vertical-mode)                 ; also sets flex completion style
+(use-package paren
+  :init
+  (setq show-paren-when-point-inside-paren t))
 
-(setq isearch-repeat-on-direction-change t
-      ;; isearch-wrap-pause 'no-ding
-      )
+(use-package subword
+  :config
+  (global-subword-mode))
 
-(setq split-width-threshold 144)
+(use-package elec-pair
+  :config
+  (electric-pair-mode))
 
-(setq use-short-answers t)
+(use-package delsel
+  :config
+  (delete-selection-mode))
 
-(setq mouse-wheel-tilt-scroll t)
-(setq mouse-wheel-flip-direction t)
+(use-package icomplete
+  :init
+  (setq completions-detailed t)
+  (setq completion-category-overrides
+        '((file (styles . (basic partial-completion flex)))
+          (project-file (styles . (basic substring partial-completion flex)))
+          (imenu (styles . (basic substring flex)))))
+  :config
+  ;; also sets flex completion style
+  (fido-vertical-mode))
+
+(use-package isearch
+  :init
+  (setq isearch-repeat-on-direction-change t))
 
 (use-package quail-russian-macintosh
   :config
   (setq default-input-method "russian-macintosh"))
 
-(setq select-enable-clipboard nil
-      select-enable-primary t)
-(global-set-key (kbd "s-c") 'clipboard-kill-ring-save)
-(global-set-key (kbd "s-x") 'clipboard-kill-region)
-(global-set-key (kbd "s-v") 'clipboard-yank)
+(use-package select
+  :init
+  (setq select-enable-clipboard nil
+        select-enable-primary t)
+  :bind (("s-c" . clipboard-kill-ring-save)
+         ("s-x" . clipboard-kill-region)
+         ("s-v" . clipboard-yank)))
 
-(global-set-key (kbd "s-Z") 'undo-redo)
-(global-set-key (kbd "M-z") 'zap-up-to-char)
-(global-set-key (kbd "C-S-k") 'kill-whole-line)
-(global-set-key (kbd "M-u") 'upcase-dwim)
-(global-set-key (kbd "M-l") 'downcase-dwim)
-(global-set-key (kbd "M-c") 'capitalize-dwim)
-
-(global-set-key (kbd "C-x C-b") 'ibuffer)
-(global-set-key (kbd "s-{") 'previous-buffer)
-(global-set-key (kbd "s-}") 'next-buffer)
-(global-set-key (kbd "s-w") 'kill-current-buffer)
+(use-package my-simple
+  :bind (("C--" . pop-local-mark)
+         ("C-s--" . pop-global-mark)
+         ("M-o" . split-line-at-the-beginning)
+         ("s-<return>" . add-line)))
 
 (use-package uniquify
   :init
   (set-default 'uniquify-buffer-name-style 'forward))
 
-(use-package tree-sitter
-  :ensure t
-  :hook
-  (tree-sitter-after-on . tree-sitter-hl-mode)
-  ;; :init
-  ;; (global-tree-sitter-mode)
-  )
-
-(use-package tree-sitter-langs
-  :ensure t
-  :after tree-sitter
+(use-package flymake
   :config
-  (add-function :before-while tree-sitter-hl-face-mapping-function
-                (lambda (capture-name)
-                  (string= capture-name "keyword"))))
+  (setq flymake-suppress-zero-counters t
+        flymake-fringe-indicator-position nil
+        flymake-error-bitmap '(exclamation-mark modus-themes-fringe-red)
+        flymake-warning-bitmap '(exclamation-mark modus-themes-fringe-yellow)
+        flymake-note-bitmap '(exclamation-mark modus-themes-fringe-cyan))
+  :bind (:map flymake-mode-map
+              ("M-n" . flymake-goto-next-error)
+              ("M-p" . flymake-goto-prev-error)))
+
+(use-package diminish
+  :ensure t)
+
+;; (use-package tree-sitter
+;;   :ensure t
+;;   :hook
+;;   (tree-sitter-after-on . tree-sitter-hl-mode)
+;;   :init
+;;   (global-tree-sitter-mode)
+;;   )
+
+;; (use-package tree-sitter-langs
+;;   :ensure t
+;;   :after tree-sitter
+;;   :config
+;;   (add-function :before-while tree-sitter-hl-face-mapping-function
+;;                 (lambda (capture-name)
+;;                   (string= capture-name "keyword"))))
+
+(use-package ibuffer
+  :bind ("C-x C-b" . ibuffer))
 
 (use-package ibuffer-vc
   :ensure t
@@ -151,44 +229,31 @@
 (use-package corfu
   :ensure t
   :config
-  (add-hook 'minibuffer-setup-hook #'corfu-mode 1)
+  (defun corfu-enable-in-minibuffer ()
+    "Enable Corfu in the minibuffer if `completion-at-point' is bound."
+    (when (where-is-internal #'completion-at-point (list (current-local-map)))
+      (corfu-mode 1)))
+  (add-hook 'minibuffer-setup-hook #'corfu-enable-in-minibuffer)
   :init
   (global-corfu-mode))
 
 (use-package diff-hl
   :ensure t
+  :config
+  (setq diff-hl-draw-borders nil)
   :init
   (global-diff-hl-mode)
-  (diff-hl-margin-mode)
   (diff-hl-flydiff-mode))
 
 (use-package expand-region
   :ensure t
   :bind ("C-=" . er/expand-region))
 
-;; (use-package multiple-cursors
-;;   :ensure t
-;;   :init
-;;   (setq  mc/match-cursor-style nil)
-;;   :bind (("s-d" . mc/mark-next-like-this)))
-
-(use-package move-text
+(use-package multiple-cursors
   :ensure t
-  :config
-  (move-text-default-bindings))
-
-;; (use-package vertico
-;;   :ensure t
-;;   :config
-;;   (vertico-mode))
-
-;; (use-package orderless
-;;   :ensure t
-;;   :init
-;;   (setq orderless-matching-styles '(orderless-initialism orderless-regexp)
-;;         completion-styles '(orderless basic)
-;;         completion-category-defaults nil
-;;         completion-category-overrides nil))
+  :init
+  (setq  mc/match-cursor-style nil)
+  :bind (("s-d" . mc/mark-next-like-this)))
 
 (use-package eglot
   :ensure t
@@ -211,6 +276,12 @@
 
 (use-package json-mode
   :ensure t)
+
+(use-package which-key
+  :ensure t
+  :diminish which-key-mode
+  :config
+  (which-key-mode))
 
 (use-package auto-package-update
   :ensure t
