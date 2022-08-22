@@ -38,7 +38,8 @@
   (setq mode-line-compact 'long
         use-short-answers t
         ns-use-proxy-icon nil)
-  :bind (("s-Z" . undo-redo)
+  :bind (("s-z" . undo-only)
+         ("s-Z" . undo-redo)
          ("M-z" . zap-up-to-char)
          ("C-S-k" . kill-whole-line)
          ("M-u" . upcase-dwim)
