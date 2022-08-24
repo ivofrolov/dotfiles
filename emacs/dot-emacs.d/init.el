@@ -114,9 +114,8 @@
 
 (use-package python
   :init
-  ;; (setq font-lock-maximum-decoration
-  ;;       '((python-mode . 2)
-  ;;         (t . t)))
+  (setq font-lock-maximum-decoration t)
+  (add-font-lock-maximum-decoration '(python-mode . 2))
   (setq python-fill-docstring-style 'pep-257-nn
         python-indent-def-block-scale 1)
   (defun my-python-mode-locals ()
