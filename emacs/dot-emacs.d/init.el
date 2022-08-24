@@ -108,7 +108,9 @@
 
 (use-package my-project
   :config
-  (setq frame-title-format '("%b" (:eval (my-current-project-file-suffix)))))
+  (setq frame-title-format '("%b" (:eval (my-current-project-file-suffix))))
+  :bind (:map project-prefix-map
+              ("S" . my-project-vc-create-branch-from-default)))
 
 (use-package python
   :init
