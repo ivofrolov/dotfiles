@@ -256,7 +256,8 @@
   :ensure t
   :init
   (setq  mc/match-cursor-style nil)
-  :bind (("s-d" . mc/mark-next-like-this)))
+  :bind (("s-d" . mc/mark-next-like-this)
+         ("s-<mouse-1>" . mc/add-cursor-on-click)))
 
 (use-package eglot
   :ensure t
