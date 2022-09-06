@@ -114,6 +114,7 @@
 
 (use-package python
   :init
+  (use-package python-format)
   (use-package my-simple
     :config
     (add-font-lock-maximum-decoration '(python-mode . 2)))
@@ -122,7 +123,10 @@
   (defun my-python-mode-locals ()
     (setq-local comment-inline-offset 2
                 imenu-create-index-function #'python-imenu-create-flat-index))
-  :hook (python-mode . my-python-mode-locals))
+  :hook (python-mode . my-python-mode-locals)
+  :bind (:map python-mode-map
+              ("C-c C-h" . python-eldoc-at-point)
+              ("C-c C-f" . python-format-buffer)))
 
 (use-package cc-mode
   :init
