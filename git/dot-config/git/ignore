@@ -2,3 +2,7 @@ pyrightconfig.json
 
 *.sublime-project
 *.sublime-workspace
+
+*~
+\#*\#
+.dir-locals.el
