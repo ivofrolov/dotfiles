@@ -56,6 +56,7 @@
 ;; line:column numbers
 (use-package emacs
   :init
+  (setq display-line-numbers-type 'relative)
   (setq mode-line-position-column-format '(" C%C")
         mode-line-position-column-line-format '(" (%l,%C)"))
   :hook ((prog-mode conf-mode) . display-line-numbers-mode)
