@@ -115,7 +115,7 @@
 
 (use-package python
   :init
-  (use-package python-format)
+  (use-package my-reformatter)
   (use-package my-simple
     :config
     (add-font-lock-maximum-decoration '(python-mode . 2)))
@@ -127,13 +127,16 @@
   :hook (python-mode . my-python-mode-locals)
   :bind (:map python-mode-map
               ("C-c C-h" . python-eldoc-at-point)
-              ("C-c C-f" . python-format-buffer)))
+              ("C-c C-f" . black-format-buffer)))
 
 (use-package cc-mode
   :init
+  (use-package my-reformatter)
   (defun my-c-mode-locals ()
     (setq-local comment-style 'multi-line))
-  :hook (c-mode . my-c-mode-locals))
+  :hook (c-mode . my-c-mode-locals)
+  :bind (:map c-mode-map
+              ("C-c C-f" . astyle-format-buffer)))
 
 (use-package paren
   :init
