@@ -138,6 +138,15 @@
   :bind (:map c-mode-map
               ("C-c C-f" . astyle-format-buffer)))
 
+(use-package sgml-mode
+  :init
+  (setq sgml-basic-offset 4))
+
+(use-package emmet-mode
+  :ensure t
+  :hook ((sgml-mode . emmet-mode)
+         (css-mode . emmet-mode)))
+
 (use-package paren
   :init
   (setq show-paren-when-point-inside-paren t))
