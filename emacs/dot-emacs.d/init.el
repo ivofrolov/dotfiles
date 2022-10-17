@@ -113,6 +113,7 @@
   (save-place-mode))
 
 (use-package my-project
+  :demand t
   :config
   (setq frame-title-format '("%b" (:eval (my-current-project-file-suffix))))
   :bind (:map project-prefix-map
@@ -311,7 +312,11 @@
   (which-key-mode))
 
 (use-package magit
-  :ensure t)
+  :ensure t
+  :init
+  (setq magit-bind-magit-project-status nil)
+  :bind (:map project-prefix-map
+              ("m" . magit-project-status)))
 
 (use-package auto-package-update
   :ensure t
