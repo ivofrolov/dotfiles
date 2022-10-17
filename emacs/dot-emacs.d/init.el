@@ -310,6 +310,9 @@
   :config
   (which-key-mode))
 
+(use-package magit
+  :ensure t)
+
 (use-package auto-package-update
   :ensure t
   :config
