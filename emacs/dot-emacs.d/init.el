@@ -73,6 +73,11 @@
     (setq-local comment-column 0))
   :hook (prog-mode . my-default-comment-indenting))
 
+(use-package ispell
+  :init
+  ;; hunspell dictionary located at ~/Library/Spelling/ru_RU.{aff,dic}
+  (setenv "DICTIONARY" "ru_RU"))
+
 (use-package window
   :init
   (setq split-width-threshold 144)
