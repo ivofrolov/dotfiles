@@ -68,7 +68,8 @@
   :init
   (setq-default indent-tabs-mode nil
                 standard-indent 4
-                tab-width 4)
+                tab-width 4
+                tab-stop-list (0 4))
   (defun my-default-comment-indenting ()
     (setq-local comment-column 0))
   :hook (prog-mode . my-default-comment-indenting))
