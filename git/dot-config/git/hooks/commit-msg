@@ -6,4 +6,4 @@
 
 BRANCH=$(git branch --show-current)
 echo "$BRANCH" | grep -Esq "\w+-\d+" || exit 0
-grep -qs "$BRANCH" "$1" || sed -i -e "1s/^/$BRANCH /" $1
+grep -qs -v "^#" "$1" | grep -qs "$BRANCH" || sed -i -e "1s/^/$BRANCH /" $1
