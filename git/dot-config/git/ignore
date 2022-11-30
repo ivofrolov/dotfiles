@@ -6,3 +6,5 @@ pyrightconfig.json
 *~
 \#*\#
 .dir-locals.el
+
+.DS_Store
