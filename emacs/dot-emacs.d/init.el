@@ -201,7 +201,9 @@
   :bind (("C--" . pop-local-mark)
          ("C-s--" . pop-global-mark)
          ("M-o" . split-line-at-the-beginning)
-         ("s-<return>" . add-line)))
+         ("s-<return>" . add-line)
+         ("s-[" . shift-left)
+         ("s-]" . shift-right)))
 
 (use-package uniquify
   :init
@@ -304,7 +306,9 @@
   :mode "\\.jq\\'")
 
 (use-package json-mode
-  :ensure t)
+  :ensure t
+  :init
+  (setq json-encoding-default-indentation "    "))
 
 (use-package which-key
   :ensure t

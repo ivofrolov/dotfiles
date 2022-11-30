@@ -20,4 +20,28 @@
   (move-end-of-line 1)
   (default-indent-new-line))
 
+(defun shift-left ()
+  (interactive)
+  (if (use-region-p)
+      (let ((mark (mark)))
+        (save-excursion
+          (indent-rigidly-left-to-tab-stop (region-beginning)
+                                           (region-end))
+          (push-mark mark t t)
+          (setq deactivate-mark nil)))
+    (indent-rigidly-left-to-tab-stop (line-beginning-position)
+                                     (line-end-position))))
+
+(defun shift-right ()
+  (interactive)
+  (if (use-region-p)
+      (let ((mark (mark)))
+        (save-excursion
+          (indent-rigidly-right-to-tab-stop (region-beginning)
+                                            (region-end))
+          (push-mark mark t t)
+          (setq deactivate-mark nil)))
+    (indent-rigidly-right-to-tab-stop (line-beginning-position)
+                                      (line-end-position))))
+
 (provide 'my-simple)
