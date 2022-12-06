@@ -59,26 +59,26 @@ function stow -a source_package_dir target_package_dir force
         if test -e $target_path
             if test -L $target_path
                 if test $force -eq 0
-                    if test $source_path = (realpath $target_path)
-                        log -l 2 "%s skipped: link already exists" $target_file
-                    else
-                        log -l 1 "warning: link to %s exists but points to another file, so skipping" $target_file
+                    if test $source_path != (realpath $target_path)
+                        log -l 1 "WARN %s: link exists but points to another file" $target_file
                     end
+                    log -l 2 "SKIP %s: already exists" $target_file
                     continue
                 end
             else
-                log -l 1 "warning: file at %s already exists, so skipping" $target_file
+                log -l 1 "ERRR %s: there is file, not link" $target_file
+                log -l 2 "SKIP %s: already exists" $target_file
                 continue
             end
         end
 
         if not test -d (dirname $target_path)
             execute mkdir -p (dirname $target_path)
-            log -l 2 "%s directory created" (dirname $target_file)
+            log -l 2 "INFO %s: directory %s created" $target_file (dirname $target_file)
         end
 
         execute ln -f -s $source_path $target_path
-        log -l 2 "%s linked to %s" $source_file $target_file
+        log -l 2 "DONE %s: linked to %s" $target_file $source_file
     end
 end
 
@@ -86,7 +86,7 @@ end
 function resolve_dir -a dir
     set -l resolved (realpath -s (string replace -r "^~" $HOME $dir))
     if not test -d $resolved
-        log -l 0 "directory %s doesn't exists" $resolved
+        log -l 0 "CRIT: directory %s doesn't exists" $resolved
         return 1
     end
     echo $resolved
@@ -99,7 +99,7 @@ if set -q -l _flag_help
 end
 
 if test (count $argv) -eq 0
-    log -l 0 "no packages provided"
+    log -l 0 "CRIT: no packages provided"
     return 1
 end
 
@@ -116,6 +116,6 @@ if set -q -l _flag_target
 end
 
 for package in $argv
-    log -l 2 "stow package %s from %s to %s" $package $dir $target
+    log -l 2 "INFO: stow package %s from %s to %s" $package $dir $target
     stow $dir/$package $target (count $_flag_relink)
 end
