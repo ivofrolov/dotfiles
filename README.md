@@ -7,3 +7,7 @@ git clone git@github.com:ivofrolov/dotfiles.git .dotfiles && cd .dotfiles && ./s
 ```
 
 Requires git and fish shell to be installed.
+
+### Sources
+
+[Docker completions for Fish shell](https://github.com/dldevinc/fish-docker)
