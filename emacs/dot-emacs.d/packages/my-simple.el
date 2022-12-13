@@ -20,6 +20,11 @@
   (move-end-of-line 1)
   (default-indent-new-line))
 
+(defun back-to-indentation-or-beginning ()
+  (interactive)
+  (if (= (point) (progn (back-to-indentation) (point)))
+      (beginning-of-line)))
+
 (defun shift-left ()
   (interactive)
   (if (use-region-p)

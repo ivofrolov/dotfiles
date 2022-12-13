@@ -210,7 +210,8 @@
          ("M-o" . split-line-at-the-beginning)
          ("s-<return>" . add-line)
          ("s-[" . shift-left)
-         ("s-]" . shift-right)))
+         ("s-]" . shift-right)
+         ("C-a" . back-to-indentation-or-beginning)))
 
 (use-package uniquify
   :init
