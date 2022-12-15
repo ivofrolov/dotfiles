@@ -331,6 +331,15 @@
   :bind (:map project-prefix-map
               ("m" . magit-project-status)))
 
+(use-package denote
+  :ensure t
+  :init
+  (setq denote-directory "~/Documents/Notes"
+        denote-dired-directories (list denote-directory)
+        denote-file-type 'markdown-toml
+        denote-known-keywords nil)
+  :hook (dired-mode . denote-dired-mode-in-directories))
+
 (use-package auto-package-update
   :ensure t
   :config
