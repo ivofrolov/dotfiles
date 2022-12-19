@@ -21,7 +21,7 @@
   (default-indent-new-line))
 
 (defun back-to-indentation-or-beginning ()
-  (interactive)
+  (interactive "^")
   (if (= (point) (progn (back-to-indentation) (point)))
       (beginning-of-line)))
 
