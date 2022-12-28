@@ -292,6 +292,7 @@
   (setq  mc/match-cursor-style nil)
   :bind (("s-d" . mc/mark-next-like-this)
          ("M-s-d" . mc/skip-to-next-like-this)
+         ("s-D" . mc/mark-all-dwim)
          ("s-<mouse-1>" . mc/add-cursor-on-click)))
 
 (use-package eglot
