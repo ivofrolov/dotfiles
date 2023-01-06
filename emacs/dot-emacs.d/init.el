@@ -12,12 +12,19 @@
     (package-install 'use-package))
   (require 'use-package))
 
-;; modus-themes
-(use-package emacs
+;; themes
+(use-package modus-themes
+  :ensure
+  :demand
   :init
-  (setq modus-themes-region '(no-extend))
+  (defun my-modus-themes-custom-faces ()
+    (modus-themes-with-colors
+      (custom-set-faces
+       ;; don't extend the region to the edge of the window
+       `(region ((,c :extend nil))))))
+  :hook (modus-themes-after-load-theme . my-modus-themes-custom-faces)
   :config
-  (load-theme 'modus-operandi)
+  (load-theme 'modus-operandi :no-confim)
   :bind ("<f5>" . modus-themes-toggle))
 
 ;; font
