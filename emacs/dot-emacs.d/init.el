@@ -91,7 +91,8 @@
   (setq split-width-threshold 144)
   :bind (("s-{" . previous-buffer)
          ("s-}" . next-buffer)
-         ("s-w" . kill-current-buffer)))
+         ("s-w" . kill-current-buffer)
+         ("s-W" . delete-frame)))
 
 (use-package mouse
   :config
@@ -354,3 +355,5 @@
 
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (load custom-file)
+
+(server-start)
