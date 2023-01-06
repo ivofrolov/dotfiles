@@ -349,8 +349,10 @@
 
 (use-package auto-package-update
   :ensure t
+  :init
+  (setq auto-package-update-prompt-before-update t
+        auto-package-update-delete-old-versions t)
   :config
-  (setq auto-package-update-delete-old-versions t)
   (auto-package-update-maybe))
 
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
