@@ -1,6 +1,6 @@
 (setq load-prefer-newer t)
 (setq inhibit-startup-screen t)
-(add-to-list 'default-frame-alist '(fullscreen . maximized))
+(add-to-list 'initial-frame-alist '(fullscreen . maximized))
 (tool-bar-mode 0)
 (scroll-bar-mode 0)
 (horizontal-scroll-bar-mode 0)

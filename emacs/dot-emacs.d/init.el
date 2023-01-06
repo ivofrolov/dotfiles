@@ -22,14 +22,8 @@
 
 ;; font
 (use-package frame
-  :init
-  (setq default-frame-font "Hack 13")
-  (defun my-server-configure-font ()
-    (set-frame-font default-frame-font nil t)
-    (remove-hook 'server-after-make-frame-hook #'my-server-configure-font))
-  (add-hook 'server-after-make-frame-hook #'my-server-configure-font)
   :config
-  (set-frame-font default-frame-font nil t))
+  (set-frame-font "Hack 13" nil t))
 
 ;; cursor
 (use-package emacs
@@ -90,8 +84,7 @@
   (setq split-width-threshold 144)
   :bind (("s-{" . previous-buffer)
          ("s-}" . next-buffer)
-         ("s-w" . kill-current-buffer)
-         ("s-W" . delete-frame)))
+         ("s-w" . kill-current-buffer)))
 
 (use-package mouse
   :config
