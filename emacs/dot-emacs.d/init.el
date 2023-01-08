@@ -140,6 +140,14 @@
     (setq-local comment-inline-offset 2
                 imenu-create-index-function #'python-imenu-create-flat-index))
   :hook (python-mode . my-python-mode-locals)
+  :config
+  (define-abbrev python-mode-abbrev-table "ifmain"
+    "" 'python-skeleton-ifmain)
+  (define-skeleton python-skeleton-ifmain
+    "Insert top-level code environment check"
+    nil
+    "if __name__ == \"__main__\":\n"
+    >)
   :bind (:map python-mode-map
               ("C-c C-h" . python-eldoc-at-point)
               ("C-c C-f" . black-format-buffer)))
