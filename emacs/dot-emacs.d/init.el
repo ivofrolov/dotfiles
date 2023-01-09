@@ -44,7 +44,8 @@
   :init
   (setq mode-line-compact 'long
         use-short-answers t
-        ns-use-proxy-icon nil)
+        ns-use-proxy-icon nil
+        ring-bell-function 'ignore)
   :bind (;; ("s-z" . undo-only)
          ;; ("s-Z" . undo-redo)
          ("M-z" . zap-up-to-char)
