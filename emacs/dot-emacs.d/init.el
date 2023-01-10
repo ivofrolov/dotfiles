@@ -162,6 +162,9 @@
   :bind (:map c-mode-map
               ("C-c C-f" . astyle-format-buffer)))
 
+(use-package my-sql-presto
+  :after sql)
+
 (use-package sgml-mode
   :init
   (setq sgml-basic-offset 4))
