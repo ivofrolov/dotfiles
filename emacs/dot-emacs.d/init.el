@@ -45,9 +45,9 @@
   (setq mode-line-compact 'long
         use-short-answers t
         ns-use-proxy-icon nil
-        ring-bell-function 'ignore)
-  :bind (;; ("s-z" . undo-only)
-         ;; ("s-Z" . undo-redo)
+        ring-bell-function 'ignore
+        undo-no-redo t)
+  :bind (("s-Z" . undo-redo)
          ("M-z" . zap-up-to-char)
          ("C-S-k" . kill-whole-line)
          ("M-u" . upcase-dwim)
@@ -243,11 +243,6 @@
 
 (use-package diminish
   :ensure t)
-
-(use-package vundo
-  :ensure t
-  :config
-  (setq vundo-glyph-alist vundo-unicode-symbols))
 
 ;; (use-package tree-sitter
 ;;   :ensure t
