@@ -335,6 +335,10 @@
 (use-package which-key
   :ensure t
   :diminish which-key-mode
+  :custom
+  (which-key-show-early-on-C-h t)
+  (which-key-idle-delay 10000)
+  (which-key-idle-secondary-delay 0.05)
   :config
   (which-key-mode))
 
