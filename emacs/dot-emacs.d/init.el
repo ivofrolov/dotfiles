@@ -75,6 +75,7 @@
 (use-package emacs
   :init
   (setq-default indent-tabs-mode nil
+                tab-always-indent t
                 standard-indent 4
                 tab-width 4
                 tab-stop-list '(0 4))
@@ -129,6 +130,10 @@
   :bind (:map project-prefix-map
               ("S" . my-project-vc-create-branch-from-default)))
 
+(use-package emacs
+  :custom
+  (delete-pair-blink-delay 0))
+
 (use-package python
   :init
   (use-package my-reformatter)
@@ -138,7 +143,8 @@
   (setq python-fill-docstring-style 'pep-257-nn
         python-indent-def-block-scale 1)
   (defun my-python-mode-locals ()
-    (setq-local comment-inline-offset 2
+    (setq-local tab-width 4
+                comment-inline-offset 2
                 imenu-create-index-function #'python-imenu-create-flat-index))
   :hook (python-mode . my-python-mode-locals)
   :config
@@ -217,13 +223,20 @@
          ("s-x" . clipboard-kill-region)
          ("s-v" . clipboard-yank)))
 
+(use-package simple
+  :config
+  (use-package my-simple
+    :bind (("s-[" . pop-local-mark)
+           ("M-s-[" . pop-global-mark)))
+  :custom
+  (mark-ring-max 6)
+  (global-mark-ring-max 6))
+
 (use-package my-simple
-  :bind (("C--" . pop-local-mark)
-         ("C-s--" . pop-global-mark)
-         ("M-o" . split-line-at-the-beginning)
+  :bind (("M-o" . split-line-at-the-beginning)
          ("s-<return>" . add-line)
-         ("s-[" . shift-left)
-         ("s-]" . shift-right)
+         ("s-<" . shift-left)
+         ("s->" . shift-right)
          ("C-a" . back-to-indentation-or-beginning)))
 
 (use-package uniquify
