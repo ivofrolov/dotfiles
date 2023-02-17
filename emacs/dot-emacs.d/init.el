@@ -1,8 +1,6 @@
 ;; initialize packages
 (require 'package)
-(setq package-native-compile t)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-
 (add-to-list 'load-path (locate-user-emacs-file "packages"))
 
 ;; ensure use-package
@@ -36,16 +34,35 @@
   :config
   (blink-cursor-mode 0))
 
+;; undo
+(use-package simple
+  :custom
+  (undo-no-redo t)
+  :bind
+  ("s-Z" . undo-redo))
+
+;; modeline
+(use-package emacs
+  :custom
+  (mode-line-compact 'long)
+  (column-number-mode t)
+  (mode-line-position-column-format '(" C%C"))
+  (mode-line-position-column-line-format '(" %l:%C"))
+  (mode-line-percent-position nil))
+
+;; line numbers
+(use-package display-line-numbers
+  :init
+  (setq display-line-numbers-type 'relative)
+  :hook ((prog-mode conf-mode) . display-line-numbers-mode))
+
 ;; misc
 (use-package emacs
   :init
-  (setq mode-line-compact 'long
-        use-short-answers t
+  (setq use-short-answers t
         ns-use-proxy-icon nil
-        ring-bell-function 'ignore
-        undo-no-redo t)
-  :bind (("s-Z" . undo-redo)
-         ("M-z" . zap-up-to-char)
+        ring-bell-function 'ignore)
+  :bind (("M-z" . zap-up-to-char)
          ("C-S-k" . kill-whole-line)
          ("M-u" . upcase-dwim)
          ("M-l" . downcase-dwim)
@@ -57,16 +74,6 @@
   (setq-default truncate-lines t)
   (setq visual-line-fringe-indicators '(nil right-curly-arrow))
   :hook ((text-mode help-mode) . visual-line-mode))
-
-;; line:column numbers
-(use-package emacs
-  :init
-  (setq display-line-numbers-type 'relative)
-  (setq mode-line-position-column-format '(" C%C")
-        mode-line-position-column-line-format '(" (%l,%C)"))
-  :hook ((prog-mode conf-mode) . display-line-numbers-mode)
-  :config
-  (column-number-mode))
 
 ;; indent
 (use-package emacs
@@ -182,6 +189,7 @@
   (setq show-paren-when-point-inside-paren t))
 
 (use-package subword
+  :delight
   :config
   (global-subword-mode))
 
@@ -220,6 +228,20 @@
          ("s-x" . clipboard-kill-region)
          ("s-v" . clipboard-yank)))
 
+(use-package abbrev
+  :delight abbrev-mode
+  :custom
+  (abbrev-mode t)
+  (abbrev-suggest t))
+
+(use-package eldoc
+  :custom
+  (eldoc-minor-mode-string nil))
+
+(use-package autorevert
+  :config
+  (global-auto-revert-mode))
+
 (use-package simple
   :config
   (use-package my-simple
@@ -227,14 +249,15 @@
            ("M-s-[" . pop-global-mark)))
   :custom
   (mark-ring-max 6)
-  (global-mark-ring-max 6))
+  (global-mark-ring-max 9))
 
 (use-package my-simple
   :bind (("M-o" . split-line-at-the-beginning)
          ("s-<return>" . add-line)
          ("s-<" . shift-left)
          ("s->" . shift-right)
-         ("C-a" . back-to-indentation-or-beginning)))
+         ("C-a" . back-to-indentation-or-beginning)
+         ("s-<left>" . back-to-indentation-or-beginning)))
 
 (use-package uniquify
   :init
@@ -251,7 +274,7 @@
               ("M-n" . flymake-goto-next-error)
               ("M-p" . flymake-goto-prev-error)))
 
-(use-package diminish
+(use-package delight
   :ensure t)
 
 ;; (use-package tree-sitter
@@ -327,6 +350,9 @@
 (use-package markdown-mode
   :ensure t)
 
+(use-package uml-mode
+  :ensure t)
+
 (use-package elm-mode
   :ensure t)
 
@@ -344,7 +370,7 @@
 
 (use-package which-key
   :ensure t
-  :diminish which-key-mode
+  :delight which-key-mode
   :custom
   (which-key-show-early-on-C-h t)
   (which-key-idle-delay 10000)
@@ -356,6 +382,8 @@
   :ensure t
   :init
   (setq magit-bind-magit-project-status nil)
+  :custom
+  (magit-auto-revert-mode nil)
   :bind (:map project-prefix-map
               ("m" . magit-project-status)))
 
