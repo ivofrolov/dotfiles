@@ -353,7 +353,9 @@
         eglot-stay-out-of '(imenu)))
 
 (use-package markdown-mode
-  :ensure t)
+  :ensure
+  :custom
+  (markdown-asymmetric-header t))
 
 (use-package uml-mode
   :ensure t)
