@@ -401,6 +401,11 @@
         denote-known-keywords nil)
   :hook (dired-mode . denote-dired-mode-in-directories))
 
+(use-package substitute
+  :ensure
+  :bind (("M-# d" . substitute-target-in-defun)
+         ("M-# b" . substitute-target-in-buffer)))
+
 (use-package auto-package-update
   :ensure t
   :init
