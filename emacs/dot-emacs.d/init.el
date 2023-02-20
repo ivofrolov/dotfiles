@@ -34,6 +34,11 @@
   :config
   (blink-cursor-mode 0))
 
+;; scroll
+(use-package emacs
+  :custom
+  (scroll-preserve-screen-position t))
+
 ;; undo
 (use-package simple
   :custom
