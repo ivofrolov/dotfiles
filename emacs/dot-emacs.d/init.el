@@ -406,7 +406,9 @@
 (use-package substitute
   :ensure
   :bind (("M-# d" . substitute-target-in-defun)
-         ("M-# b" . substitute-target-in-buffer)))
+         ("M-# b" . substitute-target-in-buffer)
+         ("M-# s" . substitute-target-below-point)
+         ("M-# r" . substitute-target-above-point)))
 
 (use-package auto-package-update
   :ensure t
