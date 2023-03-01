@@ -1,3 +1,5 @@
+(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+
 ;; initialize packages
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
@@ -418,7 +420,6 @@
   :config
   (auto-package-update-maybe))
 
-(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (load custom-file)
 
 (server-start)
