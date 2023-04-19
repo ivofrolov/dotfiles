@@ -149,6 +149,10 @@
   :custom
   (delete-pair-blink-delay 0))
 
+(use-package treesit
+  :custom
+  (treesit-font-lock-level 2))
+
 (use-package python
   :init
   (use-package my-reformatter)
