@@ -162,7 +162,13 @@
     (setq-local tab-width 4
                 comment-inline-offset 2
                 imenu-create-index-function #'python-imenu-create-flat-index))
-  :hook (python-mode . my-python-mode-locals)
+  (defun my-python-ts-mode-locals ()
+    (setq-local tab-width 4
+                comment-inline-offset 2
+                imenu-create-index-function #'python-imenu-treesit-create-flat-index))
+  :hook
+  (python-mode . my-python-mode-locals)
+  (python-ts-mode . my-python-ts-mode-locals)
   :config
   (define-abbrev python-mode-abbrev-table "ifmain"
     "" 'python-skeleton-ifmain)
