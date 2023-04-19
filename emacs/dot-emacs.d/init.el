@@ -153,15 +153,22 @@
   :custom
   (treesit-font-lock-level 2))
 
+(use-package treesit-auto
+  :ensure
+  :custom
+  (treesit-auto-install 'prompt)
+  :config
+  (global-treesit-auto-mode))
+
 (use-package python
+  :custom
+  (python-fill-docstring-style 'pep-257-nn)
+  (python-indent-def-block-scale 1)
   :init
   (use-package my-reformatter)
   (use-package my-simple
     :config
     (add-font-lock-maximum-decoration '(python-mode . 2)))
-  :custom
-  (python-fill-docstring-style 'pep-257-nn)
-  (python-indent-def-block-scale 1)
   (defun my-python-mode-locals ()
     (setq-local tab-width 4
                 comment-inline-offset 2
@@ -170,9 +177,8 @@
     (setq-local tab-width 4
                 comment-inline-offset 2
                 imenu-create-index-function #'python-imenu-treesit-create-flat-index))
-  :hook
-  (python-mode . my-python-mode-locals)
-  (python-ts-mode . my-python-ts-mode-locals)
+  :hook ((python-mode . my-python-mode-locals)
+         (python-ts-mode . my-python-ts-mode-locals))
   :config
   (define-abbrev python-mode-abbrev-table "ifmain"
     "" 'python-skeleton-ifmain)
@@ -182,8 +188,11 @@
     "if __name__ == \"__main__\":\n"
     >)
   :bind (:map python-mode-map
-              ("C-c C-h" . python-eldoc-at-point)
-              ("C-c C-f" . black-format-buffer)))
+         ("C-c C-h" . python-eldoc-at-point)
+         ("C-c C-f" . black-format-buffer)
+         :map python-ts-mode-map
+         ("C-c C-h" . python-eldoc-at-point)
+         ("C-c C-f" . black-format-buffer)))
 
 (use-package cc-mode
   :init
@@ -353,13 +362,6 @@
   :custom
   (eglot-ignored-server-capabilities '(:documentHighlightProvider))
   (eglot-autoshutdown t))
-
-(use-package treesit-auto
-  :ensure
-  :custom
-  (treesit-auto-install 'prompt)
-  :config
-  (global-treesit-auto-mode))
 
 (use-package markdown-mode
   :ensure
