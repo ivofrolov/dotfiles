@@ -245,6 +245,7 @@
 
 (use-package isearch
   :custom
+  (isearch-lazy-count t)
   (isearch-repeat-on-direction-change t))
 
 (use-package quail-russian-macintosh
