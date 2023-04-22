@@ -149,6 +149,10 @@
   :custom
   (delete-pair-blink-delay 0))
 
+(use-package font-lock
+  :custom
+  (font-lock-maximum-decoration 2))
+
 (use-package treesit
   :custom
   (treesit-font-lock-level 2))
@@ -164,23 +168,18 @@
   :custom
   (python-fill-docstring-style 'pep-257-nn)
   (python-indent-def-block-scale 1)
+  :preface
+  (defun my-python-base-mode-locals ()
+    (setq-local tab-width 4
+                comment-inline-offset 2))
+  (defun my-python-mode-locals ()
+    (setq-local imenu-create-index-function #'python-imenu-create-flat-index))
+  (defun my-python-ts-mode-locals ()
+    (setq-local imenu-create-index-function #'python-imenu-treesit-create-flat-index))
   :init
   (use-package my-reformatter)
-  (use-package my-simple
-    :config
-    (add-font-lock-maximum-decoration '(python-mode . 2)))
-  (defun my-python-mode-locals ()
-    (setq-local tab-width 4
-                comment-inline-offset 2
-                imenu-create-index-function #'python-imenu-create-flat-index))
-  (defun my-python-ts-mode-locals ()
-    (setq-local tab-width 4
-                comment-inline-offset 2
-                imenu-create-index-function #'python-imenu-treesit-create-flat-index))
-  :hook ((python-mode . my-python-mode-locals)
-         (python-ts-mode . my-python-ts-mode-locals))
   :config
-  (define-abbrev python-mode-abbrev-table "ifmain"
+  (define-abbrev python-base-mode-abbrev-table "ifmain"
     "" 'python-skeleton-ifmain)
   (define-skeleton python-skeleton-ifmain
     "Insert top-level code environment check"
@@ -188,17 +187,18 @@
     "if __name__ == \"__main__\":\n"
     >)
   :bind (:map python-mode-map
-         ("C-c C-h" . python-eldoc-at-point)
-         ("C-c C-f" . black-format-buffer)
+              ("C-c C-h" . python-eldoc-at-point)
+              ("C-c C-f" . black-format-buffer)
          :map python-ts-mode-map
-         ("C-c C-h" . python-eldoc-at-point)
-         ("C-c C-f" . black-format-buffer)))
+              ("C-c C-h" . python-eldoc-at-point)
+              ("C-c C-f" . black-format-buffer)))
 
 (use-package cc-mode
-  :init
-  (use-package my-reformatter)
+  :preface
   (defun my-c-mode-locals ()
     (setq-local comment-style 'multi-line))
+  :init
+  (use-package my-reformatter)
   :hook (c-mode . my-c-mode-locals)
   :bind (:map c-mode-map
               ("C-c C-f" . astyle-format-buffer)))
