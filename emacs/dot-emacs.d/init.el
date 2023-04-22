@@ -99,7 +99,7 @@
 (use-package window
   :custom
   (split-width-threshold 144)
-  (switch-to-prev-buffer-skip-regexp '("\\*.+\\*"))
+  (switch-to-prev-buffer-skip-regexp '("\\*.+\\*" "magit"))
   :bind (("s-{" . previous-buffer)
          ("s-}" . next-buffer)
          ("s-w" . kill-current-buffer)
