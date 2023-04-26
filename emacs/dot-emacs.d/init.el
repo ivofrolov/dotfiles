@@ -352,6 +352,13 @@
   :ensure
   :custom
   (mc/match-cursor-style nil)
+  :preface
+  (defun my-multiple-cursors-mode-locals ()
+    (setq-local cursor-type 'box))
+  (defun my-multiple-cursors-mode-locals-reset ()
+    (kill-local-variable 'cursor-type))
+  :hook((multiple-cursors-mode-enabled . my-multiple-cursors-mode-locals)
+        (multiple-cursors-mode-disabled . my-multiple-cursors-mode-locals-reset))
   :bind (("s-d" . mc/mark-next-like-this)
          ("M-s-d" . mc/skip-to-next-like-this)
          ("s-D" . mc/mark-all-dwim)
