@@ -176,6 +176,10 @@
     (setq-local imenu-create-index-function #'python-imenu-create-flat-index))
   (defun my-python-ts-mode-locals ()
     (setq-local imenu-create-index-function #'python-imenu-treesit-create-flat-index))
+  :hook
+  (python-base-mode . my-python-base-mode-locals)
+  (python-mode . my-python-mode-locals)
+  (python-ts-mode . my-python-ts-mode-locals)
   :init
   (use-package my-reformatter)
   :config
