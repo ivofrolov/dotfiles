@@ -219,6 +219,10 @@
   :hook ((sgml-mode . emmet-mode)
          (css-mode . emmet-mode)))
 
+(use-package json-ts-mode
+  :custom
+  (json-ts-mode-indent-offset 4))
+
 (use-package paren
   :custom
   (show-paren-when-point-inside-paren t))
