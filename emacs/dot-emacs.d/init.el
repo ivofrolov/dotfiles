@@ -424,14 +424,6 @@
          ("M-# s" . substitute-target-below-point)
          ("M-# r" . substitute-target-above-point)))
 
-;; (use-package auto-package-update
-;;   :ensure
-;;   :custom
-;;   (auto-package-update-prompt-before-update t)
-;;   (auto-package-update-delete-old-versions t)
-;;   :config
-;;   (auto-package-update-maybe))
-
 (load custom-file)
 
 (server-start)
