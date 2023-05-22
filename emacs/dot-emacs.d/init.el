@@ -98,6 +98,10 @@
 
 (use-package window
   :custom
+  (display-buffer-base-action
+   '((display-buffer-reuse-window display-buffer-same-window)
+     (reusable-frames . t)))
+  (even-window-sizes nil)
   (split-width-threshold 144)
   (switch-to-prev-buffer-skip-regexp '("\\*.+\\*" "magit"))
   :bind (("s-{" . previous-buffer)
@@ -152,6 +156,11 @@
 (use-package font-lock
   :custom
   (font-lock-maximum-decoration 2))
+
+
+(use-package xref
+  :custom
+  (xref-history-storage #'xref-window-local-history))
 
 (use-package treesit
   :custom
