@@ -173,6 +173,22 @@
   :config
   (global-treesit-auto-mode))
 
+;; (package-vc-install "https://github.com/mickeynp/combobulate")
+(use-package combobulate
+  :custom
+  (combobulate-flash-node nil)
+  :config
+  (unbind-key "M-<up>" combobulate-key-map)
+  (unbind-key "M-<down>" combobulate-key-map)
+  (unbind-key "M-<left>" combobulate-key-map)
+  (unbind-key "M-<right>" combobulate-key-map)
+  ;; :bind (:map combobulate-key-map
+  ;;             ("C-<up>" . combobulate-splice-up)
+  ;;             ("C-<down>" . combobulate-splice-down)
+  ;;             ("C-<left>" . combobulate-yeet-forward)
+  ;;             ("C-<right>" . combobulate-yoink-forward))
+  :hook ((python-ts-mode . combobulate-mode)))
+
 (use-package python
   :custom
   (python-fill-docstring-style 'pep-257-nn)
