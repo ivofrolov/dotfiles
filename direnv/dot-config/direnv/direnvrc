@@ -1,9 +1,11 @@
 update_pyrightconfig() {
     local pyrightconfig="pyrightconfig.json"
     test ! -f $pyrightconfig && return
-    local python_version=$(semver_search "$(direnv_layout_dir)" "python-")
-    grep -q "python-$python_version" $pyrightconfig && return
-    sed -i "" -E -e "/python-([0-9]+\.?){3}/s//python-$python_version/" $pyrightconfig
+    local set_venv=$(jq -r ".venv" pyrightconfig.json)
+    local current_venv=$(basename $VIRTUAL_ENV)
+    test "$current_venv" = "$set_venv" && return
+    jq --indent 4 ".venv=\"$current_venv\"" $pyrightconfig > $pyrightconfig.tmp
+    mv $pyrightconfig.tmp $pyrightconfig
 }
 
 keep_only_last_version_of_python() {
