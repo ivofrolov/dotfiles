@@ -75,7 +75,11 @@
   :custom
   (truncate-lines t)
   (visual-line-fringe-indicators '(nil right-curly-arrow))
-  :hook ((text-mode help-mode) . visual-line-mode))
+  :preface
+  (defun my-truncate-lines-in-minibuffer ()
+    (setq-local truncate-lines t))
+  :hook (((text-mode help-mode) . visual-line-mode)
+         (minibuffer-setup . my-truncate-lines-in-minibuffer)))
 
 ;; indent
 (use-package emacs
@@ -387,6 +391,13 @@
   (minibuffer-setup . corfu-enable-in-minibuffer)
   :init
   (global-corfu-mode))
+
+(use-package marginalia
+  :ensure
+  :bind (:map minibuffer-local-map
+              ("M-A" . marginalia-cycle))
+  :init
+  (marginalia-mode))
 
 (use-package diff-hl
   :ensure
