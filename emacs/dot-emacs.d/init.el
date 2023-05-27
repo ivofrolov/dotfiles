@@ -232,6 +232,16 @@
   :bind (:map c-mode-map
               ("C-c C-f" . astyle-format-buffer)))
 
+(use-package c-ts-mode
+  :preface
+  (defun my-c-ts-mode-locals ()
+    (setq-local comment-style 'multi-line))
+  :init
+  (use-package my-reformatter)
+  :hook (c-ts-mode . my-c-ts-mode-locals)
+  :bind (:map c-ts-mode-map
+              ("C-c C-f" . astyle-format-buffer)))
+
 (use-package my-sql-presto
   :after sql)
 
@@ -265,15 +275,19 @@
   :config
   (delete-selection-mode))
 
-(use-package icomplete
+(use-package minibuffer
   :custom
+  (completion-auto-help 'visible)
+  (completion-auto-select 'second-tab)
+  (completions-header-format nil)
   (completions-detailed t)
   (completion-category-overrides
         '((file (styles . (basic partial-completion flex)))
           (project-file (styles . (basic substring partial-completion flex)))
-          (imenu (styles . (basic substring flex)))))
+          (imenu (styles . (basic substring flex))))))
+
+(use-package icomplete
   :config
-  ;; also sets flex completion style
   (fido-vertical-mode))
 
 (use-package isearch
@@ -360,12 +374,17 @@
 
 (use-package corfu
   :ensure
-  ;; :config
-  ;; (defun corfu-enable-in-minibuffer ()
-  ;;   "Enable Corfu in the minibuffer if `completion-at-point' is bound."
-  ;;   (when (where-is-internal #'completion-at-point (list (current-local-map)))
-  ;;     (corfu-mode 1)))
-  ;; (add-hook 'minibuffer-setup-hook #'corfu-enable-in-minibuffer)
+  :custom
+  (corfu-cycle t)
+  :preface
+  (defun corfu-enable-in-minibuffer ()
+    "Enable Corfu in the minibuffer if `completion-at-point' is bound."
+    (when (where-is-internal #'completion-at-point (list (current-local-map)))
+      (setq-local corfu-echo-delay nil
+                  corfu-popupinfo-delay nil)
+      (corfu-mode 1)))
+  :hook
+  (minibuffer-setup . corfu-enable-in-minibuffer)
   :init
   (global-corfu-mode))
 
@@ -410,7 +429,21 @@
   (markdown-asymmetric-header t))
 
 (use-package elm-mode
-  :ensure)
+  :ensure
+  :custom
+  (elm-imenu-use-categories nil)
+  :config
+  ;; makes `elm-documentation-lookup' work
+  (defun elm-package-latest-version (package)
+    "Get the latest version of PACKAGE."
+    (let ((package (-find (lambda (p)
+                            (let-alist p
+                              (equal .name package)))
+                          elm-package--contents)))
+      (if (not package)
+          (error "Package not found")
+        (let-alist package
+          (elt .versions 0))))))
 
 (use-package lua-mode
   :ensure)
