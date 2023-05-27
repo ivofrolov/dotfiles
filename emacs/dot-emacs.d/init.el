@@ -105,6 +105,11 @@
   (display-buffer-base-action
    '((display-buffer-reuse-window display-buffer-same-window)
      (reusable-frames . t)))
+  ;; (display-buffer-alist
+  ;;  `((,(rx (or "*Help*" "*compilation*"))
+  ;;     (display-buffer-reuse-window display-buffer-pop-up-window)
+  ;;     (inhibit-same-window . t))))
+  ;; (switch-to-buffer-obey-display-actions t)
   (even-window-sizes nil)
   (split-width-threshold 144)
   (switch-to-prev-buffer-skip-regexp '("\\*.+\\*" "magit"))
@@ -475,6 +480,7 @@
   (setq magit-bind-magit-project-status nil)
   :custom
   (magit-auto-revert-mode nil)
+  (magit-display-buffer-function #'magit-display-buffer-fullframe-status-topleft-v1)
   :bind (:map project-prefix-map
               ("m" . magit-project-status)))
 
