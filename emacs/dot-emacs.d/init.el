@@ -74,7 +74,6 @@
 (use-package emacs
   :custom
   (truncate-lines t)
-  (visual-line-fringe-indicators '(nil right-curly-arrow))
   :preface
   (defun my-truncate-lines-in-minibuffer ()
     (setq-local truncate-lines t))
@@ -100,6 +99,12 @@
   :custom
   (reb-re-syntax 'string))
 
+(use-package my-fringe
+  :custom
+  (fringe-mode '(4 . 4)) ; half-width
+  :config
+  (replace-fringe-indicators-to-half-width-bitmaps))
+
 (use-package window
   :custom
   (display-buffer-base-action
@@ -111,6 +116,8 @@
   ;;     (inhibit-same-window . t))))
   ;; (switch-to-buffer-obey-display-actions t)
   (even-window-sizes nil)
+  (fit-window-to-buffer-horizontally t)
+  (window-resize-pixelwise t)
   (switch-to-prev-buffer-skip-regexp '("\\*.+\\*" "magit"))
   :bind (("s-{" . previous-buffer)
          ("s-}" . next-buffer)
@@ -348,9 +355,6 @@
   :custom
   (flymake-suppress-zero-counters t)
   (flymake-fringe-indicator-position nil)
-  (flymake-error-bitmap '(exclamation-mark modus-themes-fringe-red))
-  (flymake-warning-bitmap '(exclamation-mark modus-themes-fringe-yellow))
-  (flymake-note-bitmap '(exclamation-mark modus-themes-fringe-cyan))
   :bind (:map flymake-mode-map
               ("M-n" . flymake-goto-next-error)
               ("M-p" . flymake-goto-prev-error)))
