@@ -111,7 +111,6 @@
   ;;     (inhibit-same-window . t))))
   ;; (switch-to-buffer-obey-display-actions t)
   (even-window-sizes nil)
-  (split-width-threshold 144)
   (switch-to-prev-buffer-skip-regexp '("\\*.+\\*" "magit"))
   :bind (("s-{" . previous-buffer)
          ("s-}" . next-buffer)
@@ -135,13 +134,7 @@
   :custom
   (create-lockfiles nil)
   (make-backup-files nil)
-  (delete-by-moving-to-trash t)
-  ;; :init
-  ;; (if (eq system-type 'darwin)
-  ;;     ;; macOS Trash support is in master branch so next option can be set to default a while
-  ;;     ;; https://github.com/emacs-mirror/emacs/blob/d5ee49c25c8f59ab17c40eebdf38a769c2f5588b/src/nsfns.m#L2462
-  ;;     (setq trash-directory "~/.Trash"))
-  )
+  (delete-by-moving-to-trash t))
 
 (use-package vc-hooks
   :custom
@@ -337,7 +330,7 @@
            ("M-s-[" . pop-global-mark)))
   :custom
   (mark-ring-max 6)
-  (global-mark-ring-max 9))
+  (global-mark-ring-max 12))
 
 (use-package my-simple
   :bind (("M-o" . split-line-at-the-beginning)
