@@ -50,6 +50,52 @@ For example, the following code defines a diagonal line.
        "...X...."
        "..X....."
        ".X......"
+       "X.......")))
+  (define-fringe-bitmap 'left-curly-arrow
+    (eval-when-compile
+      (fringe-helper-convert
+       "X......."
+       "X......."
+       "XX......"
+       ".X......"
+       ".XX....."
+       "..X....."
+       "..XX...."
+       "...X...."
+       "...X....")))
+  (define-fringe-bitmap 'right-curly-arrow
+    (eval-when-compile
+      (fringe-helper-convert
+       "...X...."
+       "...X...."
+       "..XX...."
+       "..X....."
+       ".XX....."
+       ".X......"
+       "XX......"
+       "X......."
+       "X.......")))
+  (define-fringe-bitmap 'left-triangle
+    (eval-when-compile
+      (fringe-helper-convert
+       "...X...."
+       "..XX...."
+       ".XXX...."
+       "XXXX...."
+       "XXXX...."
+       ".XXX...."
+       "..XX...."
+       "...X....")))
+  (define-fringe-bitmap 'right-triangle
+    (eval-when-compile
+      (fringe-helper-convert
+       "X......."
+       "XX......"
+       "XXX....."
+       "XXXX...."
+       "XXXX...."
+       "XXX....."
+       "XX......"
        "X......."))))
 
 (provide 'my-fringe)
