@@ -302,7 +302,8 @@
 (use-package isearch
   :custom
   (isearch-lazy-count t)
-  (isearch-repeat-on-direction-change t))
+  (isearch-repeat-on-direction-change t)
+  (search-whitespace-regexp ".*?"))
 
 (use-package quail-russian-macintosh
   :custom
@@ -345,7 +346,8 @@
          ("s-<" . shift-left)
          ("s->" . shift-right)
          ("C-a" . back-to-indentation-or-beginning)
-         ("s-<left>" . back-to-indentation-or-beginning)))
+         ("s-<left>" . back-to-indentation-or-beginning)
+         ("s-l" . mark-line)))
 
 (use-package uniquify
   :custom

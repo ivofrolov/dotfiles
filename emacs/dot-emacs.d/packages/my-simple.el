@@ -43,4 +43,25 @@
     (indent-rigidly-right-to-tab-stop (line-beginning-position)
                                       (line-end-position))))
 
+(defun mark-line (&optional arg allow-extend)
+  "Set mark ARG lines. Derived from `mark-word'"
+  (interactive "P\np")
+  (cond ((and allow-extend
+              (or (and (eq last-command this-command) (mark t))
+                  (region-active-p)))
+         (setq arg (if arg (prefix-numeric-value arg)
+                     (if (< (mark) (point)) -1 1)))
+         (set-mark
+          (save-excursion
+            (goto-char (mark))
+            (forward-line arg)
+            (point))))
+        (t
+         (beginning-of-line)
+         (push-mark
+          (save-excursion
+            (forward-line (prefix-numeric-value arg))
+            (point))
+          nil t))))
+
 (provide 'my-simple)
