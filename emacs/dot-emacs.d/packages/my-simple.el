@@ -19,29 +19,24 @@
   (if (= (point) (progn (back-to-indentation) (point)))
       (beginning-of-line)))
 
+(defun shift-text (N)
+  (if (not (use-region-p))
+      (indent-rigidly (line-beginning-position) (line-end-position) N)
+    (let ((mark (mark)))
+      (save-excursion
+        (indent-rigidly (region-beginning) (region-end) N)
+        (set-mark mark)
+        (setq deactivate-mark nil)))))
+
 (defun shift-left ()
+  "Shift text left `tab-width' columns."
   (interactive)
-  (if (use-region-p)
-      (let ((mark (mark)))
-        (save-excursion
-          (indent-rigidly-left-to-tab-stop (region-beginning)
-                                           (region-end))
-          (push-mark mark t t)
-          (setq deactivate-mark nil)))
-    (indent-rigidly-left-to-tab-stop (line-beginning-position)
-                                     (line-end-position))))
+  (shift-text (- tab-width)))
 
 (defun shift-right ()
+  "Shift text right `tab-width' columns."
   (interactive)
-  (if (use-region-p)
-      (let ((mark (mark)))
-        (save-excursion
-          (indent-rigidly-right-to-tab-stop (region-beginning)
-                                            (region-end))
-          (push-mark mark t t)
-          (setq deactivate-mark nil)))
-    (indent-rigidly-right-to-tab-stop (line-beginning-position)
-                                      (line-end-position))))
+  (shift-text tab-width))
 
 (defun mark-line (&optional arg allow-extend)
   "Set mark ARG lines. Derived from `mark-word'"
@@ -54,13 +49,16 @@
          (set-mark
           (save-excursion
             (goto-char (mark))
-            (forward-line arg)
+            (if (< arg 0)
+                (move-beginning-of-line (+ arg 1))
+                (move-end-of-line (+ arg 1)))
             (point))))
         (t
+         (push-mark (point) nil)
          (beginning-of-line)
          (push-mark
           (save-excursion
-            (forward-line (prefix-numeric-value arg))
+            (move-end-of-line (prefix-numeric-value arg))
             (point))
           nil t))))
 
