@@ -6,5 +6,6 @@ pyrightconfig.json
 *~
 \#*\#
 .dir-locals.el
+TAGS
 
 .DS_Store
