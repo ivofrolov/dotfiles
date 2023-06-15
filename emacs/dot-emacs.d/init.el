@@ -411,10 +411,6 @@
   (global-diff-hl-mode)
   (diff-hl-flydiff-mode))
 
-(use-package expand-region
-  :ensure
-  :bind ("C-=" . er/expand-region))
-
 (use-package multiple-cursors
   :ensure
   :custom
