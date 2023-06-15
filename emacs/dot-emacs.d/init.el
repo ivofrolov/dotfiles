@@ -408,6 +408,7 @@
   :custom
   (diff-hl-draw-borders nil)
   :init
+  (setq diff-hl-reference-revision "origin/HEAD")
   (global-diff-hl-mode)
   (diff-hl-flydiff-mode))
 
