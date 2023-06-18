@@ -208,14 +208,8 @@
   (defun my-python-base-mode-locals ()
     (setq-local tab-width 4
                 comment-inline-offset 2))
-  (defun my-python-mode-locals ()
-    (setq-local imenu-create-index-function #'python-imenu-create-flat-index))
-  (defun my-python-ts-mode-locals ()
-    (setq-local imenu-create-index-function #'python-imenu-treesit-create-flat-index))
   :hook
   (python-base-mode . my-python-base-mode-locals)
-  (python-mode . my-python-mode-locals)
-  (python-ts-mode . my-python-ts-mode-locals)
   :init
   (use-package my-reformatter)
   :config
@@ -308,6 +302,11 @@
   (isearch-lazy-count t)
   (isearch-repeat-on-direction-change t)
   (search-whitespace-regexp ".*?"))
+
+(use-package my-imenu
+  :after imenu
+  :config
+  (advice-add 'imenu--make-index-alist :filter-return 'my-imenu--flatten))
 
 (use-package quail-russian-macintosh
   :custom
@@ -446,8 +445,6 @@
 
 (use-package elm-mode
   :ensure
-  :custom
-  (elm-imenu-use-categories nil)
   :config
   ;; makes `elm-documentation-lookup' work
   (defun elm-package-latest-version (package)
