@@ -143,9 +143,11 @@
   (make-backup-files nil)
   (delete-by-moving-to-trash t))
 
-(use-package vc-hooks
+(use-package vc
   :custom
-  (vc-follow-symlinks t))
+  (vc-follow-symlinks t)
+  (vc-handled-backends '(Git))
+  (vc-git-diff-switches '("--histogram")))
 
 (use-package saveplace
   :config
@@ -217,13 +219,15 @@
   :init
   (use-package my-reformatter)
   :config
-  (define-abbrev python-base-mode-abbrev-table "ifmain"
-    "" 'python-skeleton-ifmain)
   (define-skeleton python-skeleton-ifmain
     "Insert top-level code environment check"
     nil
     "if __name__ == \"__main__\":\n"
     >)
+  (define-abbrev python-base-mode-abbrev-table "ifmain"
+    "" 'python-skeleton-ifmain)
+  (unbind-key "C-c C-j" python-mode-map)
+  (unbind-key "C-c C-j" python-ts-mode-map)
   :bind (:map python-mode-map
               ("C-c C-h" . python-eldoc-at-point)
               ("C-c C-f" . black-format-buffer)
