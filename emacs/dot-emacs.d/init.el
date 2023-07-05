@@ -461,6 +461,8 @@
 (use-package lua-mode
   :ensure)
 
+(use-package d2-ts-mode)
+
 (use-package which-key
   :ensure
   :delight which-key-mode
