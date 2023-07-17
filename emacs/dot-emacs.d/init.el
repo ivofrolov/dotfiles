@@ -432,7 +432,7 @@
   (reb-re-syntax 'string))
 
 ;; sql
-(use-package my-sql-presto
+(use-package sql-presto
   :after sql)
 
 (use-package sgml-mode
