@@ -1,26 +1,30 @@
+;;; Prolog
+
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 
-;; initialize packages
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 (add-to-list 'load-path (locate-user-emacs-file "packages"))
 
-;; theme
-(use-package modus-themes
-  :ensure
-  :demand
-  :preface
-  (custom-set-faces
-   ;; don't extend the region to the edge of the window
-   `(region ((t :extend nil))))
-  :config
-  (load-theme 'modus-operandi :no-confim)
-  :bind ("<f5>" . modus-themes-toggle))
 
-;; font
-(use-package frame
-  :config
-  (set-frame-font "Hack 13" nil t))
+;;; Abbreviations
+
+(use-package abbrev
+  :delight abbrev-mode
+  :custom
+  (abbrev-mode t)
+  (abbrev-suggest t))
+
+
+;;; Display
+
+(use-package emacs
+  :init
+  (setq ns-use-proxy-icon nil)
+  :custom
+  (use-system-tooltips nil)
+  (use-short-answers t)
+  (ring-bell-function 'ignore))
 
 ;; cursor
 (use-package emacs
@@ -29,46 +33,42 @@
   :config
   (blink-cursor-mode 0))
 
-;; scroll
+;; font
 (use-package emacs
   :custom
-  (scroll-preserve-screen-position t))
+  (font-lock-maximum-decoration 2)
+  :config
+  (set-frame-font "Hack 13" nil t))
 
-;; undo
-(use-package simple
+(use-package treesit
   :custom
-  (undo-no-redo t)
-  :bind
-  ("s-Z" . undo-redo))
+  (treesit-font-lock-level 2))
 
-;; modeline
+(use-package delight
+  :ensure t)
+
+;; (use-package diff-hl
+;;   :ensure
+;;   :custom
+;;   (diff-hl-draw-borders nil)
+;;   :init
+;;   (setq diff-hl-reference-revision "origin/HEAD")
+;;   (global-diff-hl-mode)
+;;   (diff-hl-flydiff-mode))
+
+(use-package fringe
+  :custom
+  (fringe-mode '(4 . 4)) ; half-width
+  :config
+  (use-package my-fringe
+    :config
+    (replace-fringe-indicators-to-half-width-bitmaps)))
+
+;; line numbers
 (use-package emacs
-  :custom
-  (mode-line-compact 'long)
-  (column-number-mode t)
-  (mode-line-position-column-format '(" C%C"))
-  (mode-line-position-column-line-format '(" %l:%C"))
-  (mode-line-percent-position nil))
-
-(use-package display-line-numbers
   :custom
   (display-line-numbers-type 'relative)
   :hook ((prog-mode conf-mode) . display-line-numbers-mode))
-
-;; misc
-(use-package emacs
-  :init
-  (setq ns-use-proxy-icon nil)
-  :custom
-  (use-system-tooltips nil)
-  (use-short-answers t)
-  (ring-bell-function 'ignore)
-  :bind (("M-z" . zap-up-to-char)
-         ("C-S-k" . kill-whole-line)
-         ("M-u" . upcase-dwim)
-         ("M-l" . downcase-dwim)
-         ("M-c" . capitalize-dwim)
-         ("s-k" . duplicate-dwim)))
 
 ;; line wrapping
 (use-package emacs
@@ -80,31 +80,25 @@
   :hook (((text-mode help-mode) . visual-line-mode)
          (minibuffer-setup . my-truncate-lines-in-minibuffer)))
 
-;; indent
+;; modeline
 (use-package emacs
   :custom
-  (indent-tabs-mode nil)
-  (tab-always-indent t)
-  (standard-indent 4)
-  (tab-width 4)
-  (tab-stop-list '(0 4))
-  (comment-column 0)
-  (sentence-end-double-space nil))
+  (mode-line-compact 'long)
+  (column-number-mode t)
+  (mode-line-position-column-format '(" C%C"))
+  (mode-line-position-column-line-format '(" %l:%C"))
+  (mode-line-percent-position nil))
 
-(use-package ispell
-  :init
-  ;; hunspell dictionary located at ~/Library/Spelling/ru_RU.{aff,dic}
-  (setenv "DICTIONARY" "ru_RU"))
-
-(use-package re-builder
-  :custom
-  (reb-re-syntax 'string))
-
-(use-package my-fringe
-  :custom
-  (fringe-mode '(4 . 4)) ; half-width
+(use-package modus-themes
+  :ensure
+  :demand
+  :preface
+  (custom-set-faces
+   ;; don't extend the region to the edge of the window
+   `(region ((t :extend nil))))
   :config
-  (replace-fringe-indicators-to-half-width-bitmaps))
+  (load-theme 'modus-operandi :no-confim)
+  :bind ("<f5>" . modus-themes-toggle))
 
 (use-package window
   :custom
@@ -125,71 +119,90 @@
          ("s-w" . kill-current-buffer)
          ("s-W" . delete-frame)))
 
-;; (use-package help
-;;   :custom
-;;   (help-window-keep-selected t))
 
-(use-package mouse
-  :config
-  (context-menu-mode))
+;;; Editing
 
-(use-package mwheel
-  :custom
-  (mouse-wheel-tilt-scroll t)
-  (mouse-wheel-flip-direction t))
-
-(use-package files
-  :custom
-  (create-lockfiles nil)
-  (make-backup-files nil)
-  (delete-by-moving-to-trash t))
-
-(use-package vc
-  :custom
-  (vc-follow-symlinks t)
-  (vc-handled-backends '(Git))
-  (vc-git-diff-switches '("--histogram")))
-
-(use-package saveplace
-  :config
-  (save-place-mode))
-
-(use-package my-project
-  :demand
-  :config
-  (setq frame-title-format '("%b" (:eval (my-current-project-file-suffix))))
-  :bind (:map project-prefix-map
-              ("S" . my-project-vc-create-branch-from-default)))
-
+;; clipboard
 (use-package emacs
   :custom
-  (delete-pair-blink-delay 0))
+  (select-enable-clipboard nil)
+  (select-enable-primary t)
+  :bind (("s-c" . clipboard-kill-ring-save)
+         ("s-x" . clipboard-kill-region)
+         ("s-v" . clipboard-yank)))
 
-(use-package font-lock
+(use-package my-simple
   :custom
-  (font-lock-maximum-decoration 2))
+  (delete-selection-mode t)
+  :bind (("s-<return>" . add-line)
+         ("C-a" . back-to-indentation-or-beginning)
+         ("s-<left>" . back-to-indentation-or-beginning)
+         ("s-k" . duplicate-dwim)
+         ("C-S-k" . kill-whole-line)
+         ("s-l" . mark-line)
+         ("s-<" . shift-left)
+         ("s->" . shift-right)
+         ("M-o" . split-line-at-the-beginning)
+         ("M-z" . zap-up-to-char)
+         ("M-u" . upcase-dwim)
+         ("M-l" . downcase-dwim)
+         ("M-c" . capitalize-dwim)))
 
-(use-package bookmark
+(use-package icomplete
+  :config
+  (fido-vertical-mode))
+
+;; imenu
+(use-package my-imenu
+  :after imenu
+  :config
+  (advice-add 'imenu--make-index-alist :filter-return 'my-imenu--flatten))
+
+;; indent
+(use-package emacs
   :custom
-  (bookmark-save-flag 1))
+  (indent-tabs-mode nil)
+  (tab-always-indent t)
+  (standard-indent 4)
+  (tab-width 4)
+  (tab-stop-list '(0 4))
+  (comment-column 0)
+  (sentence-end-double-space nil))
 
-(use-package xref
+;; input
+(use-package quail-russian-macintosh
   :custom
-  (xref-history-storage #'xref-window-local-history))
+  (default-input-method "russian-macintosh"))
 
-(use-package treesit
+(use-package isearch
   :custom
-  (treesit-font-lock-level 2))
+  (isearch-lazy-count t)
+  (isearch-repeat-on-direction-change t)
+  (search-whitespace-regexp ".*?"))
 
-(use-package treesit-auto
+(use-package ispell
+  :init
+  ;; hunspell dictionary located at ~/Library/Spelling/ru_RU.{aff,dic}
+  (setenv "DICTIONARY" "ru_RU"))
+
+(use-package corfu
   :ensure
   :custom
-  (treesit-auto-install 'prompt)
-  :config
-  (global-treesit-auto-mode))
+  (corfu-cycle t)
+  :preface
+  (defun corfu-enable-in-minibuffer ()
+    "Enable Corfu in the minibuffer if `completion-at-point' is bound."
+    (when (where-is-internal #'completion-at-point (list (current-local-map)))
+      (setq-local corfu-echo-delay nil
+                  corfu-popupinfo-delay nil)
+      (corfu-mode 1)))
+  :hook
+  (minibuffer-setup . corfu-enable-in-minibuffer)
+  :init
+  (global-corfu-mode))
 
-;; (package-vc-install "https://github.com/mickeynp/combobulate")
 (use-package combobulate
+  ;; (package-vc-install "https://github.com/mickeynp/combobulate")
   :custom
   (combobulate-flash-node nil)
   :config
@@ -203,6 +216,187 @@
   ;;             ("C-<left>" . combobulate-yeet-forward)
   ;;             ("C-<right>" . combobulate-yoink-forward))
   :hook ((python-ts-mode . combobulate-mode)))
+
+(use-package eglot
+  :init
+  (setq eglot-stay-out-of '(imenu))
+  :custom
+  (eglot-ignored-server-capabilities '(:documentHighlightProvider))
+  (eglot-autoshutdown t))
+
+(use-package eldoc
+  :custom
+  (eldoc-minor-mode-string nil))
+
+(use-package flymake
+  :custom
+  (flymake-suppress-zero-counters t)
+  (flymake-fringe-indicator-position nil)
+  :bind (:map flymake-mode-map
+              ("M-n" . flymake-goto-next-error)
+              ("M-p" . flymake-goto-prev-error)))
+
+;; mark ring
+(use-package emacs
+  :config
+  (use-package my-simple
+    :bind (("s-[" . pop-local-mark)
+           ("M-s-[" . pop-global-mark)))
+  :custom
+  (mark-ring-max 6)
+  (global-mark-ring-max 12))
+
+(use-package minibuffer
+  :custom
+  (completion-auto-help 'visible)
+  (completion-auto-select 'second-tab)
+  (completions-header-format nil)
+  (completions-detailed t)
+  (completion-category-overrides
+   '((file (styles . (basic partial-completion flex)))
+     (project-file (styles . (basic substring partial-completion flex)))
+     (imenu (styles . (basic substring flex))))))
+
+(use-package marginalia
+  :ensure
+  :bind (:map minibuffer-local-map
+              ("M-A" . marginalia-cycle))
+  :init
+  (marginalia-mode))
+
+(use-package mouse
+  :custom
+  (context-menu-mode t)
+  (mouse-wheel-tilt-scroll t)
+  (mouse-wheel-flip-direction t))
+
+(use-package multiple-cursors
+  :ensure
+  :custom
+  (mc/match-cursor-style nil)
+  :preface
+  (defun my-multiple-cursors-mode-locals ()
+    (setq-local cursor-type 'box))
+  (defun my-multiple-cursors-mode-locals-reset ()
+    (kill-local-variable 'cursor-type))
+  :hook((multiple-cursors-mode-enabled . my-multiple-cursors-mode-locals)
+        (multiple-cursors-mode-disabled . my-multiple-cursors-mode-locals-reset))
+  :bind (("s-d" . mc/mark-next-like-this)
+         ("M-s-d" . mc/skip-to-next-like-this)
+         ("s-D" . mc/mark-all-dwim)
+         ("s-<mouse-1>" . mc/add-cursor-on-click)))
+
+;; pairs
+(use-package emacs
+  :custom
+  (delete-pair-blink-delay 0)
+  (show-paren-when-point-inside-paren t)
+  :config
+  (electric-pair-mode))
+
+;; scroll
+(use-package emacs
+  :custom
+  (scroll-preserve-screen-position t))
+
+(use-package substitute
+  :ensure
+  :bind (("M-# d" . substitute-target-in-defun)
+         ("M-# b" . substitute-target-in-buffer)
+         ("M-# s" . substitute-target-below-point)
+         ("M-# r" . substitute-target-above-point)))
+
+(use-package subword
+  :delight
+  :config
+  (global-subword-mode))
+
+;; undo
+(use-package emacs
+  :custom
+  (undo-no-redo t)
+  :bind
+  ("s-Z" . undo-redo))
+
+(use-package xref
+  :custom
+  (xref-history-storage #'xref-window-local-history))
+
+;;; Files
+
+(use-package emacs
+  :custom
+  (create-lockfiles nil)
+  (make-backup-files nil)
+  (delete-by-moving-to-trash t)
+  (save-place-mode t))
+
+(use-package autorevert
+  :custom
+  (global-auto-revert-non-file-buffers t)
+  :config
+  (global-auto-revert-mode))
+
+(use-package bookmark
+  :custom
+  (bookmark-save-flag 1))
+
+
+;;; Languages
+
+(use-package cc-mode
+  :preface
+  (defun my-c-mode-locals ()
+    (setq-local comment-style 'multi-line))
+  :init
+  (use-package my-reformatter)
+  :hook (c-mode . my-c-mode-locals)
+  :bind (:map c-mode-map
+              ("C-c C-f" . astyle-format-buffer)))
+
+(use-package c-ts-mode
+  :preface
+  (defun my-c-ts-mode-locals ()
+    (setq-local comment-style 'multi-line))
+  :init
+  (use-package my-reformatter)
+  :hook (c-ts-mode . my-c-ts-mode-locals)
+  :bind (:map c-ts-mode-map
+              ("C-c C-f" . astyle-format-buffer)))
+
+(use-package d2-ts-mode)
+
+(use-package elm-mode
+  :ensure
+  :config
+  ;; makes `elm-documentation-lookup' work
+  (defun elm-package-latest-version (package)
+    "Get the latest version of PACKAGE."
+    (let ((package (-find (lambda (p)
+                            (let-alist p
+                              (equal .name package)))
+                          elm-package--contents)))
+      (if (not package)
+          (error "Package not found")
+        (let-alist package
+          (elt .versions 0))))))
+
+(use-package emmet-mode
+  :ensure
+  :hook ((sgml-mode . emmet-mode)
+         (css-mode . emmet-mode)))
+
+(use-package json-ts-mode
+  :custom
+  (json-ts-mode-indent-offset 4))
+
+(use-package lua-mode
+  :ensure)
+
+(use-package markdown-mode
+  :ensure
+  :custom
+  (markdown-asymmetric-header t))
 
 (use-package python
   :custom
@@ -229,30 +423,15 @@
   :bind (:map python-mode-map
               ("C-c C-h" . python-eldoc-at-point)
               ("C-c C-f" . black-format-buffer)
-         :map python-ts-mode-map
+              :map python-ts-mode-map
               ("C-c C-h" . python-eldoc-at-point)
               ("C-c C-f" . black-format-buffer)))
 
-(use-package cc-mode
-  :preface
-  (defun my-c-mode-locals ()
-    (setq-local comment-style 'multi-line))
-  :init
-  (use-package my-reformatter)
-  :hook (c-mode . my-c-mode-locals)
-  :bind (:map c-mode-map
-              ("C-c C-f" . astyle-format-buffer)))
+(use-package re-builder
+  :custom
+  (reb-re-syntax 'string))
 
-(use-package c-ts-mode
-  :preface
-  (defun my-c-ts-mode-locals ()
-    (setq-local comment-style 'multi-line))
-  :init
-  (use-package my-reformatter)
-  :hook (c-ts-mode . my-c-ts-mode-locals)
-  :bind (:map c-ts-mode-map
-              ("C-c C-f" . astyle-format-buffer)))
-
+;; sql
 (use-package my-sql-presto
   :after sql)
 
@@ -260,122 +439,30 @@
   :custom
   (sgml-basic-offset 4))
 
-(use-package emmet-mode
+
+;;; Tools
+
+(use-package denote
   :ensure
-  :hook ((sgml-mode . emmet-mode)
-         (css-mode . emmet-mode)))
-
-(use-package json-ts-mode
   :custom
-  (json-ts-mode-indent-offset 4))
+  (denote-directory "~/Documents/Notes")
+  (denote-dired-directories (list denote-directory))
+  (denote-file-type 'markdown-toml)
+  (denote-known-keywords nil)
+  :hook (dired-mode . denote-dired-mode-in-directories))
 
-(use-package paren
-  :custom
-  (show-paren-when-point-inside-paren t))
-
-(use-package subword
-  :delight
-  :config
-  (global-subword-mode))
-
-(use-package elec-pair
-  :config
-  (electric-pair-mode))
-
-(use-package delsel
-  :config
-  (delete-selection-mode))
-
-(use-package minibuffer
-  :custom
-  (completion-auto-help 'visible)
-  (completion-auto-select 'second-tab)
-  (completions-header-format nil)
-  (completions-detailed t)
-  (completion-category-overrides
-        '((file (styles . (basic partial-completion flex)))
-          (project-file (styles . (basic substring partial-completion flex)))
-          (imenu (styles . (basic substring flex))))))
-
-(use-package icomplete
-  :config
-  (fido-vertical-mode))
-
-(use-package isearch
-  :custom
-  (isearch-lazy-count t)
-  (isearch-repeat-on-direction-change t)
-  (search-whitespace-regexp ".*?"))
-
-(use-package my-imenu
-  :after imenu
-  :config
-  (advice-add 'imenu--make-index-alist :filter-return 'my-imenu--flatten))
+(use-package denote-menu
+  :ensure)
 
 (use-package dired
   :custom
   (dired-auto-revert-buffer t))
 
-(use-package quail-russian-macintosh
+(use-package ediff
   :custom
-  (default-input-method "russian-macintosh"))
-
-(use-package select
-  :custom
-  (select-enable-clipboard nil)
-  (select-enable-primary t)
-  :bind (("s-c" . clipboard-kill-ring-save)
-         ("s-x" . clipboard-kill-region)
-         ("s-v" . clipboard-yank)))
-
-(use-package abbrev
-  :delight abbrev-mode
-  :custom
-  (abbrev-mode t)
-  (abbrev-suggest t))
-
-(use-package eldoc
-  :custom
-  (eldoc-minor-mode-string nil))
-
-(use-package autorevert
-  :custom
-  (global-auto-revert-non-file-buffers t)
-  :config
-  (global-auto-revert-mode))
-
-(use-package simple
-  :config
-  (use-package my-simple
-    :bind (("s-[" . pop-local-mark)
-           ("M-s-[" . pop-global-mark)))
-  :custom
-  (mark-ring-max 6)
-  (global-mark-ring-max 12))
-
-(use-package my-simple
-  :bind (("M-o" . split-line-at-the-beginning)
-         ("s-<return>" . add-line)
-         ("s-<" . shift-left)
-         ("s->" . shift-right)
-         ("C-a" . back-to-indentation-or-beginning)
-         ("s-<left>" . back-to-indentation-or-beginning)
-         ("s-l" . mark-line)))
-
-(use-package uniquify
-  :custom
-  (uniquify-buffer-name-style 'forward))
-
-(use-package flymake
-  :custom
-  (flymake-suppress-zero-counters t)
-  (flymake-fringe-indicator-position nil)
-  :bind (:map flymake-mode-map
-              ("M-n" . flymake-goto-next-error)
-              ("M-p" . flymake-goto-prev-error)))
-
-(use-package delight
-  :ensure t)
+  (ediff-keep-variants nil)
+  (ediff-split-window-function 'split-window-horizontally)
+  (ediff-window-setup-function 'ediff-setup-windows-plain))
 
 (use-package ibuffer
   :bind ("C-x C-b" . ibuffer))
@@ -393,95 +480,44 @@
   :hook
   (ibuffer . ibuffer-vc-set-filter-groups-by-vc-root))
 
+(use-package magit
+  :ensure
+  :init
+  (setq magit-bind-magit-project-status nil)
+  :custom
+  (magit-auto-revert-mode nil)
+  (magit-display-buffer-function #'magit-display-buffer-fullframe-status-topleft-v1)
+  :bind (:map project-prefix-map
+              ("m" . magit-project-status)))
+
 (use-package man
   :custom
   (Man-notify-method 'aggressive))
 
-(use-package ediff
-  :custom
-  (ediff-keep-variants nil)
-  (ediff-split-window-function 'split-window-horizontally)
-  (ediff-window-setup-function 'ediff-setup-windows-plain))
-
-(use-package corfu
-  :ensure
-  :custom
-  (corfu-cycle t)
-  :preface
-  (defun corfu-enable-in-minibuffer ()
-    "Enable Corfu in the minibuffer if `completion-at-point' is bound."
-    (when (where-is-internal #'completion-at-point (list (current-local-map)))
-      (setq-local corfu-echo-delay nil
-                  corfu-popupinfo-delay nil)
-      (corfu-mode 1)))
-  :hook
-  (minibuffer-setup . corfu-enable-in-minibuffer)
-  :init
-  (global-corfu-mode))
-
-(use-package marginalia
-  :ensure
-  :bind (:map minibuffer-local-map
-              ("M-A" . marginalia-cycle))
-  :init
-  (marginalia-mode))
-
-;; (use-package diff-hl
-;;   :ensure
-;;   :custom
-;;   (diff-hl-draw-borders nil)
-;;   :init
-;;   (setq diff-hl-reference-revision "origin/HEAD")
-;;   (global-diff-hl-mode)
-;;   (diff-hl-flydiff-mode))
-
-(use-package multiple-cursors
-  :ensure
-  :custom
-  (mc/match-cursor-style nil)
-  :preface
-  (defun my-multiple-cursors-mode-locals ()
-    (setq-local cursor-type 'box))
-  (defun my-multiple-cursors-mode-locals-reset ()
-    (kill-local-variable 'cursor-type))
-  :hook((multiple-cursors-mode-enabled . my-multiple-cursors-mode-locals)
-        (multiple-cursors-mode-disabled . my-multiple-cursors-mode-locals-reset))
-  :bind (("s-d" . mc/mark-next-like-this)
-         ("M-s-d" . mc/skip-to-next-like-this)
-         ("s-D" . mc/mark-all-dwim)
-         ("s-<mouse-1>" . mc/add-cursor-on-click)))
-
-(use-package eglot
-  :init
-  (setq eglot-stay-out-of '(imenu))
-  :custom
-  (eglot-ignored-server-capabilities '(:documentHighlightProvider))
-  (eglot-autoshutdown t))
-
-(use-package markdown-mode
-  :ensure
-  :custom
-  (markdown-asymmetric-header t))
-
-(use-package elm-mode
-  :ensure
+;; project
+(use-package my-project
+  :demand
   :config
-  ;; makes `elm-documentation-lookup' work
-  (defun elm-package-latest-version (package)
-    "Get the latest version of PACKAGE."
-    (let ((package (-find (lambda (p)
-                            (let-alist p
-                              (equal .name package)))
-                          elm-package--contents)))
-      (if (not package)
-          (error "Package not found")
-        (let-alist package
-          (elt .versions 0))))))
+  (setq frame-title-format '("%b" (:eval (my-current-project-file-suffix))))
+  :bind (:map project-prefix-map
+              ("S" . my-project-vc-create-branch-from-default)))
 
-(use-package lua-mode
-  :ensure)
+(use-package treesit-auto
+  :ensure
+  :custom
+  (treesit-auto-install 'prompt)
+  :config
+  (global-treesit-auto-mode))
 
-(use-package d2-ts-mode)
+(use-package uniquify
+  :custom
+  (uniquify-buffer-name-style 'forward))
+
+(use-package vc
+  :custom
+  (vc-follow-symlinks t)
+  (vc-handled-backends '(Git))
+  (vc-git-diff-switches '("--histogram")))
 
 (use-package which-key
   :ensure
@@ -493,34 +529,8 @@
   :config
   (which-key-mode))
 
-(use-package magit
-  :ensure
-  :init
-  (setq magit-bind-magit-project-status nil)
-  :custom
-  (magit-auto-revert-mode nil)
-  (magit-display-buffer-function #'magit-display-buffer-fullframe-status-topleft-v1)
-  :bind (:map project-prefix-map
-              ("m" . magit-project-status)))
 
-(use-package denote
-  :ensure
-  :custom
-  (denote-directory "~/Documents/Notes")
-  (denote-dired-directories (list denote-directory))
-  (denote-file-type 'markdown-toml)
-  (denote-known-keywords nil)
-  :hook (dired-mode . denote-dired-mode-in-directories))
-
-(use-package denote-menu
-  :ensure)
-
-(use-package substitute
-  :ensure
-  :bind (("M-# d" . substitute-target-in-defun)
-         ("M-# b" . substitute-target-in-buffer)
-         ("M-# s" . substitute-target-below-point)
-         ("M-# r" . substitute-target-above-point)))
+;;; Epilog
 
 (load custom-file)
 
