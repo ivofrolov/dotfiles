@@ -88,7 +88,8 @@
   (standard-indent 4)
   (tab-width 4)
   (tab-stop-list '(0 4))
-  (comment-column 0))
+  (comment-column 0)
+  (sentence-end-double-space nil))
 
 (use-package ispell
   :init
@@ -118,7 +119,7 @@
   (even-window-sizes nil)
   (fit-window-to-buffer-horizontally t)
   (window-resize-pixelwise t)
-  (switch-to-prev-buffer-skip-regexp '("\\*.+\\*" "magit"))
+  ;; (switch-to-prev-buffer-skip-regexp '("\\*.+\\*" "magit"))
   :bind (("s-{" . previous-buffer)
          ("s-}" . next-buffer)
          ("s-w" . kill-current-buffer)
@@ -168,6 +169,9 @@
   :custom
   (font-lock-maximum-decoration 2))
 
+(use-package bookmark
+  :custom
+  (bookmark-save-flag 1))
 
 (use-package xref
   :custom
@@ -308,6 +312,10 @@
   :config
   (advice-add 'imenu--make-index-alist :filter-return 'my-imenu--flatten))
 
+(use-package dired
+  :custom
+  (dired-auto-revert-buffer t))
+
 (use-package quail-russian-macintosh
   :custom
   (default-input-method "russian-macintosh"))
@@ -331,6 +339,8 @@
   (eldoc-minor-mode-string nil))
 
 (use-package autorevert
+  :custom
+  (global-auto-revert-non-file-buffers t)
   :config
   (global-auto-revert-mode))
 
@@ -383,6 +393,16 @@
   :hook
   (ibuffer . ibuffer-vc-set-filter-groups-by-vc-root))
 
+(use-package man
+  :custom
+  (Man-notify-method 'aggressive))
+
+(use-package ediff
+  :custom
+  (ediff-keep-variants nil)
+  (ediff-split-window-function 'split-window-horizontally)
+  (ediff-window-setup-function 'ediff-setup-windows-plain))
+
 (use-package corfu
   :ensure
   :custom
@@ -406,14 +426,14 @@
   :init
   (marginalia-mode))
 
-(use-package diff-hl
-  :ensure
-  :custom
-  (diff-hl-draw-borders nil)
-  :init
-  (setq diff-hl-reference-revision "origin/HEAD")
-  (global-diff-hl-mode)
-  (diff-hl-flydiff-mode))
+;; (use-package diff-hl
+;;   :ensure
+;;   :custom
+;;   (diff-hl-draw-borders nil)
+;;   :init
+;;   (setq diff-hl-reference-revision "origin/HEAD")
+;;   (global-diff-hl-mode)
+;;   (diff-hl-flydiff-mode))
 
 (use-package multiple-cursors
   :ensure
