@@ -112,6 +112,8 @@
   ;; (switch-to-buffer-obey-display-actions t)
   (even-window-sizes nil)
   (fit-window-to-buffer-horizontally t)
+  (split-width-threshold 140)
+  (split-height-threshold 70)
   (window-resize-pixelwise t)
   ;; (switch-to-prev-buffer-skip-regexp '("\\*.+\\*" "magit"))
   :bind (("s-{" . previous-buffer)
