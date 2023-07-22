@@ -153,6 +153,7 @@
          ("M-o" . split-line-at-the-beginning)
          ("M-z" . zap-up-to-char)
          ("M-u" . upcase-dwim)
+         ("M-U" . capitalize-dwim)
          ("M-l" . downcase-dwim)))
 
 (use-package icomplete
