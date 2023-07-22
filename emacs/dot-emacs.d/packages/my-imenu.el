@@ -7,10 +7,13 @@ PREFIX is prepended in front of all items."
    (lambda (item)
      (if (imenu--subalist-p item)
          (let* ((name (concat (car item)))
-                (next-prefix (if prefix (concat prefix "/" name) name)))
+                (next-prefix
+                 (if prefix (concat prefix imenu-level-separator name) name)))
            (my-imenu--flatten (cdr item) next-prefix))
        (list (cons
-              (if prefix (concat prefix " " (car item)) (car item))
+              (if prefix
+                  (concat prefix imenu-level-separator (car item))
+                (car item))
               (cdr item)))))
    list))
 

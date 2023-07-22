@@ -14,6 +14,17 @@
   (move-end-of-line 1)
   (default-indent-new-line))
 
+(defun move-line-down()
+  (interactive)
+  (forward-line 1)
+  (transpose-lines 1)
+  (forward-line -1))
+
+(defun move-line-up ()
+  (interactive)
+  (transpose-lines 1)
+  (forward-line -2))
+
 (defun back-to-indentation-or-beginning ()
   (interactive "^")
   (if (= (point) (progn (back-to-indentation) (point)))

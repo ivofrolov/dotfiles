@@ -1,4 +1,4 @@
-;;; Prolog
+;;; Prologue
 
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 
@@ -133,9 +133,13 @@
          ("s-x" . clipboard-kill-region)
          ("s-v" . clipboard-yank)))
 
-(use-package my-simple
+(use-package simple
   :custom
   (delete-selection-mode t)
+  (line-move-visual nil)
+  (track-eol t))
+
+(use-package my-simple
   :bind (("s-<return>" . add-line)
          ("C-a" . back-to-indentation-or-beginning)
          ("s-<left>" . back-to-indentation-or-beginning)
@@ -144,21 +148,24 @@
          ("s-l" . mark-line)
          ("s-<" . shift-left)
          ("s->" . shift-right)
+         ("C-s-<up>" . move-line-up)
+         ("C-s-<down>" . move-line-down)
          ("M-o" . split-line-at-the-beginning)
          ("M-z" . zap-up-to-char)
          ("M-u" . upcase-dwim)
-         ("M-l" . downcase-dwim)
-         ("M-c" . capitalize-dwim)))
+         ("M-l" . downcase-dwim)))
 
 (use-package icomplete
   :config
   (fido-vertical-mode))
 
-;; imenu
-(use-package my-imenu
-  :after imenu
+(use-package imenu
+  :custom
+  (imenu-auto-rescan t)
   :config
-  (advice-add 'imenu--make-index-alist :filter-return 'my-imenu--flatten))
+  (use-package my-imenu
+    :config
+    (advice-add 'imenu--make-index-alist :filter-return 'my-imenu--flatten)))
 
 ;; indent
 (use-package emacs
@@ -178,6 +185,7 @@
 
 (use-package isearch
   :custom
+  (isearch-wrap-pause 'no)
   (isearch-lazy-count t)
   (isearch-repeat-on-direction-change t)
   (search-whitespace-regexp ".*?"))
@@ -300,6 +308,10 @@
 (use-package emacs
   :custom
   (scroll-preserve-screen-position t))
+
+(use-package string-inflection
+  :ensure
+  :bind (("M-c" . string-inflection-all-cycle)))
 
 (use-package substitute
   :ensure
@@ -433,7 +445,6 @@
   :custom
   (reb-re-syntax 'string))
 
-;; sql
 (use-package sql-presto
   :after sql)
 
@@ -467,6 +478,8 @@
   (ediff-window-setup-function 'ediff-setup-windows-plain))
 
 (use-package ibuffer
+  :custom
+  (ibuffer-display-summary nil)
   :bind ("C-x C-b" . ibuffer))
 
 (use-package ibuffer-vc
@@ -532,7 +545,7 @@
   (which-key-mode))
 
 
-;;; Epilog
+;;; Epilogue
 
 (load custom-file)
 
