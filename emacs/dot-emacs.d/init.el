@@ -217,16 +217,16 @@
   :custom
   (combobulate-flash-node nil)
   :config
-  (unbind-key "M-<up>" combobulate-key-map)
-  (unbind-key "M-<down>" combobulate-key-map)
-  (unbind-key "M-<left>" combobulate-key-map)
-  (unbind-key "M-<right>" combobulate-key-map)
-  ;; :bind (:map combobulate-key-map
-  ;;             ("C-<up>" . combobulate-splice-up)
-  ;;             ("C-<down>" . combobulate-splice-down)
-  ;;             ("C-<left>" . combobulate-yeet-forward)
-  ;;             ("C-<right>" . combobulate-yoink-forward))
-  :hook ((python-ts-mode . combobulate-mode)))
+  (defun my-combobulate-disable-default-highlights ()
+    (setq-local combobulate-highlight-queries-default nil))
+  (advice-add 'combobulate-highlight-install :before 'my-combobulate-disable-default-highlights)
+  (unbind-key "M-<up>" combobulate-key-map) ; combobulate-splice-up
+  (unbind-key "M-<down>" combobulate-key-map) ; combobulate-splice-down
+  (unbind-key "M-<left>" combobulate-key-map) ; combobulate-yeet-forward
+  (unbind-key "M-<right>" combobulate-key-map) ; combobulate-yoink-forward
+  :hook ((python-ts-mode . combobulate-mode)
+         (js-ts-mode . combobulate-mode)
+         (css-ts-mode . combobulate-mode)))
 
 (use-package eglot
   :init
