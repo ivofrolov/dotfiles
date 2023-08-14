@@ -11,6 +11,7 @@ if status is-interactive
     end
 
     if string match -eq 'kitty' -- $TERM
-        alias ssh "kitty +kitten ssh"
+        alias ssh "kitten ssh"
+        alias icat "kitten icat"
     end
 end
