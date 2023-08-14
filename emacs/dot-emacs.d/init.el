@@ -217,7 +217,7 @@
   :custom
   (combobulate-flash-node nil)
   :config
-  (defun my-combobulate-disable-default-highlights ()
+  (defun my-combobulate-disable-default-highlights (_)
     (setq-local combobulate-highlight-queries-default nil))
   (advice-add 'combobulate-highlight-install :before 'my-combobulate-disable-default-highlights)
   (unbind-key "M-<up>" combobulate-key-map) ; combobulate-splice-up
