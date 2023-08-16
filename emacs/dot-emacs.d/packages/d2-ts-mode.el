@@ -53,7 +53,7 @@
   (setq-local comment-start-skip "#+\\s-*")
 
   (setq-local treesit-language-source-alist
-              (list (list 'd2 (list d2--treesit-language-grammar))))
+              (list (cons 'd2 (list d2--treesit-language-grammar))))
 
   (when (treesit-ready-p 'd2)
     (treesit-parser-create 'd2)
