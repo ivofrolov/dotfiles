@@ -141,8 +141,6 @@
 
 (use-package my-simple
   :bind (("s-<return>" . add-line)
-         ("C-a" . back-to-indentation-or-beginning)
-         ("s-<left>" . back-to-indentation-or-beginning)
          ("s-k" . duplicate-dwim)
          ("C-S-k" . kill-whole-line)
          ("s-l" . mark-line)
@@ -154,7 +152,12 @@
          ("M-z" . zap-up-to-char)
          ("M-u" . upcase-dwim)
          ("M-U" . capitalize-dwim)
-         ("M-l" . downcase-dwim)))
+         ("M-l" . downcase-dwim)
+         ("C-a" . back-to-indentation-or-beginning)
+         ("s-<left>" . back-to-indentation-or-beginning)
+         :map visual-line-mode-map
+         ("C-a" . beginning-of-visual-line)
+         ("s-<left>" . beginning-of-visual-line)))
 
 (use-package icomplete
   :config

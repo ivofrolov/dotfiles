@@ -1,8 +1,12 @@
 (require 'simple)
 
 (defun pop-local-mark ()
+  "Jump to mark or to the position of the last buffer change."
   (interactive)
-  (set-mark-command t))
+  (setq this-command 'pop-to-mark-command)
+  (if (eq last-command 'pop-to-mark-command)
+      (pop-to-mark-command)
+    (cua-pop-to-last-change)))
 
 (defun split-line-at-the-beginning ()
   (interactive)
@@ -66,7 +70,7 @@
             (point))))
         (t
          (push-mark (point) nil)
-         (beginning-of-line)
+         (back-to-indentation)
          (push-mark
           (save-excursion
             (move-end-of-line (prefix-numeric-value arg))
