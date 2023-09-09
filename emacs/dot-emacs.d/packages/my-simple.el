@@ -1,4 +1,5 @@
 (require 'simple)
+(require 'cua-base)
 
 (defun pop-local-mark ()
   "Jump to mark or to the position of the last buffer change."
@@ -6,7 +7,10 @@
   (setq this-command 'pop-to-mark-command)
   (if (eq last-command 'pop-to-mark-command)
       (pop-to-mark-command)
-    (cua-pop-to-last-change)))
+    (let ((pos (point)))
+      (cua-pop-to-last-change)
+      (if (eq pos (point))
+          (pop-to-mark-command)))))
 
 (defun split-line-at-the-beginning ()
   (interactive)

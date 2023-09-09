@@ -258,7 +258,7 @@
            ("M-s-[" . pop-global-mark)))
   :custom
   (mark-ring-max 6)
-  (global-mark-ring-max 12))
+  (global-mark-ring-max 8))
 
 (use-package minibuffer
   :custom
