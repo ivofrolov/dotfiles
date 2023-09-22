@@ -62,7 +62,19 @@
   :config
   (use-package my-fringe
     :config
-    (replace-fringe-indicators-to-half-width-bitmaps)))
+    (define-my-fringe-bitmaps)
+    (setq-default fringe-indicator-alist
+                  '((truncation my-ellipsis-half-width my-ellipsis-half-width)
+                    (continuation my-dash-half-width my-dash-half-width)
+                    (overlay-arrow . my-right-triangle-half-width)
+                    (up . up-arrow)
+                    (down . down-arrow)
+                    (top top-left-angle top-right-angle)
+                    (bottom bottom-left-angle bottom-right-angle top-right-angle top-left-angle)
+                    (top-bottom left-bracket right-bracket top-right-angle top-left-angle)
+                    (empty-line . empty-line)
+                    (unknown . my-question-mark-half-width)))
+    (setq bookmark-fringe-mark 'my-square-half-width)))
 
 ;; line numbers
 (use-package emacs
@@ -381,7 +393,7 @@
 
 (use-package bookmark
   :custom
-  (bookmark-save-flag 1))
+  (bookmark-save-flag nil))
 
 
 ;;; Languages
@@ -523,15 +535,15 @@
   :hook
   (ibuffer . ibuffer-vc-set-filter-groups-by-vc-root))
 
-(use-package magit
-  :ensure
-  :init
-  (setq magit-bind-magit-project-status nil)
-  :custom
-  (magit-auto-revert-mode nil)
-  (magit-display-buffer-function #'magit-display-buffer-fullframe-status-topleft-v1)
-  :bind (:map project-prefix-map
-              ("m" . magit-project-status)))
+;; (use-package magit
+;;   :ensure
+;;   :init
+;;   (setq magit-bind-magit-project-status nil)
+;;   :custom
+;;   (magit-auto-revert-mode nil)
+;;   (magit-display-buffer-function #'magit-display-buffer-fullframe-status-topleft-v1)
+;;   :bind (:map project-prefix-map
+;;               ("m" . magit-project-status)))
 
 (use-package man
   :custom

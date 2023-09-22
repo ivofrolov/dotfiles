@@ -28,8 +28,8 @@ For example, the following code defines a diagonal line.
                      num))
                  strings)))
 
-(defun replace-fringe-indicators-to-half-width-bitmaps ()
-  (define-fringe-bitmap 'left-arrow
+(defun define-my-fringe-bitmaps ()
+  (define-fringe-bitmap 'my-left-arrow-half-width
     (eval-when-compile
       (fringe-helper-convert
        "...X...."
@@ -40,7 +40,7 @@ For example, the following code defines a diagonal line.
        ".X......"
        "..X....."
        "...X....")))
-  (define-fringe-bitmap 'right-arrow
+  (define-fringe-bitmap 'my-right-arrow-half-width
     (eval-when-compile
       (fringe-helper-convert
        "X......."
@@ -51,31 +51,51 @@ For example, the following code defines a diagonal line.
        "..X....."
        ".X......"
        "X.......")))
-  (define-fringe-bitmap 'left-curly-arrow
+  (define-fringe-bitmap 'my-ellipsis-half-width
     (eval-when-compile
       (fringe-helper-convert
-       "X......."
-       "X......."
-       "XX......"
-       ".X......"
        ".XX....."
-       "..X....."
-       "..XX...."
-       "...X...."
-       "...X....")))
-  (define-fringe-bitmap 'right-curly-arrow
+       ".XX....."
+       "........"
+       ".XX....."
+       ".XX....."
+       "........"
+       ".XX....."
+       ".XX.....")))
+  (define-fringe-bitmap 'my-question-mark-half-width
     (eval-when-compile
       (fringe-helper-convert
-       "...X...."
-       "...X...."
-       "..XX...."
-       "..X....."
        ".XX....."
+       "X..X...."
+       "...X...."
+       "..X....."
        ".X......"
-       "XX......"
-       "X......."
-       "X.......")))
-  (define-fringe-bitmap 'left-triangle
+       ".X......"
+       "........"
+       ".X......")))
+  (define-fringe-bitmap 'my-dash-half-width
+    (eval-when-compile
+      (fringe-helper-convert
+       "........"
+       "........"
+       "........"
+       "XXXX...."
+       "XXXX...."
+       "........"
+       "........"
+       "........")))
+  (define-fringe-bitmap 'my-square-half-width
+    (eval-when-compile
+      (fringe-helper-convert
+       "........"
+       "........"
+       "XXXX...."
+       "XXXX...."
+       "XXXX...."
+       "XXXX...."
+       "........"
+       "........")))
+  (define-fringe-bitmap 'my-left-triangle-half-width
     (eval-when-compile
       (fringe-helper-convert
        "...X...."
@@ -86,7 +106,7 @@ For example, the following code defines a diagonal line.
        ".XXX...."
        "..XX...."
        "...X....")))
-  (define-fringe-bitmap 'right-triangle
+  (define-fringe-bitmap 'my-right-triangle-half-width
     (eval-when-compile
       (fringe-helper-convert
        "X......."
