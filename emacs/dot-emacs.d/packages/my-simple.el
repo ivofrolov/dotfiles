@@ -34,9 +34,16 @@
   (forward-line -2))
 
 (defun back-to-indentation-or-beginning ()
+  "Move point to the first non-whitespace character or to beginning
+of current visual line.
+
+Derived from `back-to-indentation'."
   (interactive "^")
-  (if (= (point) (progn (back-to-indentation) (point)))
-      (beginning-of-line)))
+  (let ((opoint (point)))
+    (beginning-of-visual-line 1)
+    (skip-syntax-forward " " (line-end-position))
+    (backward-prefix-chars)
+    (if (= opoint (point)) (beginning-of-visual-line 1))))
 
 (defun shift-text (N)
   (if (not (use-region-p))

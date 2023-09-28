@@ -168,8 +168,8 @@
          ("C-a" . back-to-indentation-or-beginning)
          ("s-<left>" . back-to-indentation-or-beginning)
          :map visual-line-mode-map
-         ("C-a" . beginning-of-visual-line)
-         ("s-<left>" . beginning-of-visual-line)))
+         ("C-a" . back-to-indentation-or-beginning)
+         ("s-<left>" . back-to-indentation-or-beginning)))
 
 (use-package icomplete
   :config
