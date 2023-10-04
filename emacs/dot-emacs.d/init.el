@@ -107,7 +107,11 @@
   :preface
   (custom-set-faces
    ;; don't extend the region to the edge of the window
-   `(region ((t :extend nil))))
+   '(region ((t :extend nil))))
+  :init
+  (setq modus-themes-common-palette-overrides
+        '((bg-region bg-ochre)
+          (fg-region unspecified)))
   :config
   (load-theme 'modus-operandi :no-confim)
   :bind ("<f5>" . modus-themes-toggle))
