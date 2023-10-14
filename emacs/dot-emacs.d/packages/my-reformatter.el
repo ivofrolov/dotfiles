@@ -1,10 +1,8 @@
 (require 'reformatter)
 
 (defvar black-format-args
-  '("-S" "-q" "-")
-  "Black config.
-
-Don't normalize string quotes or prefixes by default.")
+  '("-q" "-")
+  "Black config.")
 
 (defvar astyle-format-args
   '("--style=gnu" "--max-code-length=79" "--indent=spaces=2" "-n")
