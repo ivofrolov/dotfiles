@@ -153,7 +153,8 @@
   :custom
   (delete-selection-mode t)
   (line-move-visual nil)
-  (track-eol t))
+  (track-eol t)
+  (kill-whole-line t))
 
 (use-package my-simple
   :bind (("s-<return>" . add-line)
