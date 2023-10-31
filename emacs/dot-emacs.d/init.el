@@ -118,9 +118,9 @@
 
 (use-package window
   :custom
-  (display-buffer-base-action
-   '((display-buffer-reuse-window display-buffer-same-window)
-     (reusable-frames . t)))
+  ;; (display-buffer-base-action
+  ;;  '((display-buffer-reuse-window display-buffer-same-window)
+  ;;    (reusable-frames . t)))
   ;; (display-buffer-alist
   ;;  `((,(rx (or "*Help*" "*compilation*"))
   ;;     (display-buffer-reuse-window display-buffer-pop-up-window)
@@ -481,10 +481,10 @@
   (unbind-key "C-c C-j" python-ts-mode-map)
   :bind (:map python-mode-map
               ("C-c C-h" . python-eldoc-at-point)
-              ("C-c C-f" . black-format-buffer)
+              ("C-c C-f" . ruff-format-buffer)
               :map python-ts-mode-map
               ("C-c C-h" . python-eldoc-at-point)
-              ("C-c C-f" . black-format-buffer)))
+              ("C-c C-f" . ruff-format-buffer)))
 
 (use-package re-builder
   :custom

@@ -4,11 +4,14 @@
   '("-q" "-")
   "Black config.")
 
-(defvar astyle-format-args
-  '("--style=gnu" "--max-code-length=79" "--indent=spaces=2" "-n")
-  "Artistic Style config.
+(defvar ruff-format-args
+  '("format" "-q" "-")
+  "Ruff Formatter config.")
 
-Tries to follow GNU coding standards by default.")
+(defvar astyle-format-args
+  ;; tries to follow GNU coding standards by default
+  '("--style=gnu" "--max-code-length=79" "--indent=spaces=2" "-n")
+  "Artistic Style config.")
 
 ;;;###autoload (autoload 'black-format-buffer "current-file" nil t)
 ;;;###autoload (autoload 'black-format-region "current-file" nil t)
@@ -17,6 +20,14 @@ Tries to follow GNU coding standards by default.")
   :program "black"
   :args black-format-args
   :lighter " Black")
+
+;;;###autoload (autoload 'ruff-format-buffer "current-file" nil t)
+;;;###autoload (autoload 'ruff-format-region "current-file" nil t)
+;;;###autoload (autoload 'ruff-format-on-save-mode "current-file" nil t)
+(reformatter-define ruff-format
+  :program "ruff"
+  :args ruff-format-args
+  :lighter " Ruff")
 
 ;;;###autoload (autoload 'astyle-format-buffer "current-file" nil t)
 ;;;###autoload (autoload 'astyle-format-region "current-file" nil t)
