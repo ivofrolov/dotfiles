@@ -457,10 +457,27 @@
   :custom
   (markdown-asymmetric-header t))
 
+;; solves python shell communication issues on macos
 (use-package python
+  :preface
+  (defun my-python-delete-eval-expressions (output)
+    (string-join
+     (seq-remove
+      (apply-partially 'string-prefix-p "__PYTHON_EL_")
+      (string-lines output nil t))))
+  (defun my-inferior-python-mode-locals ()
+    (setq-local comint-process-echoes t)
+    (add-to-list (make-local-variable 'comint-preoutput-filter-functions)
+                 #'my-python-delete-eval-expressions))
+  :hook
+  (inferior-python-mode . my-inferior-python-mode-locals)
+  :config
+  (advice-add 'python-eldoc--get-doc-at-point
+              :filter-return #'my-python-delete-eval-expressions)
   :custom
-  (python-fill-docstring-style 'pep-257-nn)
-  (python-indent-def-block-scale 1)
+  (python-shell-completion-native-enable nil))
+
+(use-package python
   :preface
   (defun my-python-base-mode-locals ()
     (setq-local tab-width 4
@@ -469,6 +486,9 @@
   (python-base-mode . my-python-base-mode-locals)
   :init
   (use-package my-reformatter)
+  :custom
+  (python-fill-docstring-style 'pep-257-nn)
+  (python-indent-def-block-scale 1)
   :config
   (define-skeleton python-skeleton-ifmain
     "Insert top-level code environment check"
@@ -477,8 +497,8 @@
     >)
   (define-abbrev python-base-mode-abbrev-table "ifmain"
     "" 'python-skeleton-ifmain)
-  (unbind-key "C-c C-j" python-mode-map)
-  (unbind-key "C-c C-j" python-ts-mode-map)
+  (unbind-key "C-c C-j" python-mode-map)    ; imenu
+  (unbind-key "C-c C-j" python-ts-mode-map) ; imenu
   :bind (:map python-mode-map
               ("C-c C-h" . python-eldoc-at-point)
               ("C-c C-f" . ruff-format-buffer)
@@ -499,6 +519,11 @@
 
 
 ;;; Tools
+
+(use-package comint
+  :defer
+  :custom
+  (comint-input-ignoredups t))
 
 (use-package denote
   :ensure
@@ -588,6 +613,13 @@
   (which-key-idle-secondary-delay 0.05)
   :config
   (which-key-mode))
+
+;; should be loaded late in startup sequence
+(use-package envrc
+  :ensure
+  :custom
+  (envrc-none-lighter nil)
+  (envrc-global-mode t))
 
 
 ;;; Epilogue
