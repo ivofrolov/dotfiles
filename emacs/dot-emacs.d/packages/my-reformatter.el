@@ -5,7 +5,7 @@
   "Black config.")
 
 (defvar ruff-format-args
-  '("format" "-q" "-")
+  '("format" "-")
   "Ruff Formatter config.")
 
 (defvar astyle-format-args

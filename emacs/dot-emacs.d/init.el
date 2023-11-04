@@ -489,6 +489,17 @@
   :custom
   (python-fill-docstring-style 'pep-257-nn)
   (python-indent-def-block-scale 1)
+  (python-check-command "ruff check --output-format pylint")
+  (python-interpreter "python3")
+  (python-shell-interpreter "python3")
+  (python-flymake-command
+   '("ruff" "check" "--no-fix" "--output-format" "text" "-"))
+  (python-flymake-command-output-pattern
+   '("^\\(?:-\\):\\(?1:[0-9]+\\):\\(?:\\(?2:[0-9]+\\):?\\)? \\(?3:.*\\)$"
+     1 2 nil 3))
+  (python-flymake-msg-alist
+   '(("\\(^redefinition\\|.*unused.*\\|used$\\)" . :warning)
+     ("\\(un-sorted\\|un-formatted\\)" . :note)))
   :config
   (define-skeleton python-skeleton-ifmain
     "Insert top-level code environment check"
