@@ -86,11 +86,15 @@
 (use-package emacs
   :custom
   (truncate-lines t)
+  (truncate-partial-width-windows nil)
+  ;; :config
+  ;; (setq message-truncate-lines t)
   :preface
-  (defun my-truncate-lines-in-minibuffer ()
-    (setq-local truncate-lines t))
+  ;; (defun my-truncate-lines-in-minibuffer ()
+  ;;   (setq-local truncate-lines t))
   :hook (((text-mode help-mode) . visual-line-mode)
-         (minibuffer-setup . my-truncate-lines-in-minibuffer)))
+         ;; (minibuffer-setup . my-truncate-lines-in-minibuffer)
+         ))
 
 ;; modeline
 (use-package emacs
@@ -176,6 +180,14 @@
          ("C-a" . back-to-indentation-or-beginning)
          ("s-<left>" . back-to-indentation-or-beginning)))
 
+(use-package minibuffer
+  :custom
+  (completions-detailed t)
+  (minibuffer-electric-default-mode t)
+  (completion-styles '(basic substring initials flex partial-completion))
+  (completion-category-overrides
+   '((file (styles . (basic partial-completion initials substring))))))
+
 (use-package icomplete
   :config
   (fido-vertical-mode))
@@ -259,6 +271,12 @@
   :custom
   (eldoc-minor-mode-string nil))
 
+(use-package embark
+  :ensure
+  :bind
+  (("C-." . embark-act)
+   ("M-." . embark-dwim)))
+
 (use-package flymake
   :custom
   (flymake-suppress-zero-counters t)
@@ -276,24 +294,6 @@
   :custom
   (mark-ring-max 6)
   (global-mark-ring-max 8))
-
-(use-package minibuffer
-  :custom
-  (completion-auto-help 'visible)
-  (completion-auto-select 'second-tab)
-  (completions-header-format nil)
-  (completions-detailed t)
-  (completion-category-overrides
-   '((file (styles . (basic partial-completion flex)))
-     (project-file (styles . (basic substring partial-completion flex)))
-     (imenu (styles . (basic substring flex))))))
-
-(use-package marginalia
-  :ensure
-  :bind (:map minibuffer-local-map
-              ("M-A" . marginalia-cycle))
-  :init
-  (marginalia-mode))
 
 (use-package mouse
   :custom
