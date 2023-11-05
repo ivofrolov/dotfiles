@@ -184,9 +184,9 @@
   :custom
   (completions-detailed t)
   (minibuffer-electric-default-mode t)
-  (completion-styles '(basic substring initials flex partial-completion))
+  (completion-styles '(flex basic))
   (completion-category-overrides
-   '((file (styles . (basic partial-completion initials substring))))))
+   '((file (styles . (partial-completion))))))
 
 (use-package icomplete
   :config
@@ -273,6 +273,12 @@
 
 (use-package embark
   :ensure
+  :preface
+  (defun my-embark-bind-keys-in-fido-mode ()
+    (bind-key "C-." #'embark-act (current-local-map))
+    (unbind-key "C-," (current-local-map)))
+  :hook
+  (icomplete-minibuffer-setup . my-embark-bind-keys-in-fido-mode)
   :bind
   (("C-." . embark-act)
    ("M-." . embark-dwim)))
