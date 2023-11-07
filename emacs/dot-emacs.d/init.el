@@ -334,10 +334,9 @@
 ;; pairs
 (use-package emacs
   :custom
+  ;; (electric-pair-mode nil)
   (delete-pair-blink-delay 0)
-  (show-paren-when-point-inside-paren t)
-  :config
-  (electric-pair-mode))
+  (show-paren-when-point-inside-paren t))
 
 ;; scroll
 (use-package emacs
