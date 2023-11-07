@@ -15,6 +15,10 @@
   (abbrev-mode t)
   (abbrev-suggest t))
 
+(use-package dabbrev
+  :custom
+  (dabbrev-ignored-buffer-regexps '("^ \*.*\*$")))
+
 
 ;;; Display
 
