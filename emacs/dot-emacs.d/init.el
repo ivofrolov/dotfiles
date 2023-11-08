@@ -439,6 +439,7 @@
 (use-package d2-ts-mode)
 
 (use-package elm-mode
+  :defer
   :config
   ;; makes `elm-documentation-lookup' work
   (defun elm-package-latest-version (package)
