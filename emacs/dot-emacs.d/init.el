@@ -284,8 +284,7 @@
   :hook
   (icomplete-minibuffer-setup . my-embark-bind-keys-in-fido-mode)
   :bind
-  (("C-." . embark-act)
-   ("M-." . embark-dwim)))
+  (("C-." . embark-act)))
 
 (use-package flymake
   :custom
