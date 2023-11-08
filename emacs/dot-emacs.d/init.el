@@ -334,7 +334,7 @@
 ;; pairs
 (use-package emacs
   :custom
-  ;; (electric-pair-mode nil)
+  ;; (electric-pair-mode t)
   (delete-pair-blink-delay 0)
   (show-paren-when-point-inside-paren t))
 
@@ -439,7 +439,6 @@
 (use-package d2-ts-mode)
 
 (use-package elm-mode
-  :ensure
   :config
   ;; makes `elm-documentation-lookup' work
   (defun elm-package-latest-version (package)
@@ -454,7 +453,6 @@
           (elt .versions 0))))))
 
 (use-package emmet-mode
-  :ensure
   :hook ((sgml-mode . emmet-mode)
          (css-mode . emmet-mode)))
 
@@ -462,11 +460,7 @@
   :custom
   (json-ts-mode-indent-offset 4))
 
-(use-package lua-mode
-  :ensure)
-
 (use-package markdown-mode
-  :ensure
   :custom
   (markdown-asymmetric-header t))
 
@@ -550,16 +544,12 @@
   (comint-input-ignoredups t))
 
 (use-package denote
-  :ensure
   :custom
   (denote-directory "~/Documents/Notes")
   (denote-dired-directories (list denote-directory))
   (denote-file-type 'markdown-toml)
   (denote-known-keywords nil)
   :hook (dired-mode . denote-dired-mode-in-directories))
-
-(use-package denote-menu
-  :ensure)
 
 (use-package dired
   :custom
