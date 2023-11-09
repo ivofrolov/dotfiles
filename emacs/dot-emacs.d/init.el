@@ -296,6 +296,15 @@
 
 ;; mark ring
 (use-package emacs
+  :preface
+  (defun my-multi-pop-to-mark (oldfun &rest args)
+    "When popping the mark, continue popping until the cursor actually moves.
+Try the repeated popping up to 10 times."
+    (let ((p (point)))
+      (dotimes (i 10)
+        (when (= p (point))
+          (apply oldfun args)))))
+  (advice-add 'pop-to-mark-command :around #'my-multi-pop-to-mark)
   :config
   (use-package my-simple
     :bind (("s-[" . pop-local-mark)
@@ -333,7 +342,7 @@
 ;; pairs
 (use-package emacs
   :custom
-  ;; (electric-pair-mode t)
+  (electric-pair-mode t)
   (delete-pair-blink-delay 0)
   (show-paren-when-point-inside-paren t))
 
