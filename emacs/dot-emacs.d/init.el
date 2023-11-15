@@ -432,7 +432,13 @@ Try the repeated popping up to 10 times."
   (use-package my-reformatter)
   :hook (c-mode . my-c-mode-locals)
   :bind (:map c-mode-map
-              ("C-c C-f" . astyle-format-buffer)))
+              ("C-c C-f" . astyle-format-buffer))
+  :custom
+  (c-basic-offset 2)
+  (c-default-style '((java-mode . "java")
+                     (awk-mode . "awk")
+                     (csharp-mode . "csharp")
+                     (other . "k&r"))))
 
 (use-package c-ts-mode
   :preface
@@ -442,7 +448,10 @@ Try the repeated popping up to 10 times."
   (use-package my-reformatter)
   :hook (c-ts-mode . my-c-ts-mode-locals)
   :bind (:map c-ts-mode-map
-              ("C-c C-f" . astyle-format-buffer)))
+              ("C-c C-f" . astyle-format-buffer))
+  :custom
+  (c-ts-mode-indent-offset 2)
+  (c-ts-mode-indent-style 'k&r))
 
 (use-package d2-ts-mode)
 

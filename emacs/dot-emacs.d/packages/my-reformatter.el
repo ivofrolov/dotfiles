@@ -9,8 +9,7 @@
   "Ruff Formatter config.")
 
 (defvar astyle-format-args
-  ;; tries to follow GNU coding standards by default
-  '("--style=gnu" "--max-code-length=79" "--indent=spaces=2" "-n")
+  '("--style=attach" "--max-code-length=79" "--indent=spaces=2" "-n")
   "Artistic Style config.")
 
 ;;;###autoload (autoload 'black-format-buffer "current-file" nil t)
