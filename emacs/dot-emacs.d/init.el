@@ -124,6 +124,11 @@
   (load-theme 'modus-operandi :no-confim)
   :bind ("<f5>" . modus-themes-toggle))
 
+(use-package tab-line
+  :custom
+  (tab-line-close-button-show nil)
+  (tab-line-new-button-show nil))
+
 (use-package window
   :custom
   ;; (display-buffer-base-action
