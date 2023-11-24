@@ -17,7 +17,7 @@
   :stdout nil)
 
 (defvar d2--treesit-language-grammar
-  "https://git.pleshevski.ru/pleshevskiy/tree-sitter-d2.git")
+  "https://codeberg.org/p8i/tree-sitter-d2.git")
 
 (defvar d2-mode-syntax-table
   (let ((table (make-syntax-table)))
@@ -26,19 +26,32 @@
     table)
   "Syntax table for D2 files.")
 
-(defvar d2--treesit-settings
+(defvar d2--treesit-font-lock-settings
   (treesit-font-lock-rules
-   :feature 'comment
    :language 'd2
+   :feature 'comment
    '((line_comment) @font-lock-comment-face
      (block_comment) @font-lock-comment-face))
   "Tree-sitter font-lock settings.")
+
+(defvar d2--treesit-indent-rules
+  `((d2
+     ((node-is "}") parent-bol 0)
+     ((parent-is "block") parent-bol 2)))
+  "Tree-sitter indent rules")
 
 (defvar d2-ts-mode-map
   (let ((map (make-sparse-keymap)))
     (define-key map (kbd "C-c C-f") 'd2-format-buffer)
     map)
   "Keymap for `d2-ts-mode'.")
+
+(defun d2--ts-mode-setup ()
+  (setq-local treesit-font-lock-settings d2--treesit-font-lock-settings)
+  (setq-local treesit-font-lock-feature-list
+              '((comment)))
+  (setq-local treesit-simple-indent-rules d2--treesit-indent-rules)
+  (treesit-major-mode-setup))
 
 ;;;###autoload
 (add-to-list 'auto-mode-alist '("\\.d2\\'" . d2-ts-mode))
@@ -57,9 +70,6 @@
 
   (when (treesit-ready-p 'd2)
     (treesit-parser-create 'd2)
-    (setq-local treesit-font-lock-settings d2--treesit-settings)
-    (setq-local treesit-font-lock-feature-list
-                '((comment)))
-    (treesit-major-mode-setup)))
+    (d2--ts-mode-setup)))
 
 (provide 'd2-ts-mode)
