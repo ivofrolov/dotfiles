@@ -17,7 +17,7 @@
 
 (use-package dabbrev
   :custom
-  (dabbrev-ignored-buffer-regexps '("^ \*.*\*$")))
+  (dabbrev-ignored-buffer-regexps '("^ \\*.*\\*$")))
 
 
 ;;; Display
