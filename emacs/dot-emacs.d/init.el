@@ -485,7 +485,10 @@ Try the repeated popping up to 10 times."
 
 (use-package markdown-mode
   :custom
-  (markdown-asymmetric-header t))
+  (markdown-open-command "marked")
+  (markdown-asymmetric-header t)
+  :mode
+  ("README\\.md\\'" . gfm-mode))
 
 ;; solves python shell communication issues on macos
 (use-package python
