@@ -280,16 +280,16 @@
   :custom
   (eldoc-minor-mode-string nil))
 
-(use-package embark
-  :ensure
-  :preface
-  (defun my-embark-bind-keys-in-fido-mode ()
-    (bind-key "C-." #'embark-act (current-local-map))
-    (unbind-key "C-," (current-local-map)))
-  :hook
-  (icomplete-minibuffer-setup . my-embark-bind-keys-in-fido-mode)
-  :bind
-  (("C-." . embark-act)))
+;; (use-package embark
+;;   :ensure
+;;   :preface
+;;   (defun my-embark-bind-keys-in-fido-mode ()
+;;     (bind-key "C-." #'embark-act (current-local-map))
+;;     (unbind-key "C-," (current-local-map)))
+;;   :hook
+;;   (icomplete-minibuffer-setup . my-embark-bind-keys-in-fido-mode)
+;;   :bind
+;;   (("C-." . embark-act)))
 
 (use-package flymake
   :custom
