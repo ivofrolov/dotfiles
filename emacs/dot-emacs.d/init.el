@@ -144,6 +144,7 @@
   (split-width-threshold 140)
   (split-height-threshold 70)
   (window-resize-pixelwise t)
+  (max-mini-window-height 0.2)
   ;; (switch-to-prev-buffer-skip-regexp '("\\*.+\\*" "magit"))
   :bind (("s-{" . previous-buffer)
          ("s-}" . next-buffer)
@@ -278,7 +279,9 @@
 
 (use-package eldoc
   :custom
-  (eldoc-minor-mode-string nil))
+  (eldoc-minor-mode-string nil)
+  (eldoc-echo-area-display-truncation-message nil)
+  (eldoc-echo-area-prefer-doc-buffer t))
 
 ;; (use-package embark
 ;;   :ensure
