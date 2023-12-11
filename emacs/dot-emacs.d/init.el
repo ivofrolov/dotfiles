@@ -564,6 +564,9 @@ Try the repeated popping up to 10 times."
   :custom
   (sgml-basic-offset 4))
 
+(use-package zig-mode
+  :custom
+  (zig-format-on-save nil))
 
 ;;; Tools
 
