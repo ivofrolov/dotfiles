@@ -149,6 +149,8 @@
   :bind (("s-{" . previous-buffer)
          ("s-}" . next-buffer)
          ("s-w" . kill-current-buffer)
+         ("s-n" . scratch-buffer)
+         ("s-N" . make-frame)
          ("s-W" . delete-frame)))
 
 
