@@ -482,7 +482,12 @@ Try the repeated popping up to 10 times."
 
 (use-package emmet-mode
   :hook ((sgml-mode . emmet-mode)
-         (css-mode . emmet-mode)))
+         (css-mode . emmet-mode))
+  :bind
+  (:map emmet-mode-keymap
+        ("C-M-i" . emmet-expand-line))
+  :config
+  (unbind-key "C-j" emmet-mode-keymap))
 
 (use-package json-ts-mode
   :custom
@@ -567,6 +572,7 @@ Try the repeated popping up to 10 times."
   (sgml-basic-offset 4))
 
 (use-package zig-mode
+  :defer
   :custom
   (zig-format-on-save nil))
 
