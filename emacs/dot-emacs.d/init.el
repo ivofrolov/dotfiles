@@ -119,7 +119,9 @@
   :init
   (setq modus-themes-common-palette-overrides
         '((bg-region bg-ochre)
-          (fg-region unspecified)))
+          (fg-region unspecified)
+          (comment green-faint)
+          (docstring green-faint)))
   :config
   (load-theme 'modus-operandi :no-confim)
   :bind ("<f5>" . modus-themes-toggle))
