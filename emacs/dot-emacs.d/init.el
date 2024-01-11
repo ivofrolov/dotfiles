@@ -527,11 +527,8 @@ Try the repeated popping up to 10 times."
   (defun my-python-base-mode-locals ()
     (setq-local tab-width 4
                 comment-inline-offset 2))
-  (defun my-python-ts-mode-locals ()
-    (treesit-font-lock-recompute-features nil '(type)))
   :hook
   (python-base-mode . my-python-base-mode-locals)
-  (python-ts-mode . my-python-ts-mode-locals)
   :init
   (use-package my-reformatter)
   :custom
