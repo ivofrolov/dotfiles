@@ -161,23 +161,24 @@
 ;; clipboard
 (use-package emacs
   :custom
+  (kill-do-not-save-duplicates t)
+  (kill-whole-line t)
   (select-enable-clipboard nil)
   (select-enable-primary t)
   :bind (("s-c" . clipboard-kill-ring-save)
          ("s-x" . clipboard-kill-region)
-         ("s-v" . clipboard-yank)))
+         ("s-v" . clipboard-yank)
+         ("C-S-k" . kill-whole-line)))
 
 (use-package simple
   :custom
   (delete-selection-mode t)
   (line-move-visual nil)
-  (track-eol t)
-  (kill-whole-line t))
+  (track-eol t))
 
 (use-package my-simple
   :bind (("s-<return>" . add-line)
          ("s-k" . duplicate-dwim)
-         ("C-S-k" . kill-whole-line)
          ("s-l" . mark-line)
          ("s-<" . shift-left)
          ("s->" . shift-right)
