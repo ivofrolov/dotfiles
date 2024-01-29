@@ -25,4 +25,11 @@
     (vc-pull)
     (vc-create-tag dir name t)))
 
+(defun package-unload-reinstall (pkg)
+  (interactive
+   (list (intern (completing-read "Reinstall package: " (mapcar #'car package-alist)))))
+  (unload-feature pkg)
+  (package-reinstall pkg)
+  (require pkg))
+
 (provide 'my-project)
