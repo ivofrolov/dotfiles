@@ -45,24 +45,15 @@ Derived from `back-to-indentation'."
     (backward-prefix-chars)
     (if (= opoint (point)) (beginning-of-visual-line 1))))
 
-(defun shift-text (N)
-  (if (not (use-region-p))
-      (indent-rigidly (line-beginning-position) (line-end-position) N)
-    (let ((mark (mark)))
-      (save-excursion
-        (indent-rigidly (region-beginning) (region-end) N)
-        (set-mark mark)
-        (setq deactivate-mark nil)))))
+(defun shift-left (start end)
+  "Shift text in the region left `tab-width' columns."
+  (interactive "r")
+  (indent-rigidly start end (- tab-width)))
 
-(defun shift-left ()
-  "Shift text left `tab-width' columns."
-  (interactive)
-  (shift-text (- tab-width)))
-
-(defun shift-right ()
-  "Shift text right `tab-width' columns."
-  (interactive)
-  (shift-text tab-width))
+(defun shift-right (start end)
+  "Shift text in the region right `tab-width' columns."
+  (interactive "r")
+  (indent-rigidly start end tab-width))
 
 (defun mark-line (&optional arg allow-extend)
   "Set mark ARG lines. Derived from `mark-word'"
