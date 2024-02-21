@@ -486,9 +486,8 @@ Try the repeated popping up to 10 times."
 (use-package emmet-mode
   :hook ((sgml-mode . emmet-mode)
          (css-mode . emmet-mode))
-  :bind
-  (:map emmet-mode-keymap
-        ("C-M-i" . emmet-expand-line))
+  :bind (:map emmet-mode-keymap
+         ("C-M-i" . emmet-expand-line))
   :config
   (unbind-key "C-j" emmet-mode-keymap))
 
@@ -572,7 +571,10 @@ Try the repeated popping up to 10 times."
 
 (use-package sgml-mode
   :custom
-  (sgml-basic-offset 4))
+  (sgml-basic-offset 4)
+  :bind (:map sgml-mode-map
+         ("C-M-n" . sgml-skip-tag-forward)
+         ("C-M-p" . sgml-skip-tag-backward)))
 
 (use-package zig-mode
   :defer
