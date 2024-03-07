@@ -263,6 +263,7 @@
   ;; (package-vc-install "https://github.com/mickeynp/combobulate")
   :custom
   (combobulate-flash-node nil)
+  (combobulate-proffer-allow-numeric-selection nil)
   :config
   (defun my-combobulate-disable-default-highlights (_)
     (setq-local combobulate-highlight-queries-default nil))
