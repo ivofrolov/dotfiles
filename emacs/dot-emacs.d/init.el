@@ -598,7 +598,6 @@ Try the repeated popping up to 10 times."
   :custom
   (denote-directory "~/Documents/Notes")
   (denote-dired-directories (list denote-directory))
-  (denote-file-type 'markdown-toml)
   (denote-known-keywords nil)
   :hook (dired-mode . denote-dired-mode-in-directories))
 
@@ -651,6 +650,9 @@ Try the repeated popping up to 10 times."
   (setq frame-title-format '("%b" (:eval (my-current-project-file-suffix))))
   :bind (:map project-prefix-map
               ("S" . my-project-vc-create-branch-from-default)))
+
+;; package
+(use-package my-package)
 
 (use-package treesit-auto
   :ensure
