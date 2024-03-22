@@ -195,17 +195,35 @@
          ("C-a" . back-to-indentation-or-beginning)
          ("s-<left>" . back-to-indentation-or-beginning)))
 
+;; completions
 (use-package minibuffer
   :custom
+  (read-extended-command-predicate #'command-completion-default-include-p)
   (completions-detailed t)
   (minibuffer-electric-default-mode t)
-  (completion-styles '(flex basic))
-  (completion-category-overrides
-   '((file (styles . (partial-completion))))))
+  ;; (enable-recursive-minibuffers t)
+  (minibuffer-prompt-properties
+   '(read-only t cursor-intangible t face minibuffer-prompt))
+  :hook
+  (minibuffer-setup . cursor-intangible-mode))
 
-(use-package icomplete
-  :config
-  (fido-vertical-mode))
+(use-package vertico
+  :ensure
+  :init
+  (vertico-mode)
+  :custom
+  (vertico-cycle t))
+
+(use-package orderless
+  :ensure
+  :custom
+  (completion-styles '(orderless basic))
+  (completion-category-defaults nil)
+  (completion-category-overrides '((file (styles basic partial-completion)))))
+
+;; (use-package icomplete
+;;   :config
+;;   (fido-vertical-mode))
 
 (use-package imenu
   :custom
@@ -256,6 +274,8 @@
       (corfu-mode 1)))
   :hook
   (minibuffer-setup . corfu-enable-in-minibuffer)
+  :bind
+  (:map corfu-map ("SPC" . corfu-insert-separator))
   :init
   (global-corfu-mode))
 
