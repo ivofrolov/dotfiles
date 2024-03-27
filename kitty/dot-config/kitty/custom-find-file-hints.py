@@ -24,7 +24,7 @@ def mark(text, args, Mark, extra_cli_args, *a):
             groupdict["col"] = linecol_match.group(2)
             path = path[:linecol_match.start()]
             end = start + linecol_match.end()
-        elif func_matches := list(re.finditer(r"\:\:(\w+)", path)):
+        elif func_matches := list(re.finditer(r"\:\:([\w\r\n]+)", path)):
             groupdict["func"] = ".".join(m.group(1) for m in func_matches)
             path = path[:func_matches[0].start()]
             end = start + func_matches[-1].end()
