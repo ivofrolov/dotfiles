@@ -609,6 +609,13 @@ Try the repeated popping up to 10 times."
 
 ;;; Tools
 
+(use-package avy
+  :bind
+  (("M-g w" . avy-goto-word-or-subword-1)
+   ("C-'" . avy-goto-char-timer)
+   :map isearch-mode-map
+   ("C-'" . avy-isearch)))
+
 (use-package comint
   :defer
   :custom
