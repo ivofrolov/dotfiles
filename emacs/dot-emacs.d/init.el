@@ -679,7 +679,11 @@ Try the repeated popping up to 10 times."
               ("S" . my-project-vc-create-branch-from-default)))
 
 ;; package
-(use-package my-package)
+(use-package package
+  :custom
+  (package-install-upgrade-built-in t)
+  :config
+  (use-package my-package))
 
 (use-package treesit-auto
   :ensure
