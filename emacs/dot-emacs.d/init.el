@@ -155,6 +155,9 @@
          ("s-N" . make-frame)
          ("s-W" . delete-frame)))
 
+(use-package my-window
+  :bind (("C-x 4 o" . my-move-buffer-other-window)))
+
 
 ;;; Editing
 
