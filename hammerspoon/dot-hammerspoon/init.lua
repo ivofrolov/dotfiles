@@ -18,6 +18,6 @@ end
 
 hs.window.animationDuration = 0
 
-hs.hotkey.bind('cmd', 'f7', focusedWindowLayout(hs.layout.left50))
-hs.hotkey.bind('cmd', 'f9', focusedWindowLayout(hs.layout.right50))
-hs.hotkey.bind('cmd', 'f8', focusedWindowLayout(hs.layout.maximized))
+hs.hotkey.bind('ctrl cmd', 'left', focusedWindowLayout(hs.layout.left50))
+hs.hotkey.bind('ctrl cmd', 'right', focusedWindowLayout(hs.layout.right50))
+hs.hotkey.bind('ctrl cmd', 'up', focusedWindowLayout(hs.layout.maximized))
