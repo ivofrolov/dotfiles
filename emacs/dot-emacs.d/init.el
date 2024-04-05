@@ -625,6 +625,7 @@ Try the repeated popping up to 10 times."
   (comint-input-ignoredups t))
 
 (use-package denote
+  :defer
   :custom
   (denote-directory "~/Documents/Notes")
   (denote-dired-directories (list denote-directory))
@@ -687,6 +688,17 @@ Try the repeated popping up to 10 times."
   (package-install-upgrade-built-in t)
   :config
   (use-package my-package))
+
+;; org
+(use-package org
+  :defer
+  :init
+  (use-package ob-d2
+    :ensure)
+  :custom
+  (org-babel-load-languages '((emacs-lisp . t) (d2 . t)))
+  :config
+  (add-to-list 'org-src-lang-modes '("d2" . d2-ts)))
 
 (use-package treesit-auto
   :ensure
