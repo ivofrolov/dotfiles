@@ -690,15 +690,14 @@ Try the repeated popping up to 10 times."
   (use-package my-package))
 
 ;; org
-(use-package org
-  :defer
-  :init
-  (use-package ob-d2
-    :ensure)
-  :custom
-  (org-babel-load-languages '((emacs-lisp . t) (d2 . t)))
+(use-package ob-d2
+  :ensure
+  :after org
   :config
-  (add-to-list 'org-src-lang-modes '("d2" . d2-ts)))
+  (add-to-list 'org-src-lang-modes '("d2" . d2-ts))
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((d2 . t))))
 
 (use-package treesit-auto
   :ensure
