@@ -5,7 +5,6 @@
   (interactive)
   (let ((buffer (current-buffer)))
     (previous-buffer)
-    (other-window 1)
-    (set-window-buffer (selected-window) buffer)))
+    (switch-to-buffer-other-window buffer)))
 
 (provide 'my-window)
