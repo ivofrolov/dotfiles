@@ -690,6 +690,14 @@ Try the repeated popping up to 10 times."
   (use-package my-package))
 
 ;; org
+(use-package org
+  :custom
+  (org-cycle-separator-lines 0)
+  :bind
+  (:map org-mode-map
+        ("C-M-n" . org-next-visible-heading)
+        ("C-M-p" . org-previous-visible-heading)))
+
 (use-package ob-d2
   :ensure
   :after org
