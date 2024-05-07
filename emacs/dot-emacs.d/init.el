@@ -6,6 +6,8 @@
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 (add-to-list 'load-path (locate-user-emacs-file "packages"))
 
+(add-to-list 'exec-path "/usr/local/bin")
+
 
 ;;; Abbreviations
 
@@ -189,6 +191,7 @@
          ("M-N" . move-line-down)
          ("M-o" . split-line-at-the-beginning)
          ("M-z" . zap-up-to-char)
+         ("C-S-d" . delete-pair)
          ("M-u" . upcase-dwim)
          ("M-U" . capitalize-dwim)
          ("M-l" . downcase-dwim)
@@ -308,7 +311,11 @@
   :init
   (setq eglot-stay-out-of '(imenu))
   :custom
-  (eglot-ignored-server-capabilities '(:documentHighlightProvider))
+  (eglot-ignored-server-capabilities '(:documentHighlightProvider
+                                       :documentFormattingProvider
+                                       :documentRangeFormattingProvider
+                                       :documentOnTypeFormattingProvider
+                                       :inlayHintProvider))
   (eglot-autoshutdown t))
 
 (use-package eldoc
@@ -619,6 +626,10 @@ Try the repeated popping up to 10 times."
    :map isearch-mode-map
    ("C-'" . avy-isearch)))
 
+(use-package casual
+  :bind (:map calc-mode-map
+         ("C-o" . casual-main-menu)))
+
 (use-package comint
   :defer
   :custom
@@ -634,7 +645,11 @@ Try the repeated popping up to 10 times."
 
 (use-package dired
   :custom
-  (dired-auto-revert-buffer t))
+  (dired-listing-switches "-Ahl")
+  (dired-auto-revert-buffer t)
+  (dired-free-space nil)
+  (dired-hide-details-hide-symlink-targets nil)
+  :hook (dired-mode . dired-hide-details-mode))
 
 (use-package ediff
   :custom
@@ -672,7 +687,7 @@ Try the repeated popping up to 10 times."
 
 (use-package man
   :custom
-  (Man-notify-method 'aggressive))
+  (Man-notify-method 'thrifty))
 
 ;; project
 (use-package my-project
