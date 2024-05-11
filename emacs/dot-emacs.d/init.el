@@ -504,6 +504,12 @@ Try the repeated popping up to 10 times."
 
 (use-package d2-ts-mode)
 
+(use-package haskell
+  :config
+  (setq haskell-check-error-fringe nil)
+  (setq haskell-check-warning-fringe nil)
+  (setq haskell-check-hole-fringe nil))
+
 (use-package elm-mode
   :defer
   :config

@@ -62,6 +62,17 @@ For example, the following code defines a diagonal line.
        "........"
        ".XX....."
        ".XX.....")))
+  (define-fringe-bitmap 'my-exclamation-mark-half-width
+    (eval-when-compile
+      (fringe-helper-convert
+       ".XX....."
+       ".XX....."
+       ".XX....."
+       ".XX....."
+       ".XX....."
+       "........"
+       ".XX....."
+       ".XX.....")))
   (define-fringe-bitmap 'my-question-mark-half-width
     (eval-when-compile
       (fringe-helper-convert
@@ -69,10 +80,10 @@ For example, the following code defines a diagonal line.
        "X..X...."
        "...X...."
        "..X....."
-       ".X......"
-       ".X......"
+       ".XX....."
        "........"
-       ".X......")))
+       ".XX....."
+       ".XX.....")))
   (define-fringe-bitmap 'my-dash-half-width
     (eval-when-compile
       (fringe-helper-convert
@@ -84,6 +95,17 @@ For example, the following code defines a diagonal line.
        "........"
        "........"
        "........")))
+  (define-fringe-bitmap 'my-horizontal-bar-half-width
+    (eval-when-compile
+      (fringe-helper-convert
+       "........"
+       "........"
+       "........"
+       "........"
+       "........"
+       "........"
+       "XXXX...."
+       "XXXX....")))
   (define-fringe-bitmap 'my-square-half-width
     (eval-when-compile
       (fringe-helper-convert
