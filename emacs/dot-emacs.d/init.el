@@ -695,6 +695,13 @@ Try the repeated popping up to 10 times."
   :custom
   (Man-notify-method 'thrifty))
 
+(use-package marginalia
+  :bind
+  (:map minibuffer-local-map
+        ("M-A" . marginalia-cycle))
+  :init
+  (marginalia-mode))
+
 ;; project
 (use-package my-project
   :demand
@@ -727,6 +734,18 @@ Try the repeated popping up to 10 times."
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((d2 . t))))
+
+(use-package recentf
+  :custom
+  (recentf-mode t))
+
+(use-package repeat
+  :custom
+  (repeat-mode t))
+
+(use-package savehist
+  :custom
+  (savehist-mode t))
 
 (use-package treesit-auto
   :ensure
