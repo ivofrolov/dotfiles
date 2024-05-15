@@ -253,6 +253,7 @@
 ;; input
 (use-package quail-russian-macintosh
   :custom
+  (default-transient-input-method "rfc1345")
   (default-input-method "russian-macintosh"))
 
 (use-package isearch
