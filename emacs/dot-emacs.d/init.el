@@ -347,14 +347,9 @@
 ;; mark ring
 (use-package emacs
   :preface
-  (defun my-multi-pop-to-mark (oldfun &rest args)
-    "When popping the mark, continue popping until the cursor actually moves.
-Try the repeated popping up to 10 times."
-    (let ((p (point)))
-      (dotimes (i 10)
-        (when (= p (point))
-          (apply oldfun args)))))
-  (advice-add 'pop-to-mark-command :around #'my-multi-pop-to-mark)
+  (defun my-delete-duplicates-from-mark-ring (&rest _)
+    (set 'mark-ring (delete (mark-marker) mark-ring)))
+  (advice-add 'push-mark :after #'my-delete-duplicates-from-mark-ring)
   :config
   (use-package my-simple
     :bind (("s-[" . pop-local-mark)
