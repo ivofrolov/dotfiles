@@ -737,7 +737,9 @@
 
 (use-package repeat
   :custom
-  (repeat-mode t))
+  (repeat-mode t)
+  :bind (("C-." . repeat)
+         ("C-z" . repeat-complex-command)))
 
 (use-package savehist
   :custom
