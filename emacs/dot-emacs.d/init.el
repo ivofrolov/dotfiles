@@ -533,6 +533,8 @@
   :custom
   (json-ts-mode-indent-offset 4))
 
+(use-package jq-mode)
+
 (use-package markdown-mode
   :custom
   (markdown-open-command "marked")
@@ -720,7 +722,10 @@
   :bind
   (:map org-mode-map
         ("C-M-n" . org-next-visible-heading)
-        ("C-M-p" . org-previous-visible-heading)))
+        ("C-M-p" . org-previous-visible-heading))
+  :config
+  (add-to-list 'org-src-lang-modes '("json" . json-ts))
+  (define-key org-mode-map (kbd "C-c C-r") verb-command-map))
 
 (use-package ob-d2
   :ensure
@@ -761,6 +766,10 @@
   (vc-follow-symlinks t)
   (vc-handled-backends '(Git))
   (vc-git-diff-switches '("--histogram")))
+
+(use-package verb
+  :custom
+  (verb-tag "api"))
 
 (use-package which-key
   :ensure
