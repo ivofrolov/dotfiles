@@ -718,6 +718,7 @@
 ;; org
 (use-package org
   :custom
+  (org-edit-src-content-indentation 0)
   (org-cycle-separator-lines 0)
   (org-startup-folded 'fold)
   (org-cycle-hide-block-startup nil)
