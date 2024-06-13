@@ -774,7 +774,8 @@
 
 (use-package verb
   :custom
-  (verb-tag "api"))
+  (verb-tag "api")
+  (verb-json-use-mode 'json-ts-mode))
 
 (use-package which-key
   :ensure
