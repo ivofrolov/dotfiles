@@ -719,6 +719,10 @@
 (use-package org
   :custom
   (org-cycle-separator-lines 0)
+  (org-startup-folded 'fold)
+  (org-cycle-hide-block-startup nil)
+  (org-cycle-hide-drawer-startup t)
+  ;; (org-special-ctrl-a/e t)
   :bind
   (:map org-mode-map
         ("C-M-n" . org-next-visible-heading)
