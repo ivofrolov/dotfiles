@@ -630,9 +630,9 @@
    :map isearch-mode-map
    ("C-'" . avy-isearch)))
 
-(use-package casual
-  :bind (:map calc-mode-map
-         ("C-o" . casual-main-menu)))
+;; (use-package casual-suite
+;;   (use-package casual-calc
+;;     :bind (:map calc-mode-map ("C-o" . casual-calc-tmenu))))
 
 (use-package comint
   :defer
