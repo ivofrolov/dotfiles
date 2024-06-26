@@ -653,6 +653,7 @@
   (dired-auto-revert-buffer t)
   (dired-free-space nil)
   (dired-hide-details-hide-symlink-targets nil)
+  (dired-dwim-target t)
   :hook (dired-mode . dired-hide-details-mode))
 
 (use-package ediff
