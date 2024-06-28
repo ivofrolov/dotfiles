@@ -630,7 +630,8 @@
                '(text-numbers
                  (regexp . ".*? \\([0-9]+[0-9 ]*\\).*")
                  (group . 1)
-                 (justify . t))))
+                 (justify . t)
+                 (spacing . 0))))
 
 (use-package avy
   :bind
