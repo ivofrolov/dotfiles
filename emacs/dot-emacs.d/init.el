@@ -501,6 +501,7 @@
 (use-package d2-ts-mode)
 
 (use-package haskell
+  :defer
   :config
   (setq haskell-check-error-fringe nil)
   (setq haskell-check-warning-fringe nil)
@@ -622,6 +623,14 @@
   (zig-format-on-save nil))
 
 ;;; Tools
+
+(use-package align
+  :config
+  (add-to-list 'align-rules-list
+               '(text-numbers
+                 (regexp . ".*? \\([0-9]+[0-9 ]*\\).*")
+                 (group . 1)
+                 (justify . t))))
 
 (use-package avy
   :bind
