@@ -628,7 +628,7 @@
   :config
   (add-to-list 'align-rules-list
                '(text-numbers
-                 (regexp . ".*? \\([0-9]+[0-9 ]*\\).*")
+                 (regexp . ".*? \\([0-9.,]+[0-9., ]*\\).*")
                  (group . 1)
                  (justify . t)
                  (spacing . 0))))
