@@ -282,7 +282,9 @@
   :hook
   (minibuffer-setup . corfu-enable-in-minibuffer)
   :bind
-  (:map corfu-map ("SPC" . corfu-insert-separator))
+  (:map corfu-map
+        ("SPC" . corfu-insert-separator)
+        ("M-TAB" . corfu-complete))
   :init
   (global-corfu-mode))
 
