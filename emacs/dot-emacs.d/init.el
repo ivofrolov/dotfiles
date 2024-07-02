@@ -123,7 +123,8 @@
         '((bg-region bg-ochre)
           (fg-region unspecified)
           (comment green-faint)
-          (docstring green-faint)))
+          (docstring green-faint)
+          (cursor maroon)))
   :config
   (load-theme 'modus-operandi :no-confim)
   :bind ("<f5>" . modus-themes-toggle))
