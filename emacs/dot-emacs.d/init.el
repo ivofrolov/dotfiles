@@ -391,6 +391,7 @@
 (use-package emacs
   :custom
   (electric-pair-mode t)
+  (electric-pair-skip-whitespace nil)
   (delete-pair-blink-delay 0)
   (show-paren-when-point-inside-paren t))
 
@@ -427,12 +428,12 @@
       (string-inflection-underscore-function str))))
   :bind (("M-c" . string-inflection-all-cycle)))
 
-(use-package substitute
-  :ensure
-  :bind (("M-# d" . substitute-target-in-defun)
-         ("M-# b" . substitute-target-in-buffer)
-         ("M-# s" . substitute-target-below-point)
-         ("M-# r" . substitute-target-above-point)))
+;; (use-package substitute
+;;   :ensure
+;;   :bind (("M-# d" . substitute-target-in-defun)
+;;          ("M-# b" . substitute-target-in-buffer)
+;;          ("M-# s" . substitute-target-below-point)
+;;          ("M-# r" . substitute-target-above-point)))
 
 (use-package subword
   :delight
