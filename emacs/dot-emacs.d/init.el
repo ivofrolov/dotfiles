@@ -353,6 +353,7 @@
   (defun my-delete-duplicates-from-mark-ring (&rest _)
     (set 'mark-ring (delete (mark-marker) mark-ring)))
   (advice-add 'push-mark :after #'my-delete-duplicates-from-mark-ring)
+  (advice-add 'pop-mark :before #'my-delete-duplicates-from-mark-ring)
   :config
   (use-package my-simple
     :bind (("s-[" . pop-local-mark)
