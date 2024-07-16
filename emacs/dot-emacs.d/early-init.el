@@ -1,5 +1,3 @@
-(setq load-prefer-newer t)
-
 (setq inhibit-splash-screen t
       inhibit-startup-screen t)
 

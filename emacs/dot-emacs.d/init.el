@@ -6,7 +6,9 @@
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 (add-to-list 'load-path (locate-user-emacs-file "packages"))
 
-(add-to-list 'exec-path "/usr/local/bin")
+(when (native-comp-available-p)
+  (setq native-comp-async-report-warnings-errors 'silent)
+  (setq native-compile-prune-cache t))
 
 
 ;;; Abbreviations
@@ -181,7 +183,8 @@
   :custom
   (delete-selection-mode t)
   (line-move-visual nil)
-  (track-eol t))
+  (track-eol t)
+  (duplicate-line-final-position -1))
 
 (use-package my-simple
   :bind (("s-<return>" . add-line)
@@ -400,7 +403,8 @@
 ;; scroll
 (use-package emacs
   :custom
-  (scroll-preserve-screen-position t))
+  (scroll-preserve-screen-position t)
+  (scroll-error-top-bottom t))
 
 (use-package string-inflection
   :ensure
