@@ -7,8 +7,7 @@
 (add-to-list 'load-path (locate-user-emacs-file "packages"))
 
 (when (native-comp-available-p)
-  (setq native-comp-async-report-warnings-errors 'silent)
-  (setq native-compile-prune-cache t))
+  (setq native-comp-async-report-warnings-errors 'silent))
 
 
 ;;; Abbreviations
