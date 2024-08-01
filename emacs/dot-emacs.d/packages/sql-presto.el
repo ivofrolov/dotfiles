@@ -1,4 +1,5 @@
 (require 'sql)
+(require 'subr-x)
 
 (sql-add-product 'presto "Presto"
                  '(:free-software t))
@@ -33,12 +34,12 @@
   "Connect to Presto in a comint buffer."
   (let ((params
          (append
-          (if (not (string= "" sql-user))
+          (if (not (string-blank-p sql-user))
               (list "--user" sql-user))
-          (if (not (string= "" sql-server))
+          (if (not (string-blank-p sql-server))
               (list "--server" sql-server))
-          (if (not (string= "" sql-database))
-              (let ((catalog-schema (split-string "hive.seo_prod.test" "\\." t)))
+          (if (not (string-blank-p sql-database))
+              (let ((catalog-schema (split-string sql-database "\\." t)))
                 (append
                  (list "--catalog" (car catalog-schema))
                  (if (not (null (cdr catalog-schema)))
