@@ -9,3 +9,6 @@ pyrightconfig.json
 TAGS
 
 .DS_Store
+
+.direnv/
+.envrc
