@@ -14,3 +14,21 @@ keep_only_last_version_of_python() {
         | tail -n +2 \
         | xargs rm -r -f
 }
+
+# Downloads and compiles BootloadHID uploader for AVR microcontrollers.
+# See https://www.obdev.at/products/vusb/bootloadhid.html
+# 
+# Requires libusb-compat to be installed.
+# 
+install_bootloadhid() {
+    local target="bootloadHID.2012-12-08"
+    local commandline_dir="$(direnv_layout_dir)/$target/commandline"
+    if [[ ! -d "$(direnv_layout_dir)/$target" ]]; then
+        local url="https://www.obdev.at/downloads/vusb/$target.tar.gz"
+        local hash="sha256-FU5+OGKaOi7sLfZm7foe4vLppXAY8X2fD48GTMINh1Q="
+        local archive=$(fetchurl $url $hash)
+        tar -xf $archive -C $(direnv_layout_dir)
+        make -C $commandline_dir
+    fi
+    PATH_add $commandline_dir
+}
