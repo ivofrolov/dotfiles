@@ -8,6 +8,7 @@ function showKitty()
 end
 
 hs.hotkey.bind('cmd', 'f12', showKitty)
+hs.hotkey.bind('cmd', '\\', showKitty)
 
 
 function focusedWindowLayout(unit)
