@@ -7,7 +7,8 @@
 (add-to-list 'load-path (locate-user-emacs-file "packages"))
 
 (when (native-comp-available-p)
-  (setq native-comp-async-report-warnings-errors 'silent))
+  (setq native-comp-async-report-warnings-errors 'silent)
+  (setq package-native-compile t))
 
 
 ;;; Abbreviations
@@ -637,7 +638,7 @@
   :config
   (add-to-list 'align-rules-list
                '(text-numbers
-                 (regexp . ".*? \\([0-9.,]+[0-9., ]*\\).*")
+                 (regexp . ".*? \\(-?[0-9.,]+[0-9., ]*\\).*")
                  (group . 1)
                  (justify . t)
                  (spacing . 0))))
@@ -648,10 +649,6 @@
    ("C-'" . avy-goto-char-timer)
    :map isearch-mode-map
    ("C-'" . avy-isearch)))
-
-;; (use-package casual-suite
-;;   (use-package casual-calc
-;;     :bind (:map calc-mode-map ("C-o" . casual-calc-tmenu))))
 
 (use-package comint
   :defer
