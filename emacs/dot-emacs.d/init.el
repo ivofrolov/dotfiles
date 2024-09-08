@@ -427,8 +427,8 @@
      ((string-inflection-pascal-case-p str)
       (string-inflection-camelcase-function str))
      ;; fooBar => foo-bar
-     ((string-inflection-camelcase-p str)
-      (string-inflection-kebab-case-function str))
+     ;; ((string-inflection-camelcase-p str)
+     ;;  (string-inflection-kebab-case-function str))
      ;; foo-bar => foo_bar
      (t
       (string-inflection-underscore-function str))))
