@@ -540,6 +540,17 @@
   :config
   (unbind-key "C-j" emmet-mode-keymap))
 
+(use-package go-ts-mode
+  :init
+  (use-package my-reformatter)
+  :custom
+  (go-ts-mode-indent-offset 4)
+  :bind (:map go-ts-mode-map
+              ("C-c C-f" . go-format-buffer))
+  :mode
+  ("\\.go\\'" . go-ts-mode)
+  ("/go\\.mod\\'" . go-mod-ts-mode))
+
 (use-package json-ts-mode
   :custom
   (json-ts-mode-indent-offset 4))
