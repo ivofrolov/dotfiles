@@ -88,6 +88,8 @@
 (use-package emacs
   :custom
   (display-line-numbers-type 'relative)
+  (display-line-numbers-width 3)
+  (display-line-numbers-widen t)
   :hook ((prog-mode conf-mode) . display-line-numbers-mode))
 
 ;; line wrapping
@@ -607,6 +609,7 @@
   (python-flymake-msg-alist
    '(("\\(^redefinition\\|.*unused.*\\|used$\\)" . :warning)
      ("\\(un-sorted\\|un-formatted\\)" . :note)))
+  (python-indent-guess-indent-offset-verbose nil)
   :config
   (define-skeleton python-skeleton-ifmain
     "Insert top-level code environment check"
