@@ -557,7 +557,9 @@
   :custom
   (json-ts-mode-indent-offset 4))
 
-(use-package jq-mode)
+(use-package jq-mode
+  :mode
+  ("\\.jq\\'" . jq-mode))
 
 (use-package markdown-mode
   :custom
@@ -725,6 +727,7 @@
   (Man-notify-method 'thrifty))
 
 (use-package marginalia
+  :ensure
   :bind
   (:map minibuffer-local-map
         ("M-A" . marginalia-cycle))
@@ -760,8 +763,7 @@
         ("C-M-n" . org-next-visible-heading)
         ("C-M-p" . org-previous-visible-heading))
   :config
-  (add-to-list 'org-src-lang-modes '("json" . json-ts))
-  (define-key org-mode-map (kbd "C-c C-r") verb-command-map))
+  (add-to-list 'org-src-lang-modes '("json" . json-ts)))
 
 (use-package ob-d2
   :ensure
@@ -804,9 +806,12 @@
   (vc-git-diff-switches '("--histogram")))
 
 (use-package verb
+  :defer
   :custom
   (verb-tag "api")
-  (verb-json-use-mode 'json-ts-mode))
+  (verb-json-use-mode 'json-ts-mode)
+  :config
+  (define-key org-mode-map (kbd "C-c C-r") verb-command-map))
 
 (use-package which-key
   :ensure
