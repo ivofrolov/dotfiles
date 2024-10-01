@@ -297,6 +297,7 @@
 
 (use-package combobulate
   ;; (package-vc-install "https://github.com/mickeynp/combobulate")
+  :demand
   :custom
   (combobulate-flash-node nil)
   (combobulate-proffer-allow-numeric-selection nil)
@@ -308,14 +309,7 @@
   (unbind-key "M-<down>" combobulate-key-map) ; combobulate-splice-down
   (unbind-key "M-<left>" combobulate-key-map) ; combobulate-yeet-forward
   (unbind-key "M-<right>" combobulate-key-map) ; combobulate-yoink-forward
-  :hook ((python-ts-mode . combobulate-mode)
-         (js-ts-mode . combobulate-mode)
-         (html-ts-mode . combobulate-mode)
-         (css-ts-mode . combobulate-mode)
-         (yaml-ts-mode . combobulate-mode)
-         (typescript-ts-mode . combobulate-mode)
-         (json-ts-mode . combobulate-mode)
-         (tsx-ts-mode . combobulate-mode)))
+  :hook (prog-mode . combobulate-mode))
 
 (use-package eglot
   :init
