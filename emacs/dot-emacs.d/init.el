@@ -344,8 +344,8 @@
   (flymake-suppress-zero-counters t)
   (flymake-fringe-indicator-position nil)
   :bind (:map flymake-mode-map
-              ("M-n" . flymake-goto-next-error)
-              ("M-p" . flymake-goto-prev-error)))
+              ("C-c C-n" . flymake-goto-next-error)
+              ("C-c C-p" . flymake-goto-prev-error)))
 
 ;; mark ring
 (use-package emacs
