@@ -302,13 +302,10 @@
   (combobulate-flash-node nil)
   (combobulate-proffer-allow-numeric-selection nil)
   :config
-  (defun my-combobulate-disable-default-highlights (_)
-    (setq-local combobulate-highlight-queries-default nil))
-  (advice-add 'combobulate-highlight-install :before 'my-combobulate-disable-default-highlights)
   (unbind-key "M-<up>" combobulate-key-map) ; combobulate-splice-up
   (unbind-key "M-<down>" combobulate-key-map) ; combobulate-splice-down
-  (unbind-key "M-<left>" combobulate-key-map) ; combobulate-yeet-forward
-  (unbind-key "M-<right>" combobulate-key-map) ; combobulate-yoink-forward
+  (unbind-key "M-<left>" combobulate-key-map) ; combobulate-splice-self
+  (unbind-key "M-<right>" combobulate-key-map) ; combobulate-splice-parent
   :hook (prog-mode . combobulate-mode))
 
 (use-package eglot
