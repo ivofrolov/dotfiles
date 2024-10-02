@@ -1,9 +1,8 @@
 #!/bin/sh
 
-# Prepend branch name to the commit message
-# if branch named like a bugtracker task id
-# (e.g. ID-123456).
+# Prepend branch name to the commit message if branch named like a
+# bugtracker task id (e.g. ID-123456).
 
-BRANCH=$(git branch --show-current)
-echo "$BRANCH" | grep -Esq "\w+-\d+" || exit 0
-grep -s -v "^#" "$1" | grep -qs "$BRANCH" || sed -i -e "1s/^/$BRANCH /" $1
+TASKID=$(git branch --show-current | grep -Eo "\w+-\d+")
+test -z "$TASKID" && exit 0
+grep -s -v "^#" "$1" | grep -qs "$TASKID" || sed -i "" -e "1s/^/[$TASKID] /" "$1"
