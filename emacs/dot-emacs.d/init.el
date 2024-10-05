@@ -317,7 +317,10 @@
                                        :documentRangeFormattingProvider
                                        :documentOnTypeFormattingProvider
                                        :inlayHintProvider))
-  (eglot-autoshutdown t))
+  (eglot-autoshutdown t)
+  :bind
+  (:map eglot-mode-map
+        ("C-c ." . eglot-find-implementation)))
 
 (use-package eldoc
   :custom
@@ -536,10 +539,15 @@
 (use-package go-ts-mode
   :init
   (use-package my-reformatter)
+  :config
+  (add-to-list 'find-sibling-rules '("\\([^/]+\\)\\.go\\'" "\\1_test.go"))
+  (add-to-list 'find-sibling-rules '("\\([^/]+\\)_test\\.go\\'" "\\1.go"))
   :custom
   (go-ts-mode-indent-offset 4)
-  :bind (:map go-ts-mode-map
-              ("C-c C-f" . go-format-buffer))
+  :bind
+  (:map go-ts-mode-map
+        ("C-c C-f" . go-format-buffer)
+        ("C-c C-o" . find-sibling-file))
   :mode
   ("\\.go\\'" . go-ts-mode)
   ("/go\\.mod\\'" . go-mod-ts-mode))
