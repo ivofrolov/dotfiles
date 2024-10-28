@@ -4,6 +4,7 @@
 
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+(setq package-pinned-packages '((use-package . "gnu")))
 (add-to-list 'load-path (locate-user-emacs-file "packages"))
 
 (when (native-comp-available-p)
@@ -296,7 +297,7 @@
   (global-corfu-mode))
 
 (use-package combobulate
-  ;; (package-vc-install "https://github.com/mickeynp/combobulate")
+  :vc (:url "https://github.com/mickeynp/combobulate" :rev :newest)
   :demand
   :custom
   (combobulate-flash-node nil)
