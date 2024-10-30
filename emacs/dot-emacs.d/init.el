@@ -312,6 +312,14 @@
 (use-package eglot
   :init
   (setq eglot-stay-out-of '(imenu))
+  :config
+  (cl-defmethod xref-backend-identifier-at-point
+    :extra "fallback" :around ((_backend (eql eglot)))
+    (let ((found (cl-call-next-method))
+          (thing (thing-at-point 'symbol)))
+      (if (and (equal found "LSP identifier at point") thing)
+          (substring-no-properties thing)
+        found)))
   :custom
   (eglot-ignored-server-capabilities '(:documentHighlightProvider
                                        :documentFormattingProvider
