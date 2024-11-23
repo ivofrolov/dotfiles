@@ -3,6 +3,3 @@ Host *
     AddKeysToAgent yes
     ServerAliveInterval 30
     Compression yes
-
-Host bitbucket.org
-    IPQoS=throughput
