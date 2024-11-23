@@ -655,6 +655,11 @@
          ("C-M-n" . sgml-skip-tag-forward)
          ("C-M-p" . sgml-skip-tag-backward)))
 
+(use-package typescript-ts-mode
+  :mode
+  ("\\.ts\\'" . typescript-ts-mode)
+  ("\\.tsx\\'" . tsx-ts-mode))
+
 (use-package zig-mode
   :defer
   :custom
