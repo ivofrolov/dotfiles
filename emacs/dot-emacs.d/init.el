@@ -1,6 +1,6 @@
 ;;; Prologue
 
-(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+(setq custom-file (locate-user-emacs-file "custom.el"))
 
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
@@ -145,13 +145,16 @@
   ;; (display-buffer-base-action
   ;;  '((display-buffer-reuse-window display-buffer-same-window)
   ;;    (reusable-frames . t)))
-  ;; (display-buffer-alist
-  ;;  `((,(rx (or "*Help*" "*compilation*"))
-  ;;     (display-buffer-reuse-window display-buffer-pop-up-window)
-  ;;     (inhibit-same-window . t))))
+  (display-buffer-alist
+   '(("\\`\\*\\(Warnings\\|Compile-Log\\)\\*\\'"
+      (display-buffer-no-window)
+      (allow-no-window . t))))
   ;; (switch-to-buffer-obey-display-actions t)
   (switch-to-prev-buffer-skip-regexp
-   '("\\*Quail Completions\\*"))
+   '("\\*Quail Completions\\*"
+     "\\*envrc\\*"
+     "\\*EGLOT .+ events\\*"
+     "\\*.+-format errors\\*"))
   (even-window-sizes nil)
   (fit-window-to-buffer-horizontally t)
   (split-width-threshold 140)
@@ -704,7 +707,11 @@
   (dired-free-space nil)
   (dired-hide-details-hide-symlink-targets nil)
   (dired-dwim-target t)
-  :hook (dired-mode . dired-hide-details-mode))
+  (dired-recursive-copies 'always)
+  (dired-recursive-deletes 'always)
+  :hook
+  ((dired-mode . dired-hide-details-mode)
+   (dired-mode . hl-line-mode)))
 
 (use-package ediff
   :custom
@@ -851,6 +858,6 @@
 
 ;;; Epilogue
 
-(load custom-file)
+(load custom-file :no-error-if-file-is-missing)
 
 (server-start)
