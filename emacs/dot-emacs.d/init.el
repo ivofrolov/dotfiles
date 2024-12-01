@@ -309,11 +309,6 @@
   :custom
   (combobulate-flash-node nil)
   (combobulate-proffer-allow-numeric-selection nil)
-  :config
-  (unbind-key "M-<up>" combobulate-key-map) ; combobulate-splice-up
-  (unbind-key "M-<down>" combobulate-key-map) ; combobulate-splice-down
-  (unbind-key "M-<left>" combobulate-key-map) ; combobulate-splice-self
-  (unbind-key "M-<right>" combobulate-key-map) ; combobulate-splice-parent
   :hook (prog-mode . combobulate-mode))
 
 (use-package eglot
