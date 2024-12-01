@@ -89,7 +89,7 @@
 ;; line numbers
 (use-package emacs
   :custom
-  (display-line-numbers-type 'relative)
+  ;; (display-line-numbers-type 'relative)
   (display-line-numbers-width 3)
   (display-line-numbers-widen t)
   :hook ((prog-mode conf-mode) . display-line-numbers-mode))
@@ -140,6 +140,11 @@
   (tab-line-close-button-show nil)
   (tab-line-new-button-show nil))
 
+(use-package frame
+  :bind (("s-§" . other-frame)
+         ("s-N" . make-frame)
+         ("s-W" . delete-frame)))
+
 (use-package window
   :custom
   ;; (display-buffer-base-action
@@ -164,9 +169,7 @@
   :bind (("s-{" . previous-buffer)
          ("s-}" . next-buffer)
          ("s-w" . kill-current-buffer)
-         ("s-n" . scratch-buffer)
-         ("s-N" . make-frame)
-         ("s-W" . delete-frame)))
+         ("s-n" . scratch-buffer)))
 
 (use-package my-window
   :bind (("C-x 4 o" . my-move-buffer-other-window)))
@@ -524,6 +527,18 @@
   (c-ts-mode-indent-style 'k&r))
 
 (use-package d2-ts-mode)
+
+(use-package graphql-ts-mode
+  :init
+  (with-eval-after-load 'treesit
+    (add-to-list 'treesit-language-source-alist
+                 '(graphql "https://github.com/bkegley/tree-sitter-graphql")))
+  :custom
+  (graphql-ts-indent-offset 4)
+  :mode
+  ("\\.graphql\\'"  . graphql-ts-mode)
+  ("\\.graphqls\\'"  . graphql-ts-mode)
+  ("\\.gql\\'"  . graphql-ts-mode))
 
 (use-package haskell
   :defer
