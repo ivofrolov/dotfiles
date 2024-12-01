@@ -381,25 +381,24 @@
   (mouse-wheel-tilt-scroll t)
   (mouse-wheel-flip-direction t))
 
-(use-package multiple-cursors
-  :ensure
-  :custom
-  (mc/match-cursor-style nil)
-  (mc/always-run-for-all t)
-  :preface
-  (defun my-multiple-cursors-mode-locals ()
-    (setq-local cursor-type 'box))
-  (defun my-multiple-cursors-mode-locals-reset ()
-    (kill-local-variable 'cursor-type))
-  :hook
-  ((multiple-cursors-mode-enabled . my-multiple-cursors-mode-locals)
-   (multiple-cursors-mode-disabled . my-multiple-cursors-mode-locals-reset))
-  :bind
-  (("C-;" . mc/mark-next-like-this)
-   ("C-M-;" . mc/skip-to-next-like-this)
-   ("s-<mouse-1>" . mc/add-cursor-on-click)
-   :map mc/keymap
-   ("<return>" . nil)))
+;; (use-package multiple-cursors
+;;   :custom
+;;   (mc/match-cursor-style nil)
+;;   (mc/always-run-for-all t)
+;;   :preface
+;;   (defun my-multiple-cursors-mode-locals ()
+;;     (setq-local cursor-type 'box))
+;;   (defun my-multiple-cursors-mode-locals-reset ()
+;;     (kill-local-variable 'cursor-type))
+;;   :hook
+;;   ((multiple-cursors-mode-enabled . my-multiple-cursors-mode-locals)
+;;    (multiple-cursors-mode-disabled . my-multiple-cursors-mode-locals-reset))
+;;   :bind
+;;   (("C-;" . mc/mark-next-like-this)
+;;    ("C-M-;" . mc/skip-to-next-like-this)
+;;    ("s-<mouse-1>" . mc/add-cursor-on-click)
+;;    :map mc/keymap
+;;    ("<return>" . nil)))
 
 ;; pairs
 (use-package emacs
