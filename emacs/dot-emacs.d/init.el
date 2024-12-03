@@ -193,7 +193,7 @@
   :custom
   (delete-selection-mode t)
   (line-move-visual nil)
-  (track-eol t)
+  ;; (track-eol t)
   (duplicate-line-final-position -1))
 
 (use-package my-simple
