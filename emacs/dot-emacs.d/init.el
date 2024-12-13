@@ -309,7 +309,9 @@
   :custom
   (combobulate-flash-node nil)
   (combobulate-proffer-allow-numeric-selection nil)
-  :hook (prog-mode . combobulate-mode))
+  :hook
+  (prog-mode . combobulate-mode)
+  (yaml-ts-mode . combobulate-mode))
 
 (use-package eglot
   :init
@@ -671,6 +673,16 @@
   :mode
   ("\\.ts\\'" . typescript-ts-mode)
   ("\\.tsx\\'" . tsx-ts-mode))
+
+(use-package yaml-ts-mode
+  :init
+  (defun my-yaml-ts-mode-locals ()
+    (setq-local treesit-font-lock-level 1)
+    (treesit-font-lock-recompute-features))
+  :hook
+  (yaml-ts-mode . my-yaml-ts-mode-locals)
+  :mode
+  ("\\.ya?ml\\'" . yaml-ts-mode))
 
 (use-package zig-mode
   :defer
