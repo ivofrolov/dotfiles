@@ -1,0 +1,7 @@
+\set HISTCONTROL ignoredups
+
+\pset format wrapped
+\pset linestyle unicode
+\pset null '(null)'
+
+\timing on
