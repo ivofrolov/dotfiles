@@ -108,7 +108,7 @@
          ;; (minibuffer-setup . my-truncate-lines-in-minibuffer)
          ))
 
-;; modeline
+;; mode line
 (use-package emacs
   :custom
   (mode-line-compact 'long)
@@ -354,6 +354,7 @@
 
 (use-package flymake
   :custom
+  (flymake-mode-line-lighter "")
   (flymake-suppress-zero-counters t)
   (flymake-fringe-indicator-position nil)
   :bind (:map flymake-mode-map
