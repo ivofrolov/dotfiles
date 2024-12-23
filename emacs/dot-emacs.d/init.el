@@ -355,7 +355,7 @@
 (use-package flymake
   :custom
   (flymake-mode-line-lighter "")
-  (flymake-suppress-zero-counters t)
+  (flymake-suppress-zero-counters nil)
   (flymake-fringe-indicator-position nil)
   :bind (:map flymake-mode-map
               ("C-c C-n" . flymake-goto-next-error)
@@ -734,6 +734,12 @@
   :hook
   ((dired-mode . dired-hide-details-mode)
    (dired-mode . hl-line-mode)))
+
+(use-package doc-view
+  :defer
+  :custom
+  (doc-view-pdf->png-converter-function 'doc-view-pdf->png-converter-mupdf)
+  (doc-view-mupdf-use-svg t))
 
 (use-package ediff
   :custom
