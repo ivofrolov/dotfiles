@@ -881,6 +881,7 @@
   :ensure
   :custom
   (envrc-none-lighter nil)
+  (envrc-lighter nil)
   (envrc-global-mode t))
 
 
