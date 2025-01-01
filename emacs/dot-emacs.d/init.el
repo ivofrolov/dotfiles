@@ -811,6 +811,10 @@
   (org-cycle-hide-block-startup nil)
   (org-cycle-hide-drawer-startup t)
   ;; (org-special-ctrl-a/e t)
+  (org-babel-load-languages
+   '((d2 . t)
+     (emacs-lisp . t)
+     (hledger . t)))
   :bind
   (:map org-mode-map
         ("C-M-n" . org-next-visible-heading)
@@ -819,13 +823,9 @@
   (add-to-list 'org-src-lang-modes '("json" . json-ts)))
 
 (use-package ob-d2
-  :ensure
   :after org
   :config
-  (add-to-list 'org-src-lang-modes '("d2" . d2-ts))
-  (org-babel-do-load-languages
-   'org-babel-load-languages
-   '((d2 . t))))
+  (add-to-list 'org-src-lang-modes '("d2" . d2-ts)))
 
 (use-package recentf
   :custom
