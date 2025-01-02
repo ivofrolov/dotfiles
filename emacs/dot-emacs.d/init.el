@@ -814,7 +814,7 @@
   (org-babel-load-languages
    '((d2 . t)
      (emacs-lisp . t)
-     (hledger . t)))
+     (shell . t)))
   :bind
   (:map org-mode-map
         ("C-M-n" . org-next-visible-heading)
