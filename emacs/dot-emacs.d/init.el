@@ -7,6 +7,8 @@
 (setq package-pinned-packages '((use-package . "gnu")))
 (add-to-list 'load-path (locate-user-emacs-file "packages"))
 
+(exec-path-from-shell-initialize)
+
 (when (native-comp-available-p)
   (setq native-comp-async-report-warnings-errors 'silent)
   (setq package-native-compile t))
