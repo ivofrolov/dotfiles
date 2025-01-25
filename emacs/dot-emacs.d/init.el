@@ -573,6 +573,8 @@
 (use-package go-ts-mode
   :init
   (use-package my-reformatter)
+  :config
+  (use-package gud-dlv)
   :custom
   (go-ts-mode-indent-offset 4)
   :bind
