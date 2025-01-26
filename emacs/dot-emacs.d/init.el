@@ -200,7 +200,7 @@
 
 (use-package my-simple
   :bind (("s-<return>" . add-line)
-         ("s-k" . duplicate-dwim)
+         ("s-k" . duplicate-lines)
          ("s-l" . mark-line)
          ("s-<" . shift-left)
          ("s->" . shift-right)

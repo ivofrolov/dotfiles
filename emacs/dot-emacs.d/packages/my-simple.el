@@ -1,3 +1,5 @@
+-*- lexical-binding:t -*-
+
 (require 'simple)
 (require 'cua-base)
 
@@ -88,5 +90,31 @@ Derived from `back-to-indentation'."
             ;; (move-beginning-of-line (+ (prefix-numeric-value arg) 1))
             (point))
           nil t))))
+
+(defun duplicate-lines (&optional n)
+  "Duplicate the current line or lines in region N times.
+See also `duplicate-dwim'."
+  (interactive "p")
+  (unless n
+    (setq n 1))
+  (cond
+   ;; duplicate lines in region
+   ((use-region-p)
+    (let* ((beg (region-beginning))
+           (end (region-end))
+           text)
+      (save-excursion
+        (goto-char beg)
+        (setq beg (line-beginning-position))
+        (goto-char end)
+        (setq end (line-end-position))
+        (setq text (buffer-substring beg end))
+        (goto-char end)
+        (newline)
+        (dotimes (_ n)
+          (insert text))))
+    (setq deactivate-mark nil))
+   ;; duplicate current line
+   (t (duplicate-line n))))
 
 (provide 'my-simple)
