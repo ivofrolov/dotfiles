@@ -66,16 +66,26 @@ Derived from `back-to-indentation'."
          (set-mark
           (save-excursion
             (goto-char (mark))
-            (if (< arg 0)
-                (move-beginning-of-line (+ arg 1))
-                (move-end-of-line (+ arg 1)))
+            (if (> arg 0)
+                (move-end-of-line (+ arg 1))
+              (move-beginning-of-line (+ arg 1))
+              (back-to-indentation))
+            ;; (move-beginning-of-line (+ arg 1))
             (point))))
         (t
+         (setq arg (prefix-numeric-value arg))
+         (if (> arg 0)
+             (back-to-indentation)
+           (move-end-of-line 1))
+         ;; (move-beginning-of-line 1)
          (push-mark (point) nil)
-         (back-to-indentation)
          (push-mark
           (save-excursion
-            (move-end-of-line (prefix-numeric-value arg))
+            (if (> arg 0)
+                (move-end-of-line arg)
+              (move-beginning-of-line (+ arg 2))
+              (back-to-indentation))
+            ;; (move-beginning-of-line (+ (prefix-numeric-value arg) 1))
             (point))
           nil t))))
 
