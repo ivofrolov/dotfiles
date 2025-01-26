@@ -682,11 +682,13 @@
                  (spacing . 0))))
 
 (use-package avy
+  :config
+  (use-package my-avy)
   :bind
   (("M-g w" . avy-goto-word-or-subword-1)
-   ("C-'" . avy-goto-char-timer)
+   ("C-;" . avy-goto-char-timer)
    :map isearch-mode-map
-   ("C-'" . avy-isearch)))
+   ("C-;" . avy-isearch)))
 
 (use-package comint
   :defer
