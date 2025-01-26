@@ -1,3 +1,10 @@
+"""A Kitty hint to open selected path in editor.
+
+Calls `edit [+LINE[:COLUMN]] FILENAME` command (as for emacsclient).
+
+See https://sw.kovidgoyal.net/kitty/kittens/hints/
+"""
+
 from pathlib import Path
 import re
 import shlex
@@ -5,12 +12,12 @@ import shlex
 
 def _make_paths_regexp(paths):
     query = "|".join(re.escape(path) for path in paths)
-    return fr"(?:{query})[\S\r\n]*"
+    return rf"(?:{query})[\S\n]*"
 
 
 def mark(text, args, Mark, extra_cli_args, *a):
     pattern = _make_paths_regexp(
-        path.name + ("/" if path.is_dir() else "")
+        path.name + ("/" if path.is_dir() else "")  # nofmt
         for path in Path.cwd().iterdir()
     )
     idx = 0
@@ -19,18 +26,38 @@ def mark(text, args, Mark, extra_cli_args, *a):
         start = match.start()
         end = match.end()
         path = match.group(0)
+
         if linecol_match := re.search(r"\:(\d+)(?:\:(\d+))?", path):
             groupdict["line"] = linecol_match.group(1)
             groupdict["col"] = linecol_match.group(2)
-            path = path[:linecol_match.start()]
+            path = path[: linecol_match.start()]
             end = start + linecol_match.end()
         elif func_matches := list(re.finditer(r"\:\:([\w\r\n]+)", path)):
-            groupdict["func"] = ".".join(m.group(1) for m in func_matches)
-            path = path[:func_matches[0].start()]
+            groupdict["func"] = ".".join(
+                re.sub(r"[\n\0]", "", m.group(1))  # nofmt
+                for m in func_matches
+            )
+            path = path[: func_matches[0].start()]
             end = start + func_matches[-1].end()
-        # TODO: check that Path(path).is_file() for each path without last part after line end
+
+        # Some paths could take up several lines or end exactly at the end of a line,
+        # so that characters on the next line got included in the extracted path.
+        # In both cases we restore original path.
+        wrapped_path = ""
+        wrapped_end = start
+        while match := re.search(r"(.+?)\0*\n", path):
+            wrapped_path += match.group(1)
+            wrapped_end += match.end()
+            if Path(wrapped_path).exists():
+                path = wrapped_path
+                end = wrapped_end
+                break
+            path = wrapped_path + path[match.end() :]
+        if wrapped_path:
+            path = wrapped_path
+            end = wrapped_end
+
         idx += 1
-        path = re.sub(r"[\r\n\0]", "", path)
         yield Mark(idx, start, end, path, groupdict)
 
 
