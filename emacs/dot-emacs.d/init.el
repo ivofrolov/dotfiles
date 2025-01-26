@@ -417,34 +417,6 @@
   (scroll-preserve-screen-position t)
   (scroll-error-top-bottom t))
 
-(use-package string-inflection
-  :ensure
-  :config
-  (defun string-inflection-all-cycle-function (str)
-    "foo_bar => FOO_BAR => FooBar => fooBar => foo-bar => foo_bar
-     foo     => FOO     => Foo    => foo"
-    (cond
-     ;; foo => FOO
-     ((string-inflection-word-p str)
-      (string-inflection-upcase-function str))
-     ;; foo_bar => FOO_BAR
-     ((string-inflection-underscore-p str)
-      (string-inflection-upcase-function str))
-     ;; FOO_BAR => FooBar
-     ((string-inflection-upcase-p str)
-      (string-inflection-pascal-case-function str))
-     ;; FooBar => fooBar
-     ;; Foo    => foo
-     ((string-inflection-pascal-case-p str)
-      (string-inflection-camelcase-function str))
-     ;; fooBar => foo-bar
-     ;; ((string-inflection-camelcase-p str)
-     ;;  (string-inflection-kebab-case-function str))
-     ;; foo-bar => foo_bar
-     (t
-      (string-inflection-underscore-function str))))
-  :bind (("M-c" . string-inflection-all-cycle)))
-
 ;; (use-package substitute
 ;;   :ensure
 ;;   :bind (("M-# d" . substitute-target-in-defun)
@@ -456,6 +428,10 @@
   :delight
   :config
   (global-subword-mode))
+
+(use-package transform-case
+  :bind
+  ("M-c" . transform-case))
 
 ;; undo
 (use-package emacs
