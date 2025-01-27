@@ -1,4 +1,4 @@
--*- lexical-binding:t -*-
+;;; my-simple.el --- basic editing commands  -*- lexical-binding: t -*-
 
 (require 'simple)
 (require 'cua-base)
