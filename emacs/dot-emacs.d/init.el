@@ -343,6 +343,10 @@
   (eldoc-echo-area-display-truncation-message nil)
   (eldoc-echo-area-prefer-doc-buffer t))
 
+(use-package eldoc-dox
+  :bind
+  (("C-h ." . eldoc-box-help-at-point)))
+
 ;; (use-package embark
 ;;   :ensure
 ;;   :preface
