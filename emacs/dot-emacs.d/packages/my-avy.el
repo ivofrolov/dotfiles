@@ -4,6 +4,10 @@
 
 (require 'avy)
 
+(defface aw-key-face
+  '((t :inherit font-lock-builtin-face))
+  "Face used by `aw-show-dispatch-help'.")
+
 (defun avy-action-kill-whole-line (pt)
   (save-excursion
     (goto-char pt)
@@ -33,6 +37,11 @@
   (avy-action-kill-whole-line pt)
   (save-excursion (yank)) t)
 
+(defun avy-action-find-definitions (pt)
+  (goto-char pt)
+  (xref-find-definitions (symbol-at-point))
+  t)
+
 (setf (alist-get ?k avy-dispatch-alist) 'avy-action-kill-stay
       (alist-get ?K avy-dispatch-alist) 'avy-action-kill-whole-line
       (alist-get ?t avy-dispatch-alist) 'avy-action-teleport
@@ -40,6 +49,7 @@
       (alist-get ?w avy-dispatch-alist) 'avy-action-copy
       (alist-get ?W avy-dispatch-alist) 'avy-action-copy-whole-line
       (alist-get ?y avy-dispatch-alist) 'avy-action-yank
-      (alist-get ?Y avy-dispatch-alist) 'avy-action-yank-whole-line)
+      (alist-get ?Y avy-dispatch-alist) 'avy-action-yank-whole-line
+      (alist-get ?. avy-dispatch-alist) 'avy-action-find-definitions)
 
 (provide 'my-avy)
