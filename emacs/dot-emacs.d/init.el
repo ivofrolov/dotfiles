@@ -437,6 +437,10 @@
   :bind
   ("M-c" . transform-case))
 
+(use-package transform-number
+  :bind
+  ("C-=" . increment-number))
+
 ;; undo
 (use-package emacs
   :custom
