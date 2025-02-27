@@ -4,7 +4,7 @@
 
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-(setq package-pinned-packages '((use-package . "gnu")))
+(setq package-pinned-packages '((use-package . "gnu") (which-key . "gnu")))
 (add-to-list 'load-path (locate-user-emacs-file "packages"))
 
 (exec-path-from-shell-initialize)
@@ -251,10 +251,7 @@
 (use-package imenu
   :custom
   (imenu-auto-rescan t)
-  :config
-  (use-package my-imenu
-    :config
-    (advice-add 'imenu--make-index-alist :filter-return 'my-imenu--flatten)))
+  (imenu-flatten 'prefix))
 
 ;; indent
 (use-package emacs
@@ -568,6 +565,10 @@
   ("\\.go\\'" . go-ts-mode)
   ("/go\\.mod\\'" . go-mod-ts-mode))
 
+(use-package mhtml-mode
+  :mode
+  ("\\.html\\'" . mhtml-mode))
+
 (use-package json-ts-mode
   :custom
   (json-ts-mode-indent-offset 4))
@@ -575,6 +576,10 @@
 (use-package jq-mode
   :mode
   ("\\.jq\\'" . jq-mode))
+
+(use-package lua-ts-mode
+  :mode
+  ("\\.lua\\'" . lua-ts-mode))
 
 (use-package markdown-mode
   :custom
@@ -792,6 +797,10 @@
   :config
   (use-package my-package))
 
+(use-package package-vc
+  :custom
+  (package-vc-register-as-project nil))
+
 ;; org
 (use-package org
   :custom
@@ -817,6 +826,11 @@
   :config
   (add-to-list 'org-src-lang-modes '("d2" . d2-ts)))
 
+(use-package outline
+  :custom
+  (outline-minor-mode-cycle t)
+  (outline-minor-mode-prefix "\C-c\C-o"))
+
 (use-package recentf
   :custom
   (recentf-mode t))
@@ -835,6 +849,7 @@
   :ensure
   :custom
   (treesit-auto-install 'prompt)
+  (treesit-auto-langs '(c cpp css go gomod html javascript json python yaml))
   :config
   (global-treesit-auto-mode))
 
@@ -844,6 +859,7 @@
 
 (use-package vc
   :custom
+  (vc-display-status 'no-backend)
   (vc-follow-symlinks t)
   (vc-handled-backends '(Git))
   (vc-git-diff-switches '("--histogram")))
@@ -857,7 +873,6 @@
   (define-key org-mode-map (kbd "C-c C-r") verb-command-map))
 
 (use-package which-key
-  :ensure
   :delight which-key-mode
   :custom
   (which-key-show-early-on-C-h t)
