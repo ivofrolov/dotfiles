@@ -766,6 +766,7 @@
   (magit-bind-magit-project-status nil)
   (magit-auto-revert-mode nil)
   (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1)
+  (magit-section-visibility-indicator '(my-right-arrow-half-width . my-left-arrow-half-width))
   :bind (("C-x g" . magit-status)
          ("C-c g" . magit-dispatch)
          ("C-c f" . magit-file-dispatch)

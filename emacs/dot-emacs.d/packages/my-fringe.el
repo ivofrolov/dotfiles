@@ -32,25 +32,25 @@ For example, the following code defines a diagonal line.
   (define-fringe-bitmap 'my-left-arrow-half-width
     (eval-when-compile
       (fringe-helper-convert
+       "........"
        "...X...."
        "..X....."
        ".X......"
-       "X......."
-       "X......."
        ".X......"
        "..X....."
-       "...X....")))
+       "...X...."
+       "........")))
   (define-fringe-bitmap 'my-right-arrow-half-width
     (eval-when-compile
       (fringe-helper-convert
-       "X......."
+       "........"
        ".X......"
        "..X....."
        "...X...."
        "...X...."
        "..X....."
        ".X......"
-       "X.......")))
+       "........")))
   (define-fringe-bitmap 'my-ellipsis-half-width
     (eval-when-compile
       (fringe-helper-convert
