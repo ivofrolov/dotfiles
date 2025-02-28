@@ -760,15 +760,17 @@
   :hook
   (ibuffer . ibuffer-vc-set-filter-groups-by-vc-root))
 
-;; (use-package magit
-;;   :ensure
-;;   :init
-;;   (setq magit-bind-magit-project-status nil)
-;;   :custom
-;;   (magit-auto-revert-mode nil)
-;;   (magit-display-buffer-function #'magit-display-buffer-fullframe-status-topleft-v1)
-;;   :bind (:map project-prefix-map
-;;               ("m" . magit-project-status)))
+(use-package magit
+  :custom
+  (magit-define-global-key-bindings nil)
+  (magit-bind-magit-project-status nil)
+  (magit-auto-revert-mode nil)
+  (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1)
+  :bind (("C-x g" . magit-status)
+         ("C-c g" . magit-dispatch)
+         ("C-c f" . magit-file-dispatch)
+         :map project-prefix-map
+              ("m" . magit-project-status)))
 
 (use-package man
   :custom
