@@ -22,7 +22,7 @@
 (defun add-line ()
   (interactive)
   (move-end-of-line 1)
-  (default-indent-new-line))
+  (newline-and-indent))
 
 (defun move-line-down()
   (interactive)
