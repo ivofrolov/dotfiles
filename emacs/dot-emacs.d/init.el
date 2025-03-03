@@ -742,6 +742,10 @@
   (ediff-split-window-function 'split-window-horizontally)
   (ediff-window-setup-function 'ediff-setup-windows-plain))
 
+(use-package gud
+  :custom
+  (gud-highlight-current-line t))
+
 (use-package ibuffer
   :custom
   (ibuffer-display-summary nil)
