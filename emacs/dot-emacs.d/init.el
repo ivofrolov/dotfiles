@@ -253,6 +253,16 @@
   (imenu-auto-rescan t)
   (imenu-flatten 'prefix))
 
+;; fill
+(use-package emacs
+  :custom
+  (fill-column 88)
+  (sentence-end-double-space nil)
+  :config
+  (unbind-key "C-x f")
+  (unbind-key "C-x ;")
+  (unbind-key "C-x C-n"))
+
 ;; indent
 (use-package emacs
   :custom
@@ -260,9 +270,8 @@
   (tab-always-indent t)
   (standard-indent 4)
   (tab-width 4)
-  (tab-stop-list '(0 4))
-  (comment-column 0)
-  (sentence-end-double-space nil))
+  ;; (tab-stop-list '(0 4))
+  (comment-column 0))
 
 ;; input
 (use-package quail-russian-macintosh
@@ -475,6 +484,7 @@
                         ("\\([^/]+\\)_test\\.go\\'" "\\1.go")))
   :bind
   ("M-g s" . find-sibling-file))
+
 
 ;;; Languages
 
