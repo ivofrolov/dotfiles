@@ -338,6 +338,7 @@
                                        :documentRangeFormattingProvider
                                        :documentOnTypeFormattingProvider
                                        :inlayHintProvider))
+  (eglot-extend-to-xref t)
   (eglot-autoshutdown t)
   :bind
   (:map eglot-mode-map
