@@ -4,7 +4,12 @@
 
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-(setq package-pinned-packages '((use-package . "gnu") (which-key . "gnu")))
+(setq package-pinned-packages
+      '((editorconfig . "nongnu")
+        (faceup . "gnu")
+        (transient . "gnu")
+        (use-package . "gnu")
+        (which-key . "gnu")))
 (add-to-list 'load-path (locate-user-emacs-file "packages"))
 
 (exec-path-from-shell-initialize)
@@ -24,8 +29,9 @@
 
 (use-package dabbrev
   :custom
-  (dabbrev-ignored-buffer-regexps '("^[[:blank:]]+\\*.*"
-                                    "^\\*.*\\*$")))
+  (dabbrev-ignored-buffer-regexps
+   '("^[[:blank:]]+\\*.*"
+     "^\\*.*\\*$")))
 
 
 ;;; Display
