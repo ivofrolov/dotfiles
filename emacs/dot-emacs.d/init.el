@@ -185,6 +185,15 @@
 
 ;;; Editing
 
+(use-package align
+  :config
+  (add-to-list 'align-rules-list
+               '(text-numbers
+                 (regexp . ".*? \\(-?[0-9.,]+[0-9., ]*\\).*")
+                 (group . 1)
+                 (justify . t)
+                 (spacing . 0))))
+
 ;; clipboard
 (use-package emacs
   :custom
@@ -465,6 +474,7 @@
   :custom
   (xref-history-storage #'xref-window-local-history))
 
+
 ;;; Files
 
 (use-package emacs
@@ -700,16 +710,8 @@
   :custom
   (zig-format-on-save nil))
 
-;;; Tools
 
-(use-package align
-  :config
-  (add-to-list 'align-rules-list
-               '(text-numbers
-                 (regexp . ".*? \\(-?[0-9.,]+[0-9., ]*\\).*")
-                 (group . 1)
-                 (justify . t)
-                 (spacing . 0))))
+;;; Tools
 
 (use-package avy
   :config
@@ -724,6 +726,11 @@
   :defer
   :custom
   (comint-input-ignoredups t))
+
+(use-package compile
+  :bind
+  (("C-c C-c" . recompile)
+   ("C-c C-k" . kill-compilation)))
 
 (use-package denote
   :defer
@@ -812,7 +819,8 @@
   :config
   (setq frame-title-format '("%b" (:eval (my-current-project-file-suffix))))
   :bind (:map project-prefix-map
-              ("S" . my-project-vc-create-branch-from-default)))
+              ("S" . my-project-vc-create-branch-from-default)
+              ("c" . project-recompile)))
 
 ;; package
 (use-package package
