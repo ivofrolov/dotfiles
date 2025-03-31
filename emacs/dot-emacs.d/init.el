@@ -728,8 +728,14 @@
   (comint-input-ignoredups t))
 
 (use-package compile
+  :init
+  (defun my-recompile (&optional edit-command)
+    (declare (interactive-only "use `compile' or `recompile' instead."))
+    (interactive "P")
+    (let ((current-prefix-arg nil))
+      (if edit-command (call-interactively #'compile) (recompile))))
   :bind
-  (("C-c C-c" . recompile)
+  (("C-c C-c" . my-recompile)
    ("C-c C-k" . kill-compilation)))
 
 (use-package denote
@@ -816,11 +822,17 @@
 ;; project
 (use-package my-project
   :demand
+  :init
+  (defun my-project-recompile (&optional edit-command)
+    (declare (interactive-only "use `project-compile' or `project-recompile' instead."))
+    (interactive "P")
+    (let ((current-prefix-arg nil))
+      (if edit-command (call-interactively #'project-compile) (project-recompile))))
   :config
   (setq frame-title-format '("%b" (:eval (my-current-project-file-suffix))))
   :bind (:map project-prefix-map
               ("S" . my-project-vc-create-branch-from-default)
-              ("c" . project-recompile)))
+              ("c" . my-project-recompile)))
 
 ;; package
 (use-package package
