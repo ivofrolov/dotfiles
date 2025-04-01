@@ -582,12 +582,15 @@
   :init
   (use-package my-reformatter)
   :config
+  (use-package my-go)
   (use-package gud-dlv)
   :custom
   (go-ts-mode-indent-offset 4)
   :bind
   (:map go-ts-mode-map
-        ("C-c C-f" . go-format-buffer))
+        ("C-c C-f" . go-format-buffer)
+        ("C-c t t" . my-go-test-function-at-point)
+        ("C-c t p" . my-go-test-this-package))
   :mode
   ("\\.go\\'" . go-ts-mode)
   ("/go\\.mod\\'" . go-mod-ts-mode))
