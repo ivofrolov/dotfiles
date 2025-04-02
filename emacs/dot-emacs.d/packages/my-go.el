@@ -32,17 +32,17 @@ specifying test flags."
     (call-process "go" nil '(t nil) nil "list")
     (string-trim (thing-at-point 'line t))))
 
-(defun my-go--compile-test (&optional regexp)
-  "Compile the tests matching REGEXP.
+(defun my-go--get-compile-test-command (&optional regexp)
+  "Return command to compile the tests matching REGEXP.
 this function respects `go-ts-mode-build-tags' and
 `go-ts-mode-test-flags' variables for specifying build tags and test
 flags."
   (let ((run (if regexp (format "-run '%s'" regexp) "")))
-    (compile (format "go test %s %s %s %s"
-                     (go-ts-mode--get-build-tags-flag)
-                     (my-go--get-this-package)
-                     run
-                     (go-ts-mode--get-test-flags)))))
+    (format "go test %s %s %s %s"
+            (go-ts-mode--get-build-tags-flag)
+            (my-go--get-this-package)
+            run
+            (go-ts-mode--get-test-flags))))
 
 (defun my-go--get-function-regexp (name)
   (if name
@@ -76,14 +76,20 @@ flags."
       (my-go--get-function-regexp name)
     (error "No test function found")))
 
-(defun my-go-test-function-at-point ()
+(defun my-go-test-function-at-point (&optional edit-command)
   "Run the unit test at point."
-  (interactive)
-  (my-go--compile-test (my-go--get-test-regexp-at (point))))
+  (interactive "P")
+  (let ((command (my-go--get-compile-test-command (my-go--get-test-regexp-at (point)))))
+    (when edit-command
+      (setq command (compilation-read-command command)))
+    (compile command)))
 
-(defun my-go-test-this-package ()
+(defun my-go-test-this-package (&optional edit-command)
   "Run all the unit tests under the current file's package."
-  (interactive)
-  (my-go--compile-test))
+  (interactive "P")
+  (let ((command (my-go--get-compile-test-command)))
+    (when edit-command
+      (setq command (compilation-read-command command)))
+    (compile command)))
 
 (provide 'my-go)
