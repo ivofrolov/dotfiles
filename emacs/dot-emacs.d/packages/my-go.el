@@ -72,7 +72,7 @@ flags."
 
 (defun my-go--get-test-regexp-at (start)
   "Return a regular expression for the tests at point."
-  (if-let* ((name (my-go--get-function-at start)))
+  (if-let* ((name (my-go--get-test-function-at start)))
       (my-go--get-function-regexp name)
     (error "No test function found")))
 
