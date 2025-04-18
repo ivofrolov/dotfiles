@@ -302,6 +302,7 @@
   (search-whitespace-regexp ".*?"))
 
 (use-package ispell
+  :defer t
   :init
   ;; hunspell dictionary located at ~/Library/Spelling/ru_RU.{aff,dic}
   (setenv "DICTIONARY" "ru_RU"))
@@ -337,6 +338,7 @@
   (yaml-ts-mode . combobulate-mode))
 
 (use-package eglot
+  :defer t
   :init
   (setq eglot-stay-out-of '(imenu))
   :config
@@ -506,6 +508,7 @@
 ;;; Languages
 
 (use-package cc-mode
+  :defer t
   :preface
   (defun my-c-mode-locals ()
     (setq-local comment-style 'multi-line))
@@ -522,6 +525,7 @@
                      (other . "k&r"))))
 
 (use-package c-ts-mode
+  :defer t
   :preface
   (defun my-c-ts-mode-locals ()
     (setq-local comment-style 'multi-line))
@@ -537,6 +541,7 @@
 (use-package d2-ts-mode)
 
 (use-package graphql-ts-mode
+  :defer t
   :init
   (with-eval-after-load 'treesit
     (add-to-list 'treesit-language-source-alist
@@ -579,6 +584,7 @@
   (unbind-key "C-j" emmet-mode-keymap))
 
 (use-package go-ts-mode
+  :defer t
   :init
   (use-package my-reformatter)
   :config
@@ -639,6 +645,7 @@
   (python-shell-completion-native-enable nil))
 
 (use-package python
+  :defer t
   :preface
   (defun my-python-base-mode-locals ()
     (setq-local tab-width 4
@@ -699,6 +706,7 @@
   ("\\.tsx\\'" . tsx-ts-mode))
 
 (use-package yaml-ts-mode
+  :defer t
   :init
   (defun my-yaml-ts-mode-locals ()
     (setq-local treesit-font-lock-level 1)
@@ -731,6 +739,7 @@
   (comint-input-ignoredups t))
 
 (use-package compile
+  :defer t
   :init
   (defun my-recompile (&optional edit-command)
     (declare (interactive-only "use `compile' or `recompile' instead."))
