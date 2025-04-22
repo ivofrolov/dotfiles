@@ -386,7 +386,7 @@
   :custom
   (flymake-mode-line-lighter "")
   (flymake-suppress-zero-counters nil)
-  (flymake-fringe-indicator-position nil)
+  (flymake-indicator-type nil)
   :bind (:map flymake-mode-map
               ("C-c C-n" . flymake-goto-next-error)
               ("C-c C-p" . flymake-goto-prev-error)))
