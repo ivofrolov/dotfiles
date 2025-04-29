@@ -734,6 +734,11 @@
    :map isearch-mode-map
    ("C-;" . avy-isearch)))
 
+(use-package calendar
+  :defer
+  :custom
+  (calendar-week-start-day 1))
+
 (use-package comint
   :defer
   :custom
@@ -858,8 +863,8 @@
   :custom
   (package-vc-register-as-project nil))
 
-;; org
 (use-package org
+  :defer
   :custom
   (org-edit-src-content-indentation 0)
   (org-cycle-separator-lines 0)
