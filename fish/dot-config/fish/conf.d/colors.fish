@@ -1,3 +1,5 @@
+# https://fishshell.com/docs/current/interactive.html#syntax-highlighting
+
 set -g fish_color_command black
 set -g fish_color_quote blue
 set -g fish_color_redirection black
@@ -21,4 +23,4 @@ set -g fish_pager_color_progress --bold brblack
 set -g fish_pager_color_prefix --bold normal
 set -g fish_pager_color_completion normal
 set -g fish_pager_color_description yellow
-set -g fish_pager_color_selected_background --background=brwhite
+set -g fish_pager_color_selected_background --background=white
