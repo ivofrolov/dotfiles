@@ -866,16 +866,20 @@
 (use-package org
   :defer
   :custom
-  (org-edit-src-content-indentation 0)
+  ;; (org-special-ctrl-a/e t)
+  (org-export-backends '(html md org))
+  (org-modules nil)
   (org-cycle-separator-lines 0)
   (org-startup-folded 'fold)
   (org-cycle-hide-block-startup nil)
   (org-cycle-hide-drawer-startup t)
-  ;; (org-special-ctrl-a/e t)
+  (org-edit-src-content-indentation 0)
   (org-babel-load-languages
    '((d2 . t)
      (emacs-lisp . t)
+     (python . t)
      (shell . t)))
+  (org-babel-python-command-nonsession "python3")
   :bind
   (:map org-mode-map
         ("C-M-n" . org-next-visible-heading)

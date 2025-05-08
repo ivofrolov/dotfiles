@@ -17,7 +17,7 @@
   :stdout nil)
 
 (defvar d2--treesit-language-grammar
-  "https://codeberg.org/p8i/tree-sitter-d2.git")
+  "https://github.com/ravsii/tree-sitter-d2.git")
 
 (defvar d2-mode-syntax-table
   (let ((table (make-syntax-table)))
