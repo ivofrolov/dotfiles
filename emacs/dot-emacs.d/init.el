@@ -357,6 +357,7 @@
                                        :inlayHintProvider))
   (eglot-extend-to-xref t)
   (eglot-autoshutdown t)
+  (eglot-events-buffer-config '(:size 0 :format full))
   :bind
   (:map eglot-mode-map
         ("C-c ." . eglot-find-implementation)))
