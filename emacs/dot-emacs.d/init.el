@@ -7,7 +7,6 @@
 (setq package-pinned-packages
       '((editorconfig . "nongnu")
         (faceup . "gnu")
-        (transient . "gnu")
         (use-package . "gnu")
         (which-key . "gnu")))
 (add-to-list 'load-path (locate-user-emacs-file "packages"))
@@ -18,6 +17,11 @@
   (setq native-comp-async-report-warnings-errors 'silent)
   (setq package-native-compile t))
 
+(use-package gcmh
+  :ensure
+  :delight gcmh-mode
+  :custom
+  (gcmh-mode t))
 
 ;;; Abbreviations
 
@@ -755,7 +759,10 @@
       (if edit-command (call-interactively #'compile) (recompile))))
   :bind
   (("C-c C-c" . my-recompile)
-   ("C-c C-k" . kill-compilation)))
+   ("C-c C-k" . kill-compilation))
+  :hook
+  (compilation-mode . visual-line-mode)
+  (compilation-mode . visual-wrap-prefix-mode))
 
 (use-package denote
   :defer
