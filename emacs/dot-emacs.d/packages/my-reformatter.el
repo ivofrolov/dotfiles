@@ -10,7 +10,7 @@
 (reformatter-define astyle-format
   :program "astyle"
   :args astyle-format-args
-  :lighter " Astyle")
+  :lighter " astyle")
 
 
 (defvar black-format-args
@@ -23,7 +23,7 @@
 (reformatter-define black-format
   :program "black"
   :args black-format-args
-  :lighter " Black")
+  :lighter " black")
 
 
 (defvar go-format-args
@@ -49,6 +49,6 @@
 (reformatter-define ruff-format
   :program "ruff"
   :args ruff-format-args
-  :lighter " Ruff")
+  :lighter " ruff")
 
 (provide 'my-reformatter)

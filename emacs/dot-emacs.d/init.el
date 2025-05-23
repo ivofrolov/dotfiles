@@ -37,7 +37,6 @@
    '("^[[:blank:]]+\\*.*"
      "^\\*.*\\*$")))
 
-
 ;;; Display
 
 (use-package emacs
@@ -52,8 +51,7 @@
 (use-package emacs
   :custom
   (cursor-type 'bar)
-  :config
-  (blink-cursor-mode 0))
+  (blink-cursor-mode nil))
 
 ;; font
 (use-package emacs
@@ -63,11 +61,40 @@
   (set-frame-font "Hack 13" nil t))
 
 (use-package treesit
+  :config
+  (setq major-mode-remap-alist
+        '((c-or-c++-mode . c-or-c++-ts-mode)
+          (c-mode . c-ts-mode)
+          (c++-mode . c++-ts-mode)
+          (csharp-mode . csharp-ts-mode)
+          (css-mode . css-ts-mode)
+          (java-mode . java-ts-mode)
+          (javascript-mode . js-ts-mode)
+          (js-json-mode . json-ts-mode)
+          (html-mode . html-ts-mode)
+          (python-mode . python-ts-mode)
+          (ruby-mode . ruby-ts-mode)))
+  (setq treesit-language-source-alist
+        '((c "https://github.com/tree-sitter/tree-sitter-c")
+          (cpp "https://github.com/tree-sitter/tree-sitter-cpp")
+          (css "https://github.com/tree-sitter/tree-sitter-css")
+          (go "https://github.com/tree-sitter/tree-sitter-go")
+          (gomod "https://github.com/camdencheek/tree-sitter-go-mod")
+          (graphql "https://github.com/bkegley/tree-sitter-graphql")
+          (html "https://github.com/tree-sitter/tree-sitter-html")
+          (javascript "https://github.com/tree-sitter/tree-sitter-javascript")
+          (json "https://github.com/tree-sitter/tree-sitter-json")
+          (lua "https://github.com/tree-sitter-grammars/tree-sitter-lua")
+          (python "https://github.com/tree-sitter/tree-sitter-python")
+          (toml "https://github.com/tree-sitter/tree-sitter-toml")
+          (tsx "https://github.com/tree-sitter/tree-sitter-typescript")
+          (typescript "https://github.com/tree-sitter/tree-sitter-typescript")
+          (yaml "https://github.com/tree-sitter-grammars/tree-sitter-yaml")))
   :custom
   (treesit-font-lock-level 2))
 
 (use-package delight
-  :ensure t)
+  :ensure)
 
 ;; (use-package diff-hl
 ;;   :ensure
@@ -186,7 +213,6 @@
 (use-package my-window
   :bind (("C-x 4 o" . my-move-buffer-other-window)))
 
-
 ;;; Editing
 
 (use-package align
@@ -251,9 +277,8 @@
 
 (use-package vertico
   :ensure
-  :init
-  (vertico-mode)
   :custom
+  (vertico-mode t)
   (vertico-cycle t))
 
 (use-package orderless
@@ -264,8 +289,8 @@
   (completion-category-overrides '((file (styles basic partial-completion)))))
 
 ;; (use-package icomplete
-;;   :config
-;;   (fido-vertical-mode))
+;;   :custom
+;;   (fido-vertical-mode t))
 
 (use-package imenu
   :custom
@@ -306,7 +331,7 @@
   (search-whitespace-regexp ".*?"))
 
 (use-package ispell
-  :defer t
+  :defer
   :init
   ;; hunspell dictionary located at ~/Library/Spelling/ru_RU.{aff,dic}
   (setenv "DICTIONARY" "ru_RU"))
@@ -314,6 +339,7 @@
 (use-package corfu
   :ensure
   :custom
+  (global-corfu-mode t)
   (corfu-cycle t)
   :preface
   (defun corfu-enable-in-minibuffer ()
@@ -327,9 +353,7 @@
   :bind
   (:map corfu-map
         ("SPC" . corfu-insert-separator)
-        ("M-TAB" . corfu-complete))
-  :init
-  (global-corfu-mode))
+        ("M-TAB" . corfu-complete)))
 
 (use-package combobulate
   :vc (:url "https://github.com/mickeynp/combobulate" :rev :newest)
@@ -342,7 +366,7 @@
   (yaml-ts-mode . combobulate-mode))
 
 (use-package eglot
-  :defer t
+  :defer
   :init
   (setq eglot-stay-out-of '(imenu))
   :config
@@ -460,8 +484,8 @@
 
 (use-package subword
   :delight
-  :config
-  (global-subword-mode))
+  :custom
+  (global-subword-mode t))
 
 (use-package transform-case
   :bind
@@ -482,7 +506,6 @@
   :custom
   (xref-history-storage #'xref-window-local-history))
 
-
 ;;; Files
 
 (use-package emacs
@@ -495,8 +518,7 @@
 (use-package autorevert
   :custom
   (global-auto-revert-non-file-buffers t)
-  :config
-  (global-auto-revert-mode))
+  (global-auto-revert-mode t))
 
 (use-package bookmark
   :custom
@@ -510,17 +532,12 @@
   :bind
   ("M-g s" . find-sibling-file))
 
-
 ;;; Languages
 
 (use-package cc-mode
-  :defer t
-  :preface
-  (defun my-c-mode-locals ()
-    (setq-local comment-style 'multi-line))
-  :init
+  :defer
+  :config
   (use-package my-reformatter)
-  :hook (c-mode . my-c-mode-locals)
   :bind (:map c-mode-map
               ("C-c C-f" . astyle-format-buffer))
   :custom
@@ -531,27 +548,20 @@
                      (other . "k&r"))))
 
 (use-package c-ts-mode
-  :defer t
-  :preface
-  (defun my-c-ts-mode-locals ()
-    (setq-local comment-style 'multi-line))
-  :init
+  :defer
+  :config
   (use-package my-reformatter)
-  :hook (c-ts-mode . my-c-ts-mode-locals)
-  :bind (:map c-ts-mode-map
+  :bind (:map c-ts-base-mode-map
               ("C-c C-f" . astyle-format-buffer))
   :custom
   (c-ts-mode-indent-offset 2)
   (c-ts-mode-indent-style 'k&r))
 
-(use-package d2-ts-mode)
+(use-package d2-ts-mode
+  :defer)
 
 (use-package graphql-ts-mode
-  :defer t
-  :init
-  (with-eval-after-load 'treesit
-    (add-to-list 'treesit-language-source-alist
-                 '(graphql "https://github.com/bkegley/tree-sitter-graphql")))
+  :defer
   :custom
   (graphql-ts-indent-offset 4)
   :mode
@@ -582,6 +592,7 @@
           (elt .versions 0))))))
 
 (use-package emmet-mode
+  :defer
   :hook ((sgml-mode . emmet-mode)
          (css-mode . emmet-mode))
   :bind (:map emmet-mode-keymap
@@ -590,10 +601,9 @@
   (unbind-key "C-j" emmet-mode-keymap))
 
 (use-package go-ts-mode
-  :defer t
-  :init
-  (use-package my-reformatter)
+  :defer
   :config
+  (use-package my-reformatter)
   (use-package my-go)
   (use-package gud-dlv)
   :custom
@@ -615,10 +625,6 @@
   :custom
   (json-ts-mode-indent-offset 4))
 
-(use-package jq-mode
-  :mode
-  ("\\.jq\\'" . jq-mode))
-
 (use-package lua-ts-mode
   :mode
   ("\\.lua\\'" . lua-ts-mode))
@@ -632,6 +638,7 @@
 
 ;; solves python shell communication issues on macos
 (use-package python
+  :defer
   :preface
   (defun my-python-delete-eval-expressions (output)
     (string-join
@@ -651,15 +658,13 @@
   (python-shell-completion-native-enable nil))
 
 (use-package python
-  :defer t
+  :defer
   :preface
   (defun my-python-base-mode-locals ()
     (setq-local tab-width 4
                 comment-inline-offset 2))
   :hook
   (python-base-mode . my-python-base-mode-locals)
-  :init
-  (use-package my-reformatter)
   :custom
   (python-fill-docstring-style 'pep-257-nn)
   (python-indent-def-block-scale 1)
@@ -676,6 +681,7 @@
      ("\\(un-sorted\\|un-formatted\\)" . :note)))
   (python-indent-guess-indent-offset-verbose nil)
   :config
+  (use-package my-reformatter)
   (define-skeleton python-skeleton-ifmain
     "Insert top-level code environment check"
     nil
@@ -712,7 +718,7 @@
   ("\\.tsx\\'" . tsx-ts-mode))
 
 (use-package yaml-ts-mode
-  :defer t
+  :defer
   :init
   (defun my-yaml-ts-mode-locals ()
     (setq-local treesit-font-lock-level 1)
@@ -726,7 +732,6 @@
   :defer
   :custom
   (zig-format-on-save nil))
-
 
 ;;; Tools
 
@@ -750,7 +755,7 @@
   (comint-input-ignoredups t))
 
 (use-package compile
-  :defer t
+  :defer
   :init
   (defun my-recompile (&optional edit-command)
     (declare (interactive-only "use `compile' or `recompile' instead."))
@@ -824,14 +829,14 @@
   :custom
   (magit-define-global-key-bindings nil)
   (magit-bind-magit-project-status nil)
-  (magit-auto-revert-mode nil)
+  ;; (magit-auto-revert-mode nil)
   (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1)
   (magit-section-visibility-indicator '(my-right-arrow-half-width . my-left-arrow-half-width))
   :bind (("C-x g" . magit-status)
          ("C-c g" . magit-dispatch)
          ("C-c f" . magit-file-dispatch)
          :map project-prefix-map
-              ("m" . magit-project-status)))
+         ("m" . magit-project-status)))
 
 (use-package man
   :custom
@@ -842,8 +847,8 @@
   :bind
   (:map minibuffer-local-map
         ("M-A" . marginalia-cycle))
-  :init
-  (marginalia-mode))
+  :custom
+  (marginalia-mode t))
 
 ;; project
 (use-package my-project
@@ -919,13 +924,13 @@
   :custom
   (savehist-mode t))
 
-(use-package treesit-auto
-  :ensure
-  :custom
-  (treesit-auto-install 'prompt)
-  (treesit-auto-langs '(c cpp css go gomod html javascript json python yaml))
-  :config
-  (global-treesit-auto-mode))
+;; (use-package treesit-auto
+;;   :ensure
+;;   :custom
+;;   (treesit-auto-install 'prompt)
+;;   (treesit-auto-langs '(c cpp css go gomod html javascript json python yaml))
+;;   :config
+;;   (global-treesit-auto-mode))
 
 (use-package uniquify
   :custom
@@ -949,11 +954,10 @@
 (use-package which-key
   :delight which-key-mode
   :custom
+  (which-key-mode t)
   (which-key-show-early-on-C-h t)
   (which-key-idle-delay 10000)
-  (which-key-idle-secondary-delay 0.05)
-  :config
-  (which-key-mode))
+  (which-key-idle-secondary-delay 0.05))
 
 ;; should be loaded late in startup sequence
 (use-package envrc
@@ -962,7 +966,6 @@
   (envrc-none-lighter nil)
   (envrc-lighter nil)
   (envrc-global-mode t))
-
 
 ;;; Epilogue
 
