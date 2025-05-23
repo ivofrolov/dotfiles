@@ -517,8 +517,8 @@
 
 (use-package autorevert
   :custom
-  (global-auto-revert-non-file-buffers t)
-  (global-auto-revert-mode t))
+  (global-auto-revert-mode t)
+  (global-auto-revert-non-file-buffers t))
 
 (use-package bookmark
   :custom
@@ -826,6 +826,9 @@
   (ibuffer . ibuffer-vc-set-filter-groups-by-vc-root))
 
 (use-package magit
+  :defer
+  :init
+  (setq magit-auto-revert-mode nil) ; global-auto-revert-mode is enabled
   :custom
   (magit-define-global-key-bindings nil)
   (magit-bind-magit-project-status nil)
