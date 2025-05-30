@@ -778,6 +778,7 @@
   (denote-directory "~/Documents/Notes")
   (denote-dired-directories (list denote-directory))
   (denote-known-keywords nil)
+  (denote-history-completion-in-prompts nil)
   :config
   (add-hook 'dired-mode-hook #'denote-dired-mode-in-directories))
 
