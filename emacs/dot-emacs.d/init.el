@@ -528,6 +528,8 @@
   :custom
   (find-sibling-rules '(("\\([^/]+\\)\\.c\\'" "\\1.h")
                         ("\\([^/]+\\)\\.h\\'" "\\1.c")
+                        ("\\([^/]+\\)\\.cpp\\'" "\\1.hpp")
+                        ("\\([^/]+\\)\\.hpp\\'" "\\1.cpp")
                         ("\\([^/]+\\)\\.cpp\\'" "\\1.h")
                         ("\\([^/]+\\)\\.h\\'" "\\1.cpp")
                         ("\\([^/]+\\)\\.go\\'" "\\1_test.go")
@@ -558,7 +560,9 @@
               ("C-c C-f" . astyle-format-buffer))
   :custom
   (c-ts-mode-indent-offset 2)
-  (c-ts-mode-indent-style 'k&r))
+  (c-ts-mode-indent-style 'k&r)
+  :mode
+  ("\\.ino\\'" . c++-ts-mode))
 
 (use-package d2-ts-mode
   :defer)
@@ -887,6 +891,7 @@
   :defer
   :custom
   ;; (org-special-ctrl-a/e t)
+  (org-use-speed-commands t)
   (org-export-backends '(html md org))
   (org-modules nil)
   (org-cycle-separator-lines 0)
@@ -900,12 +905,20 @@
      (python . t)
      (shell . t)))
   (org-babel-python-command-nonsession "python3")
-  :bind
-  (:map org-mode-map
-        ("C-M-n" . org-next-visible-heading)
-        ("C-M-p" . org-previous-visible-heading))
+  ;; :bind
+  ;; (:map org-mode-map
+  ;;       ("C-M-n" . org-next-visible-heading)
+  ;;       ("C-M-p" . org-previous-visible-heading))
   :config
-  (add-to-list 'org-src-lang-modes '("json" . json-ts)))
+  (add-to-list 'org-src-lang-modes '("json" . json-ts))
+  ;; see https://karthinks.com/software/it-bears-repeating/
+  (defvar org-link-repeat-map
+    (let ((map (make-sparse-keymap)))
+      (define-key map (kbd "C-n") 'org-next-link)
+      (define-key map (kbd "C-p") 'org-previous-link)
+      map))
+  (dolist (cmd '(org-next-link org-previous-link))
+    (put cmd 'repeat-map 'org-link-repeat-map)))
 
 (use-package ob-d2
   :after org
