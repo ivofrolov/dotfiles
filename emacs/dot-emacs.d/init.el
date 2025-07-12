@@ -397,6 +397,8 @@
   (eldoc-echo-area-prefer-doc-buffer t))
 
 (use-package eldoc-dox
+  :custom
+  (eldoc-box-clear-with-C-g t)
   :bind
   (("C-h ." . eldoc-box-help-at-point)))
 
