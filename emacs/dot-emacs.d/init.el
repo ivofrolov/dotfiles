@@ -41,7 +41,8 @@
 
 (use-package emacs
   :init
-  (setq ns-use-proxy-icon nil)
+  (setq ns-use-proxy-icon nil
+        ns-pop-up-frames nil)
   :custom
   (use-system-tooltips nil)
   (use-short-answers t)
