@@ -39,10 +39,10 @@ this function respects `go-ts-mode-build-tags' and
 flags."
   (let ((run (if regexp (format "-run '%s'" regexp) "")))
     (format "go test %s %s %s %s"
+            (go-ts-mode--get-test-flags)
             (go-ts-mode--get-build-tags-flag)
             (my-go--get-this-package)
-            run
-            (go-ts-mode--get-test-flags))))
+            run)))
 
 (defun my-go--get-function-regexp (name)
   (if name
