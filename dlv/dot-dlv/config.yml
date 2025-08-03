@@ -1,3 +1,5 @@
+source-list-line-count: 1
+
 source-list-keyword-color: "\x1b[0m"
 source-list-string-color: "\x1b[34m"
 source-list-number-color: "\x1b[0m"
