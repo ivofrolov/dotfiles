@@ -15,7 +15,7 @@
 This function respects the `go-ts-mode-build-tags' variable for
 specifying build tags."
   (if go-ts-mode-build-tags
-      (format "-tags %s" (string-join go-ts-mode-build-tags ","))
+      (format "-tags=%s" (string-join go-ts-mode-build-tags ","))
     ""))
 
 (defun go-ts-mode--get-test-flags ()
@@ -54,8 +54,8 @@ flags."
     (or (treesit-thing-at start thing)
         (treesit-thing-next start thing))))
 
-(defun my-go--get-test-function-at (start)
-  "Return the name of a defun at point."
+(defun my-go--get-function-at (start)
+  "Return the name of a function at point."
   (let* ((node (my-go--find-defun-at start))
          (name (go-ts-mode--defun-name node t))
          (node-start (treesit-node-start node))
@@ -64,17 +64,17 @@ flags."
                (> start node-end)
                (< start node-start))
            nil)
-          ((or (not (equal (treesit-node-type node) "function_declaration"))
-               (not (string-prefix-p "Test" name)))
+          ((not (equal (treesit-node-type node) "function_declaration"))
            nil)
           (t
            name))))
 
 (defun my-go--get-test-regexp-at (start)
   "Return a regular expression for the tests at point."
-  (if-let* ((name (my-go--get-test-function-at start)))
+  (if-let* ((name (my-go--get-function-at start))
+            ((string-prefix-p "Test" name)))
       (my-go--get-function-regexp name)
-    (error "No test function found")))
+    (user-error "No test function found")))
 
 (defun my-go-test-function-at-point (&optional edit-command)
   "Run the unit test at point."

@@ -615,7 +615,7 @@
   :config
   (use-package my-reformatter)
   (use-package my-go)
-  (use-package gud-dlv)
+  (use-package my-gud-dlv)
   :custom
   (go-ts-mode-indent-offset 4)
   :bind

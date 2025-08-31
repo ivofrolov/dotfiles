@@ -5,6 +5,7 @@
 ;; The code below is based on gud's pdb debugger, adapted to dlv.
 
 (require 'gud)
+(require 'my-go)
 
 ;; Sample marker lines:
 ;; > main.main() ./test.go:10 (hits goroutine(5):1 total:1)
@@ -79,13 +80,16 @@ This should be an executable on your path, or an absolute file name."
   :type 'string
   :group 'gud)
 
+(defun gud-dlv-global-flags ()
+  (format "--build-flags='%s'" (go-ts-mode--get-build-tags-flag)))
+
 ;;;###autoload
 (defun dlv (command-line)
   "Run dlv on program FILE in buffer `*gud-FILE*'.
 The directory containing FILE becomes the initial working directory
 and source-file directory for your debugger."
   (interactive
-   (list (gud-query-cmdline 'dlv "debug")))
+   (list (gud-query-cmdline 'dlv (concat (gud-dlv-global-flags) " debug"))))
 
   (gud-common-init command-line nil 'go-dlv-marker-filter)
   (set (make-local-variable 'gud-minor-mode) 'dlv)
@@ -111,44 +115,33 @@ and source-file directory for your debugger."
 (defun dlv-current-func ()
   "Debug the current program or test stopping at the beginning of the current function."
   (interactive)
-  (let (current-test-name current-bench-name current-func-loc)
-    ;; find the location of the current function and (if it is a test function) its name
-    (save-excursion
-      (when (beginning-of-defun)
-        (setq current-func-loc (format "%s:%d" buffer-file-name (line-number-at-pos)))
-        ;; Check for Test or Benchmark function, set current-test-name/current-bench-name
-        (when (looking-at go-func-regexp)
-          (let ((func-name (match-string 1)))
-            (when (string-match-p "_test\.go$" buffer-file-name)
-              (cond
-               ((string-match-p "^Test\\|^Example" func-name)
-                (setq current-test-name func-name))
-               ((string-match-p "^Benchmark" func-name)
-                (setq current-bench-name func-name))))))))
+  (if-let* ((func-name (my-go--get-function-at (point))))
+      (let (gud-buffer-name dlv-command)
+        (cond
+         ((string-match-p "^Test\\|^Example" func-name)
+          (setq gud-buffer-name "*gud-test*")
+          (setq dlv-command (concat gud-dlv-command-name " " (gud-dlv-global-flags) " test -- -test.run " func-name)))
+         ((string-match-p "^Benchmark" func-name)
+          (setq gud-buffer-name "*gud-test*")
+          (setq dlv-command (concat gud-dlv-command-name " " (gud-dlv-global-flags) " test -- -test.run='^$' -test.bench=" func-name)))
+         (t
+          (setq gud-buffer-name "*gud-debug*")
+          (setq dlv-command (concat gud-dlv-command-name " " (gud-dlv-global-flags) " debug"))))
 
-    (if current-func-loc
-        (let (gud-buffer-name dlv-command)
-          (cond
-           (current-test-name
-            (setq gud-buffer-name "*gud-test*")
-            (setq dlv-command (concat gud-dlv-command-name " test -- -test.run " current-test-name)))
-           (current-bench-name
-            (setq gud-buffer-name "*gud-test*")
-            (setq dlv-command (concat gud-dlv-command-name " test -- -test.run='^$' -test.bench=" current-bench-name)))
-           (t
-            (setq gud-buffer-name "*gud-debug*")
-            (setq dlv-command (concat gud-dlv-command-name " debug"))))
+        ;; stop the current active dlv session if any
+        (let ((gud-buffer (get-buffer gud-buffer-name)))
+          (when gud-buffer (kill-buffer gud-buffer)))
 
-          ;; stop the current active dlv session if any
-          (let ((gud-buffer (get-buffer gud-buffer-name)))
-            (when gud-buffer (kill-buffer gud-buffer)))
+        (save-excursion
+          (beginning-of-defun)
+          (setq current-func-loc (format "%s:%d" buffer-file-name (line-number-at-pos))))
 
-          ;; run dlv and stop at the beginning of the current function
-          (dlv dlv-command)
-          (gud-call (format "break %s" current-func-loc))
-          (gud-call "continue"))
-      (error "Not in function"))))
+        ;; run dlv and stop at the beginning of the current function
+        (dlv dlv-command)
+        (gud-call (format "break %s" current-func-loc))
+        (gud-call "continue"))
+    (user-error "Not in function")))
 
-(provide 'gud-dlv)
+(provide 'my-gud-dlv)
 
-;;; gud-dlv.el ends here
+;;; my-gud-dlv.el ends here
