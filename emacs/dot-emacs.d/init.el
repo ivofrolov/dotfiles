@@ -79,7 +79,7 @@
         '((c "https://github.com/tree-sitter/tree-sitter-c")
           (cpp "https://github.com/tree-sitter/tree-sitter-cpp")
           (css "https://github.com/tree-sitter/tree-sitter-css")
-          (go "https://github.com/tree-sitter/tree-sitter-go")
+          (go "https://github.com/tree-sitter/tree-sitter-go" "v0.23.4")
           (gomod "https://github.com/camdencheek/tree-sitter-go-mod")
           (graphql "https://github.com/bkegley/tree-sitter-graphql")
           (html "https://github.com/tree-sitter/tree-sitter-html")
