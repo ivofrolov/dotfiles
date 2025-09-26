@@ -87,6 +87,7 @@
           (json "https://github.com/tree-sitter/tree-sitter-json")
           (lua "https://github.com/tree-sitter-grammars/tree-sitter-lua")
           (python "https://github.com/tree-sitter/tree-sitter-python")
+          (rust "https://github.com/tree-sitter/tree-sitter-rust")
           (toml "https://github.com/tree-sitter/tree-sitter-toml")
           (tsx "https://github.com/tree-sitter/tree-sitter-typescript")
           (typescript "https://github.com/tree-sitter/tree-sitter-typescript")
@@ -711,6 +712,10 @@
 (use-package re-builder
   :custom
   (reb-re-syntax 'string))
+
+(use-package rust-ts-mode
+  :mode
+  ("\\.rs\\'" . rust-ts-mode))
 
 (use-package sql-presto
   :after sql)
