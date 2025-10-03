@@ -367,6 +367,14 @@
   (prog-mode . combobulate-mode)
   (yaml-ts-mode . combobulate-mode))
 
+(use-package dape
+  :defer
+  :custom
+  (dape-buffer-window-arrangement 'gud)
+  (dape-info-hide-mode-line nil)
+  :config
+  (remove-hook 'dape-start-hook 'dape-info))
+
 (use-package eglot
   :defer
   :init
@@ -616,14 +624,16 @@
   :config
   (use-package my-reformatter)
   (use-package my-go)
-  (use-package my-gud-dlv)
+  ;; (use-package my-gud-dlv)
   :custom
   (go-ts-mode-indent-offset 4)
   :bind
   (:map go-ts-mode-map
         ("C-c C-f" . go-format-buffer)
         ("C-c t t" . my-go-test-function-at-point)
-        ("C-c t p" . my-go-test-this-package))
+        ("C-c t p" . my-go-test-this-package)
+        ;; ("C-c d d" . dlv-current-func)
+        ("C-c d t" . my-go-debug-test-function-at-point))
   :mode
   ("\\.go\\'" . go-ts-mode)
   ("/go\\.mod\\'" . go-mod-ts-mode))
@@ -820,6 +830,7 @@
   (ediff-window-setup-function 'ediff-setup-windows-plain))
 
 (use-package gud
+  :defer
   :custom
   (gud-highlight-current-line t))
 
