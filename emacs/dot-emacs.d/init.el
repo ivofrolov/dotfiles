@@ -388,6 +388,7 @@
           (substring-no-properties thing)
         found)))
   :custom
+  (eglot-code-action-indications '(eldoc-hint))
   (eglot-ignored-server-capabilities '(:documentHighlightProvider
                                        :documentFormattingProvider
                                        :documentRangeFormattingProvider
@@ -428,7 +429,6 @@
   (flymake-mode-line-lighter "")
   (flymake-suppress-zero-counters nil)
   (flymake-indicator-type nil)
-  (flymake-fringe-indicator-position nil)
   :bind (:map flymake-mode-map
               ("C-c C-n" . flymake-goto-next-error)
               ("C-c C-p" . flymake-goto-prev-error)))
