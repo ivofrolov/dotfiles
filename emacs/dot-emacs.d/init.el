@@ -399,7 +399,8 @@
   (eglot-events-buffer-config '(:size 0 :format full))
   :bind
   (:map eglot-mode-map
-        ("C-c ." . eglot-find-implementation)))
+        ("C-c ." . eglot-find-implementation)
+        ("C-c e" . eglot-code-actions)))
 
 (use-package eldoc
   :custom
