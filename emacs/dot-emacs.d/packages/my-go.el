@@ -28,9 +28,10 @@ specifying test flags."
 
 (defun my-go--get-this-package ()
   "Return package in the `default-directory'."
-  (with-temp-buffer
-    (call-process "go" nil '(t nil) nil "list")
-    (string-trim (thing-at-point 'line t))))
+  (let ((build-flags (go-ts-mode--get-build-tags-flag)))
+    (with-temp-buffer
+      (call-process "go" nil '(t nil) nil "list" build-flags)
+      (string-trim (thing-at-point 'line t)))))
 
 (defun my-go--get-compile-test-command (&optional regexp)
   "Return command to compile the tests matching REGEXP.
