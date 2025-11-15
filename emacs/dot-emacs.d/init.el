@@ -806,12 +806,13 @@
   (gud-highlight-current-line t))
 
 (use-package ibuffer
+  :defer
   :custom
   (ibuffer-display-summary nil)
   :bind ("C-x C-b" . ibuffer))
 
 (use-package ibuffer-vc
-  :ensure
+  :defer
   :custom
   (ibuffer-formats
    '((mark modified read-only vc-status-mini " "
