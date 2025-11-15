@@ -48,14 +48,12 @@
   (use-short-answers t)
   (ring-bell-function 'ignore))
 
-;; cursor
-(use-package emacs
+(use-package emacs                      ; cursor
   :custom
   (cursor-type 'bar)
   (blink-cursor-mode nil))
 
-;; font
-(use-package emacs
+(use-package emacs                      ; font
   :custom
   (font-lock-maximum-decoration 2)
   :config
@@ -128,16 +126,14 @@
                     (unknown . my-question-mark-half-width)))
     (setq bookmark-fringe-mark 'my-square-half-width)))
 
-;; line numbers
-(use-package emacs
+(use-package emacs                      ; line numbers
   :custom
   ;; (display-line-numbers-type 'relative)
   (display-line-numbers-width 3)
   (display-line-numbers-widen t)
   :hook ((prog-mode conf-mode) . display-line-numbers-mode))
 
-;; line wrapping
-(use-package emacs
+(use-package emacs                      ; line wrapping
   :custom
   (truncate-lines t)
   (truncate-partial-width-windows nil)
@@ -150,8 +146,7 @@
          ;; (minibuffer-setup . my-truncate-lines-in-minibuffer)
          ))
 
-;; mode line
-(use-package emacs
+(use-package emacs                      ; mode line
   :custom
   (mode-line-compact 'long)
   (column-number-mode t)
@@ -216,6 +211,17 @@
 (use-package my-window
   :bind (("C-x 4 o" . my-move-buffer-other-window)))
 
+(use-package minibuffer
+  :custom
+  (read-extended-command-predicate #'command-completion-default-include-p)
+  (completions-detailed t)
+  (minibuffer-electric-default-mode t)
+  ;; (enable-recursive-minibuffers t)
+  (minibuffer-prompt-properties
+   '(read-only t cursor-intangible t face minibuffer-prompt))
+  :hook
+  (minibuffer-setup . cursor-intangible-mode))
+
 ;;; Editing
 
 (use-package align
@@ -227,8 +233,7 @@
                  (justify . t)
                  (spacing . 0))))
 
-;; clipboard
-(use-package emacs
+(use-package emacs                      ; clipboard
   :custom
   (kill-do-not-save-duplicates t)
   (kill-whole-line t)
@@ -239,14 +244,14 @@
          ("s-v" . clipboard-yank)
          ("C-S-k" . kill-whole-line)))
 
-(use-package simple
+(use-package simple                     ; lines
   :custom
   (delete-selection-mode t)
   (line-move-visual nil)
   ;; (track-eol t)
   (duplicate-line-final-position -1))
 
-(use-package my-simple
+(use-package my-simple                  ; text editing bindings
   :bind (("s-<return>" . add-line)
          ("s-k" . duplicate-lines)
          ("s-l" . mark-line)
@@ -267,41 +272,7 @@
          ("s-<left>" . back-to-indentation-or-beginning)))
 
 ;; completions
-(use-package minibuffer
-  :custom
-  (read-extended-command-predicate #'command-completion-default-include-p)
-  (completions-detailed t)
-  (minibuffer-electric-default-mode t)
-  ;; (enable-recursive-minibuffers t)
-  (minibuffer-prompt-properties
-   '(read-only t cursor-intangible t face minibuffer-prompt))
-  :hook
-  (minibuffer-setup . cursor-intangible-mode))
-
-(use-package vertico
-  :ensure
-  :custom
-  (vertico-mode t)
-  (vertico-cycle t))
-
-(use-package orderless
-  :ensure
-  :custom
-  (completion-styles '(orderless basic))
-  (completion-category-defaults nil)
-  (completion-category-overrides '((file (styles basic partial-completion)))))
-
-;; (use-package icomplete
-;;   :custom
-;;   (fido-vertical-mode t))
-
-(use-package imenu
-  :custom
-  (imenu-auto-rescan t)
-  (imenu-flatten 'prefix))
-
-;; fill
-(use-package emacs
+(use-package emacs                      ; fill
   :custom
   (fill-column 88)
   (sentence-end-double-space nil)
@@ -310,8 +281,7 @@
   (unbind-key "C-x ;")
   (unbind-key "C-x C-n"))
 
-;; indent
-(use-package emacs
+(use-package emacs                      ; indent
   :custom
   (indent-tabs-mode nil)
   (tab-always-indent t)
@@ -320,7 +290,6 @@
   ;; (tab-stop-list '(0 4))
   (comment-column 0))
 
-;; input
 (use-package quail-russian-macintosh
   :custom
   (default-transient-input-method "compose")
@@ -339,25 +308,6 @@
   ;; hunspell dictionary located at ~/Library/Spelling/ru_RU.{aff,dic}
   (setenv "DICTIONARY" "ru_RU"))
 
-(use-package corfu
-  :ensure
-  :custom
-  (global-corfu-mode t)
-  (corfu-cycle t)
-  :preface
-  (defun corfu-enable-in-minibuffer ()
-    "Enable Corfu in the minibuffer if `completion-at-point' is bound."
-    (when (where-is-internal #'completion-at-point (list (current-local-map)))
-      (setq-local corfu-echo-delay nil
-                  corfu-popupinfo-delay nil)
-      (corfu-mode 1)))
-  :hook
-  (minibuffer-setup . corfu-enable-in-minibuffer)
-  :bind
-  (:map corfu-map
-        ("SPC" . corfu-insert-separator)
-        ("M-TAB" . corfu-complete)))
-
 (use-package combobulate
   :vc (:url "https://github.com/mickeynp/combobulate" :rev :newest)
   :demand
@@ -368,77 +318,7 @@
   (prog-mode . combobulate-mode)
   (yaml-ts-mode . combobulate-mode))
 
-(use-package dape
-  :defer
-  :custom
-  (dape-buffer-window-arrangement 'gud)
-  (dape-info-hide-mode-line nil)
-  :config
-  (remove-hook 'dape-start-hook 'dape-info))
-
-(use-package eglot
-  :defer
-  :init
-  (setq eglot-stay-out-of '(imenu))
-  :config
-  (cl-defmethod xref-backend-identifier-at-point
-    :extra "fallback" :around ((_backend (eql eglot)))
-    (let ((found (cl-call-next-method))
-          (thing (thing-at-point 'symbol)))
-      (if (and (equal found "LSP identifier at point") thing)
-          (substring-no-properties thing)
-        found)))
-  :custom
-  (eglot-code-action-indications '(eldoc-hint))
-  (eglot-ignored-server-capabilities '(:documentHighlightProvider
-                                       :documentFormattingProvider
-                                       :documentRangeFormattingProvider
-                                       :documentOnTypeFormattingProvider
-                                       :inlayHintProvider))
-  (eglot-extend-to-xref t)
-  (eglot-autoshutdown t)
-  (eglot-events-buffer-config '(:size 0 :format full))
-  :bind
-  (:map eglot-mode-map
-        ("C-c ." . eglot-find-implementation)
-        ("C-c e" . eglot-code-actions)))
-
-(use-package eldoc
-  :custom
-  (eldoc-minor-mode-string nil)
-  (eldoc-echo-area-display-truncation-message nil)
-  (eldoc-echo-area-prefer-doc-buffer t))
-
-(use-package eldoc-dox
-  :custom
-  (eldoc-box-clear-with-C-g t)
-  :bind
-  (("C-h ." . eldoc-box-help-at-point)))
-
-;; (use-package embark
-;;   :ensure
-;;   :preface
-;;   (defun my-embark-bind-keys-in-fido-mode ()
-;;     (bind-key "C-." #'embark-act (current-local-map))
-;;     (unbind-key "C-," (current-local-map)))
-;;   :hook
-;;   (icomplete-minibuffer-setup . my-embark-bind-keys-in-fido-mode)
-;;   :bind
-;;   (("C-." . embark-act)))
-
-(use-package flymake
-  :custom
-  (flymake-mode-line-lighter "")
-  (flymake-suppress-zero-counters nil)
-  (flymake-error-bitmap '(my-exclamation-mark-half-width compilation-error))
-  (flymake-warning-bitmap '(my-exclamation-mark-half-width compilation-warning))
-  (flymake-note-bitmap '(my-exclamation-mark-half-width compilation-info))
-  :bind (:map flymake-mode-map
-              ("C-c C-n" . flymake-goto-next-error)
-              ("C-c C-p" . flymake-goto-prev-error)))
-
-;; mark ring
-(use-package emacs
+(use-package emacs                      ; mark ring
   :preface
   (defun my-delete-duplicates-from-mark-ring (&rest _)
     (set 'mark-ring (delete (mark-marker) mark-ring)))
@@ -477,16 +357,14 @@
 ;;    :map mc/keymap
 ;;    ("<return>" . nil)))
 
-;; pairs
-(use-package emacs
+(use-package elec-pair
   :custom
   (electric-pair-mode t)
   (electric-pair-skip-whitespace nil)
   (delete-pair-blink-delay 0)
   (show-paren-when-point-inside-paren t))
 
-;; scroll
-(use-package emacs
+(use-package emacs                      ; scroll
   :custom
   (scroll-preserve-screen-position t)
   (scroll-error-top-bottom t))
@@ -511,25 +389,19 @@
   :bind
   ("C-=" . increment-number))
 
-;; undo
-(use-package emacs
+(use-package emacs                      ; undo
   :custom
   (undo-no-redo t)
   :bind
   ("s-Z" . undo-redo))
 
-(use-package xref
-  :custom
-  (xref-history-storage #'xref-window-local-history))
-
 ;;; Files
 
-(use-package emacs
+(use-package emacs                      ; files maintenance
   :custom
   (create-lockfiles nil)
   (make-backup-files nil)
-  (delete-by-moving-to-trash t)
-  (save-place-mode t))
+  (delete-by-moving-to-trash t))
 
 (use-package autorevert
   :custom
@@ -540,7 +412,7 @@
   :custom
   (bookmark-save-flag nil))
 
-(use-package files
+(use-package files                      ; siblings
   :custom
   (find-sibling-rules '(("\\([^/]+\\)\\.c\\'" "\\1.h")
                         ("\\([^/]+\\)\\.h\\'" "\\1.c")
@@ -552,6 +424,10 @@
                         ("\\([^/]+\\)_test\\.go\\'" "\\1.go")))
   :bind
   ("M-g s" . find-sibling-file))
+
+(use-package saveplace
+  :custom
+  (save-place-mode t))
 
 ;;; Languages
 
@@ -661,27 +537,6 @@
   :mode
   ("README\\.md\\'" . gfm-mode))
 
-;; solves python shell communication issues on macos
-(use-package python
-  :defer
-  :preface
-  (defun my-python-delete-eval-expressions (output)
-    (string-join
-     (seq-remove
-      (apply-partially 'string-prefix-p "__PYTHON_EL_")
-      (string-lines output nil t))))
-  (defun my-inferior-python-mode-locals ()
-    (setq-local comint-process-echoes t)
-    (add-to-list (make-local-variable 'comint-preoutput-filter-functions)
-                 #'my-python-delete-eval-expressions))
-  :hook
-  (inferior-python-mode . my-inferior-python-mode-locals)
-  :config
-  (advice-add 'python-eldoc--get-doc-at-point
-              :filter-return #'my-python-delete-eval-expressions)
-  :custom
-  (python-shell-completion-native-enable nil))
-
 (use-package python
   :defer
   :preface
@@ -722,6 +577,26 @@
               :map python-ts-mode-map
               ("C-c C-h" . python-eldoc-at-point)
               ("C-c C-f" . ruff-format-buffer)))
+
+(use-package python                  ; solves python shell communication issues on macos
+  :defer
+  :preface
+  (defun my-python-delete-eval-expressions (output)
+    (string-join
+     (seq-remove
+      (apply-partially 'string-prefix-p "__PYTHON_EL_")
+      (string-lines output nil t))))
+  (defun my-inferior-python-mode-locals ()
+    (setq-local comint-process-echoes t)
+    (add-to-list (make-local-variable 'comint-preoutput-filter-functions)
+                 #'my-python-delete-eval-expressions))
+  :hook
+  (inferior-python-mode . my-inferior-python-mode-locals)
+  :config
+  (advice-add 'python-eldoc--get-doc-at-point
+              :filter-return #'my-python-delete-eval-expressions)
+  :custom
+  (python-shell-completion-native-enable nil))
 
 (use-package re-builder
   :custom
@@ -802,6 +677,33 @@
   (compilation-mode . visual-line-mode)
   (compilation-mode . visual-wrap-prefix-mode))
 
+(use-package corfu
+  :ensure
+  :custom
+  (global-corfu-mode t)
+  (corfu-cycle t)
+  :preface
+  (defun corfu-enable-in-minibuffer ()
+    "Enable Corfu in the minibuffer if `completion-at-point' is bound."
+    (when (where-is-internal #'completion-at-point (list (current-local-map)))
+      (setq-local corfu-echo-delay nil
+                  corfu-popupinfo-delay nil)
+      (corfu-mode 1)))
+  :hook
+  (minibuffer-setup . corfu-enable-in-minibuffer)
+  :bind
+  (:map corfu-map
+        ("SPC" . corfu-insert-separator)
+        ("M-TAB" . corfu-complete)))
+
+(use-package dape
+  :defer
+  :custom
+  (dape-buffer-window-arrangement 'gud)
+  (dape-info-hide-mode-line nil)
+  :config
+  (remove-hook 'dape-start-hook 'dape-info))
+
 (use-package denote
   :defer
   :custom
@@ -837,6 +739,67 @@
   (ediff-split-window-function 'split-window-horizontally)
   (ediff-window-setup-function 'ediff-setup-windows-plain))
 
+(use-package eglot
+  :defer
+  :init
+  (setq eglot-stay-out-of '(imenu))
+  :config
+  (cl-defmethod xref-backend-identifier-at-point
+    :extra "fallback" :around ((_backend (eql eglot)))
+    (let ((found (cl-call-next-method))
+          (thing (thing-at-point 'symbol)))
+      (if (and (equal found "LSP identifier at point") thing)
+          (substring-no-properties thing)
+        found)))
+  :custom
+  (eglot-code-action-indications '(eldoc-hint))
+  (eglot-ignored-server-capabilities '(:documentHighlightProvider
+                                       :documentFormattingProvider
+                                       :documentRangeFormattingProvider
+                                       :documentOnTypeFormattingProvider
+                                       :inlayHintProvider))
+  (eglot-extend-to-xref t)
+  (eglot-autoshutdown t)
+  (eglot-events-buffer-config '(:size 0 :format full))
+  :bind
+  (:map eglot-mode-map
+        ("C-c ." . eglot-find-implementation)
+        ("C-c e" . eglot-code-actions)))
+
+(use-package eldoc
+  :custom
+  (eldoc-minor-mode-string nil)
+  (eldoc-echo-area-display-truncation-message nil)
+  (eldoc-echo-area-prefer-doc-buffer t))
+
+(use-package eldoc-dox
+  :custom
+  (eldoc-box-clear-with-C-g t)
+  :bind
+  (("C-h ." . eldoc-box-help-at-point)))
+
+;; (use-package embark
+;;   :ensure
+;;   :preface
+;;   (defun my-embark-bind-keys-in-fido-mode ()
+;;     (bind-key "C-." #'embark-act (current-local-map))
+;;     (unbind-key "C-," (current-local-map)))
+;;   :hook
+;;   (icomplete-minibuffer-setup . my-embark-bind-keys-in-fido-mode)
+;;   :bind
+;;   (("C-." . embark-act)))
+
+(use-package flymake
+  :custom
+  (flymake-mode-line-lighter "")
+  (flymake-suppress-zero-counters nil)
+  (flymake-error-bitmap '(my-exclamation-mark-half-width compilation-error))
+  (flymake-warning-bitmap '(my-exclamation-mark-half-width compilation-warning))
+  (flymake-note-bitmap '(my-exclamation-mark-half-width compilation-info))
+  :bind (:map flymake-mode-map
+              ("C-c C-n" . flymake-goto-next-error)
+              ("C-c C-p" . flymake-goto-prev-error)))
+
 (use-package gud
   :defer
   :custom
@@ -859,6 +822,11 @@
            vc-relative-file)))
   :hook
   (ibuffer . ibuffer-vc-set-filter-groups-by-vc-root))
+
+(use-package imenu
+  :custom
+  (imenu-auto-rescan t)
+  (imenu-flatten 'prefix))
 
 (use-package magit
   :defer
@@ -888,22 +856,6 @@
   :custom
   (marginalia-mode t))
 
-;; project
-(use-package my-project
-  :demand
-  :init
-  (defun my-project-recompile (&optional edit-command)
-    (declare (interactive-only "use `project-compile' or `project-recompile' instead."))
-    (interactive "P")
-    (let ((current-prefix-arg nil))
-      (if edit-command (call-interactively #'project-compile) (project-recompile))))
-  :config
-  (setq frame-title-format '("%b" (:eval (my-current-project-file-suffix))))
-  :bind (:map project-prefix-map
-              ("S" . my-project-vc-create-branch-from-default)
-              ("c" . my-project-recompile)))
-
-;; package
 (use-package package
   :custom
   (package-install-upgrade-built-in t)
@@ -952,10 +904,31 @@
   :config
   (add-to-list 'org-src-lang-modes '("d2" . d2-ts)))
 
+(use-package orderless
+  :ensure
+  :custom
+  (completion-styles '(orderless basic))
+  (completion-category-defaults nil)
+  (completion-category-overrides '((file (styles basic partial-completion)))))
+
 (use-package outline
   :custom
   (outline-minor-mode-cycle t)
   (outline-minor-mode-prefix "\C-c\C-o"))
+
+(use-package my-project
+  :demand
+  :init
+  (defun my-project-recompile (&optional edit-command)
+    (declare (interactive-only "use `project-compile' or `project-recompile' instead."))
+    (interactive "P")
+    (let ((current-prefix-arg nil))
+      (if edit-command (call-interactively #'project-compile) (project-recompile))))
+  :config
+  (setq frame-title-format '("%b" (:eval (my-current-project-file-suffix))))
+  :bind (:map project-prefix-map
+              ("S" . my-project-vc-create-branch-from-default)
+              ("c" . my-project-recompile)))
 
 (use-package recentf
   :custom
@@ -970,14 +943,6 @@
 (use-package savehist
   :custom
   (savehist-mode t))
-
-;; (use-package treesit-auto
-;;   :ensure
-;;   :custom
-;;   (treesit-auto-install 'prompt)
-;;   (treesit-auto-langs '(c cpp css go gomod html javascript json python yaml))
-;;   :config
-;;   (global-treesit-auto-mode))
 
 (use-package uniquify
   :custom
@@ -998,6 +963,12 @@
   :config
   (define-key org-mode-map (kbd "C-c C-r") verb-command-map))
 
+(use-package vertico
+  :ensure
+  :custom
+  (vertico-mode t)
+  (vertico-cycle t))
+
 (use-package which-key
   :delight which-key-mode
   :custom
@@ -1006,8 +977,11 @@
   (which-key-idle-delay 10000)
   (which-key-idle-secondary-delay 0.05))
 
-;; should be loaded late in startup sequence
-(use-package envrc
+(use-package xref
+  :custom
+  (xref-history-storage #'xref-window-local-history))
+
+(use-package envrc                      ; should be loaded late in startup sequence
   :ensure
   :custom
   (envrc-none-lighter nil)
