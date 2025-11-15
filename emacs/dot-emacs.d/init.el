@@ -88,6 +88,7 @@
           (lua "https://github.com/tree-sitter-grammars/tree-sitter-lua")
           (python "https://github.com/tree-sitter/tree-sitter-python")
           (rust "https://github.com/tree-sitter/tree-sitter-rust")
+          (swift "https://github.com/alex-pinkus/tree-sitter-swift" "0.7.1-with-generated-files")
           (toml "https://github.com/tree-sitter/tree-sitter-toml")
           (tsx "https://github.com/tree-sitter/tree-sitter-typescript")
           (typescript "https://github.com/tree-sitter/tree-sitter-typescript")
@@ -429,7 +430,9 @@
   :custom
   (flymake-mode-line-lighter "")
   (flymake-suppress-zero-counters nil)
-  (flymake-indicator-type nil)
+  (flymake-error-bitmap '(my-exclamation-mark-half-width compilation-error))
+  (flymake-warning-bitmap '(my-exclamation-mark-half-width compilation-warning))
+  (flymake-note-bitmap '(my-exclamation-mark-half-width compilation-info))
   :bind (:map flymake-mode-map
               ("C-c C-n" . flymake-goto-next-error)
               ("C-c C-p" . flymake-goto-prev-error)))
@@ -737,6 +740,10 @@
   :bind (:map sgml-mode-map
          ("C-M-n" . sgml-skip-tag-forward)
          ("C-M-p" . sgml-skip-tag-backward)))
+
+(use-package swift-ts-mode
+  :mode
+  ("\\.swift\\'" . swift-ts-mode))
 
 (use-package typescript-ts-mode
   :mode
