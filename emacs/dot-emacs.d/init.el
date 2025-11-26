@@ -696,6 +696,12 @@
         ("SPC" . corfu-insert-separator)
         ("M-TAB" . corfu-complete)))
 
+(use-package csv-mode
+  :defer
+  :mode
+  ("\\.[Cc][Ss][Vv]\\'" . csv-mode)
+  ("\\.tsv\\'" . tsv-mode))
+
 (use-package dape
   :defer
   :custom
