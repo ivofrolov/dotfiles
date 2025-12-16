@@ -11,7 +11,7 @@
         (which-key . "gnu")))
 (add-to-list 'load-path (locate-user-emacs-file "packages"))
 
-(exec-path-from-shell-initialize)
+;; (exec-path-from-shell-initialize)
 
 (when (native-comp-available-p)
   (setq native-comp-async-report-warnings-errors 'silent)
