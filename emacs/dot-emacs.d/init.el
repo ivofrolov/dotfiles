@@ -3,7 +3,8 @@
 (setq custom-file (locate-user-emacs-file "custom.el"))
 
 (require 'package)
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+;; (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+(add-to-list 'package-archives '("melpa" . "https://www.mirrorservice.org/sites/melpa.org/packages/") t)
 (setq package-pinned-packages
       '((editorconfig . "nongnu")
         (faceup . "gnu")
@@ -757,6 +758,9 @@
       (if (and (equal found "LSP identifier at point") thing)
           (substring-no-properties thing)
         found)))
+  (add-to-list 'eglot-server-programs
+               '((python-ts-mode python-mode)
+                 . ("ty" "server")))
   :custom
   (eglot-code-action-indications '(eldoc-hint))
   (eglot-ignored-server-capabilities '(:documentHighlightProvider
