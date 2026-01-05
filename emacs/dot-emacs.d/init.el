@@ -12,7 +12,7 @@
         (which-key . "gnu")))
 (add-to-list 'load-path (locate-user-emacs-file "packages"))
 
-;; (exec-path-from-shell-initialize)
+(exec-path-from-shell-initialize)
 
 (when (native-comp-available-p)
   (setq native-comp-async-report-warnings-errors 'silent)
@@ -780,6 +780,7 @@
   :custom
   (eldoc-minor-mode-string nil)
   (eldoc-echo-area-display-truncation-message nil)
+  (eldoc-echo-area-use-multiline-p nil)
   (eldoc-echo-area-prefer-doc-buffer t))
 
 (use-package eldoc-dox
