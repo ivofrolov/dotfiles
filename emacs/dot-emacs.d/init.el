@@ -549,11 +549,11 @@
   :custom
   (python-fill-docstring-style 'pep-257-nn)
   (python-indent-def-block-scale 1)
-  (python-check-command "ruff check --output-format pylint")
+  (python-check-command "ruff check --no-fix --output-format pylint")
   (python-interpreter "python3")
   (python-shell-interpreter "python3")
   (python-flymake-command
-   '("ruff" "check" "--no-fix" "--output-format" "text" "-"))
+   '("ruff" "check" "--no-fix" "--output-format" "pylint" "-"))
   (python-flymake-command-output-pattern
    '("^\\(?:-\\):\\(?1:[0-9]+\\):\\(?:\\(?2:[0-9]+\\):?\\)? \\(?3:.*\\)$"
      1 2 nil 3))
@@ -767,7 +767,8 @@
                                        :documentFormattingProvider
                                        :documentRangeFormattingProvider
                                        :documentOnTypeFormattingProvider
-                                       :inlayHintProvider))
+                                       :inlayHintProvider
+                                       :semanticTokensProvider))
   (eglot-extend-to-xref t)
   (eglot-autoshutdown t)
   (eglot-events-buffer-config '(:size 0 :format full))
