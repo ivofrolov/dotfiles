@@ -758,9 +758,6 @@
       (if (and (equal found "LSP identifier at point") thing)
           (substring-no-properties thing)
         found)))
-  (add-to-list 'eglot-server-programs
-               '((python-ts-mode python-mode)
-                 . ("ty" "server")))
   :custom
   (eglot-code-action-indications '(eldoc-hint))
   (eglot-ignored-server-capabilities '(:documentHighlightProvider
