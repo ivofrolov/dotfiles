@@ -505,7 +505,6 @@
   :config
   (use-package my-reformatter)
   (use-package my-go)
-  ;; (use-package my-gud-dlv)
   :custom
   (go-ts-mode-indent-offset 4)
   :bind
@@ -665,6 +664,8 @@
 
 (use-package compile
   :defer
+  :custom
+  (compilation-max-output-line-length nil)
   :init
   (defun my-recompile (&optional edit-command)
     (declare (interactive-only "use `compile' or `recompile' instead."))
@@ -708,6 +709,8 @@
   :custom
   (dape-buffer-window-arrangement 'gud)
   (dape-info-hide-mode-line nil)
+  (dape-inlay-hints nil)
+  (dape-request-timeout 60)
   :config
   (remove-hook 'dape-start-hook 'dape-info))
 
