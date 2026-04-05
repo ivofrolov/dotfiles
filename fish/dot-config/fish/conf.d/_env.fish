@@ -2,6 +2,7 @@ set -g __fish_git_prompt_show_informative_status 'yes'
 set fish_greeting
 
 command -q brew; or /opt/homebrew/bin/brew shellenv | source
+set -x HOMEBREW_NO_ENV_HINTS 1
 
 set -x EDITOR nano
 set -x PAGER less
