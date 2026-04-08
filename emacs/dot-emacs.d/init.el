@@ -14,9 +14,20 @@
 
 (exec-path-from-shell-initialize)
 
+;;; Performance
+
 (when (native-comp-available-p)
   (setq native-comp-async-report-warnings-errors 'silent)
   (setq package-native-compile t))
+
+;; disable bidirectional text scanning
+(setq-default bidi-display-reordering 'left-to-right
+              bidi-paragraph-direction 'left-to-right)
+(setq bidi-inhibit-bpa t)
+
+(setq redisplay-skip-fontification-on-input t)
+
+(setq read-process-output-max (* 4 1024 1024)) ; 4MB
 
 (use-package gcmh
   :ensure
@@ -203,6 +214,7 @@
   (split-width-threshold 140)
   (split-height-threshold 70)
   (window-resize-pixelwise t)
+  (window-combination-resize t)
   (max-mini-window-height 0.2)
   :bind (("s-{" . previous-buffer)
          ("s-}" . next-buffer)
@@ -790,16 +802,11 @@
   :bind
   (("C-h ." . eldoc-box-help-at-point)))
 
-;; (use-package embark
-;;   :ensure
-;;   :preface
-;;   (defun my-embark-bind-keys-in-fido-mode ()
-;;     (bind-key "C-." #'embark-act (current-local-map))
-;;     (unbind-key "C-," (current-local-map)))
-;;   :hook
-;;   (icomplete-minibuffer-setup . my-embark-bind-keys-in-fido-mode)
-;;   :bind
-;;   (("C-." . embark-act)))
+(use-package embark
+  :defer
+  :bind
+  (("C-." . embark-act)
+   ("M-." . embark-dwim)))
 
 (use-package flymake
   :custom
@@ -950,8 +957,9 @@
 (use-package repeat
   :custom
   (repeat-mode t)
-  :bind (("C-." . repeat)
-         ("C-z" . repeat-complex-command)))
+  ;; :bind (("C-." . repeat)
+  ;;        ("C-z" . repeat-complex-command))
+  )
 
 (use-package savehist
   :custom
