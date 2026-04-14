@@ -844,8 +844,7 @@
 (use-package embark
   :defer
   :bind
-  (("C-." . embark-act)
-   ("M-." . embark-dwim)))
+  (("C-." . embark-act)))
 
 (use-package flymake
   :custom
