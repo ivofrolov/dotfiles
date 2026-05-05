@@ -2,15 +2,17 @@
 
 (setq custom-file (locate-user-emacs-file "custom.el"))
 
-(require 'package)
-;; (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-(add-to-list 'package-archives '("melpa" . "https://www.mirrorservice.org/sites/melpa.org/packages/") t)
-(setq package-pinned-packages
-      '((editorconfig . "nongnu")
-        (faceup . "gnu")
-        (use-package . "gnu")
-        (which-key . "gnu")))
-(add-to-list 'load-path (locate-user-emacs-file "packages"))
+(use-package package
+  :config
+  ;; (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+  (add-to-list 'package-archives '("melpa" . "https://www.mirrorservice.org/sites/melpa.org/packages/") t)
+  (add-to-list 'load-path (locate-user-emacs-file "packages"))
+  :custom
+  (package-pinned-packages
+   '((editorconfig . "nongnu")
+     (faceup . "gnu")
+     (use-package . "gnu")
+     (which-key . "gnu"))))
 
 (exec-path-from-shell-initialize)
 
@@ -69,7 +71,9 @@
   :custom
   (font-lock-maximum-decoration 2)
   :config
-  (set-frame-font "Hack 13" nil t))
+  (set-face-attribute 'default nil :family "Hack" :height 130)
+  (set-face-attribute 'fixed-pitch nil :family "Hack" :height 1.0)
+  (set-face-attribute 'variable-pitch nil :family "Sans Serif" :height 1.0))
 
 (use-package treesit
   :config
@@ -109,6 +113,10 @@
 (use-package delight
   :ensure)
 
+(use-package diff
+  :custom
+  (diff-font-lock-syntax nil))
+
 ;; (use-package diff-hl
 ;;   :ensure
 ;;   :custom
@@ -117,6 +125,11 @@
 ;;   (setq diff-hl-reference-revision "origin/HEAD")
 ;;   (global-diff-hl-mode)
 ;;   (diff-hl-flydiff-mode))
+
+(use-package frame
+  :bind (("s-§" . other-frame)
+         ("s-N" . make-frame)
+         ("s-W" . delete-frame)))
 
 (use-package fringe
   :custom
@@ -223,15 +236,14 @@
   (load-theme 'modus-operandi :no-confim)
   :bind ("<f5>" . modus-themes-toggle))
 
+(use-package help
+  :custom
+  (help-window-keep-selected t))
+
 (use-package tab-line
   :custom
   (tab-line-close-button-show nil)
   (tab-line-new-button-show nil))
-
-(use-package frame
-  :bind (("s-§" . other-frame)
-         ("s-N" . make-frame)
-         ("s-W" . delete-frame)))
 
 (use-package window
   :custom
@@ -241,7 +253,14 @@
   (display-buffer-alist
    '(("\\`\\*\\(Warnings\\|Compile-Log\\)\\*\\'"
       (display-buffer-no-window)
-      (allow-no-window . t))))
+      (allow-no-window . t))
+     ("\\`\\*\\(Org \\(Select\\|Note\\)\\|Agenda Commands\\)\\*\\'"
+      (display-buffer-in-side-window)
+      (dedicated . t)
+      (side . bottom)
+      (slot . 0)
+      (window-parameters . ((mode-line-format . none))))
+     ))
   ;; (switch-to-buffer-obey-display-actions t)
   (switch-to-prev-buffer-skip-regexp
    '("\\*Quail Completions\\*"
@@ -778,6 +797,7 @@
 (use-package dired
   :custom
   (dired-listing-switches "-Ahl")
+  (dired-kill-when-opening-new-dired-buffer t)
   (dired-auto-revert-buffer t)
   (dired-free-space nil)
   (dired-hide-details-hide-symlink-targets nil)
