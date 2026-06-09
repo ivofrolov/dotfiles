@@ -15,6 +15,24 @@ keep_only_last_version_of_python() {
         | xargs rm -r -f
 }
 
+layout_gover() {
+    local ver="$1"
+    if [[ -z $ver ]]; then
+        log_error "Go version required"
+        return 1
+    fi
+
+    local bindir="$PWD/bin"
+    PATH_add "$bindir"
+    export GOBIN="$bindir"
+
+    go version | grep -q $ver && return
+
+    go install "golang.org/dl/go$ver@latest"
+    "go$ver" download
+    ln -s "go$ver" "$bindir/go"
+}
+
 # Downloads and compiles BootloadHID uploader for AVR microcontrollers.
 # See https://www.obdev.at/products/vusb/bootloadhid.html
 # 
