@@ -12,3 +12,5 @@ TAGS
 
 .direnv/
 .envrc
+
+.agent-shell/
