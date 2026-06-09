@@ -71,9 +71,9 @@
   :custom
   (font-lock-maximum-decoration 2)
   :config
-  (set-face-attribute 'default nil :family "SF Mono" :height 130)
-  (set-face-attribute 'fixed-pitch nil :family "SF Mono" :height 1.0)
-  (set-face-attribute 'variable-pitch nil :family "Sans Serif" :height 1.0))
+  (set-face-attribute 'default nil :family "Iosevka" :height 150)
+  (set-face-attribute 'fixed-pitch nil :family "Iosevka" :height 1.0)
+  (set-face-attribute 'variable-pitch nil :family "Iosevka Aile" :height 1.0))
 
 (use-package treesit
   :config
