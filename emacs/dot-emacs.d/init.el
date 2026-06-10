@@ -342,12 +342,12 @@
          ("C-a" . back-to-indentation-or-beginning)
          ("s-<left>" . back-to-indentation-or-beginning)))
 
-;; completions
 (use-package emacs                      ; fill
   :custom
   (fill-column 88)
   (sentence-end-double-space nil)
   :config
+  (unbind-key "C-x .")
   (unbind-key "C-x f")
   (unbind-key "C-x ;")
   (unbind-key "C-x C-n"))
