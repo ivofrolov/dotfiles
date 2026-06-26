@@ -877,6 +877,11 @@
               ("C-c C-n" . flymake-goto-next-error)
               ("C-c C-p" . flymake-goto-prev-error)))
 
+(use-package ghostel
+  :defer
+  :bind (:map project-prefix-map
+         ("s" . ghostel-project)))
+
 (use-package gud
   :defer
   :custom
@@ -916,8 +921,7 @@
   ;; (magit-auto-revert-mode nil)
   (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1)
   (magit-section-visibility-indicators '((my-right-arrow-half-width . my-left-arrow-half-width) ("…" . t)))
-  :bind (("C-x g" . magit-status)
-         ("C-c g" . magit-dispatch)
+  :bind (("C-c g" . magit-dispatch)
          ("C-c f" . magit-file-dispatch)
          :map project-prefix-map
          ("m" . magit-project-status)))
