@@ -4,7 +4,7 @@ set fish_greeting
 command -q brew; or /opt/homebrew/bin/brew shellenv | source
 set -x HOMEBREW_NO_ENV_HINTS 1
 
-set -x EDITOR nano
+set -x EDITOR mg
 set -x PAGER less
 set -x LESS '-iRF'
 
