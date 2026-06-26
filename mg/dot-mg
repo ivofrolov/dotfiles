@@ -1,0 +1,7 @@
+audible-bell 0
+column-number-mode 1
+make-backup-files 0
+sentence-end-double-space 0
+set-default-mode indent
+set-tab-width 4
+visible-bell 0
