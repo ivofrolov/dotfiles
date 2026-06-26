@@ -1,7 +1,15 @@
+set QUIET 'on'
+
 \set HISTCONTROL ignoredups
 
+\pset expanded auto
 \pset format wrapped
 \pset linestyle unicode
 \pset null '(null)'
 
+SET bytea_output = 'escape';
+
 \timing on
+
+\set QUIET 'off'
+
