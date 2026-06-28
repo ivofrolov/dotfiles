@@ -4,6 +4,7 @@ if status is-interactive
 
     command -q bat; and alias cat bat
     command -q trash; and alias rm trash
+	command -q viu; and alias icat viu
 
     if string match -eq 'kitty' -- $TERM
         alias ssh "kitten ssh"
