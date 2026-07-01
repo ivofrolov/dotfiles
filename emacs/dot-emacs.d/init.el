@@ -879,7 +879,7 @@
 
 (use-package ghostel
   :defer
-  :config
+  :init
   (add-to-list 'project-switch-commands '(ghostel-project "Ghostel") t)
   :bind (:map project-prefix-map
          ("s" . ghostel-project)))
@@ -917,7 +917,6 @@
   :defer
   :init
   (setq magit-auto-revert-mode nil) ; global-auto-revert-mode is enabled
-  :config
   (add-to-list 'project-switch-commands '(magit-project-status "Magit") t)
   :custom
   (magit-define-global-key-bindings nil)
