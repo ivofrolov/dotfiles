@@ -881,6 +881,9 @@
   :defer
   :init
   (add-to-list 'project-switch-commands '(ghostel-project "Ghostel") t)
+  :custom
+  (ghostel-readonly-fake-cursor nil)
+  (ghostel-readonly-fast-exit nil)
   :bind (:map project-prefix-map
          ("s" . ghostel-project)))
 
