@@ -940,6 +940,12 @@
          :map project-prefix-map
          ("m" . magit-project-status)))
 
+(use-package forge
+  :defer
+  :custom
+  (forge-database-file
+   (file-name-concat user-emacs-state-directory "forge-database.sqlite")))
+
 (use-package man
   :custom
   (Man-notify-method 'thrifty))
