@@ -2,11 +2,12 @@
 
 (setq custom-file (locate-user-emacs-file "custom.el"))
 
+(setq use-package-enable-imenu-support t)
 (use-package package
   :config
-  ;; (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-  (add-to-list 'package-archives '("melpa" . "https://www.mirrorservice.org/sites/melpa.org/packages/") t)
-  (add-to-list 'load-path (locate-user-emacs-file "packages"))
+  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+  ;; (add-to-list 'package-archives '("melpa" . "https://www.mirrorservice.org/sites/melpa.org/packages/") t)
+  (add-to-list 'load-path (file-name-concat user-emacs-data-directory "packages"))
   :custom
   (package-pinned-packages
    '((editorconfig . "nongnu")
@@ -42,6 +43,7 @@
 (use-package abbrev
   :delight abbrev-mode
   :custom
+  (abbrev-file-name (file-name-concat user-emacs-state-directory "abbrev_defs"))
   (abbrev-mode t)
   (abbrev-suggest t))
 
@@ -479,8 +481,13 @@
   (global-auto-revert-mode t)
   (global-auto-revert-non-file-buffers t))
 
+(use-package emacs                      ; autosave
+  :custom
+  (auto-save-list-file-prefix (file-name-concat user-emacs-cache-directory ".saves-")))
+
 (use-package bookmark
   :custom
+  (bookmark-default-file (file-name-concat user-emacs-state-directory "bookmarks"))
   (bookmark-save-flag nil))
 
 (use-package files                      ; siblings
@@ -498,6 +505,7 @@
 
 (use-package saveplace
   :custom
+  (save-place-file (file-name-concat user-emacs-state-directory "places"))
   (save-place-mode t))
 
 ;;; Languages
@@ -1014,12 +1022,15 @@
       (if edit-command (call-interactively #'project-compile) (project-recompile))))
   :config
   (setq frame-title-format '("%b" (:eval (my-current-project-file-suffix))))
+  :custom
+  (project-list-file (file-name-concat user-emacs-state-directory "projects"))
   :bind (:map project-prefix-map
               ("S" . my-project-vc-create-branch-from-default)
               ("c" . my-project-recompile)))
 
 (use-package recentf
   :custom
+  (recentf-save-file (file-name-concat user-emacs-state-directory "recentf"))
   (recentf-mode t))
 
 (use-package repeat
@@ -1031,7 +1042,22 @@
 
 (use-package savehist
   :custom
+  (savehist-file (file-name-concat user-emacs-state-directory "history"))
   (savehist-mode t))
+
+(use-package tramp
+  :defer
+  :custom
+  (tramp-persistency-file-name (file-name-concat user-emacs-state-directory "tramp")))
+
+(use-package transient
+  :custom
+  (transient-history-file
+   (file-name-concat user-emacs-state-directory "transient/history.el"))
+  (transient-levels-file
+   (file-name-concat user-emacs-state-directory "transient/levels.el"))
+  (transient-values-file
+   (file-name-concat user-emacs-state-directory "transient/values.el")))
 
 (use-package uniquify
   :custom
