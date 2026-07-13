@@ -1,0 +1,26 @@
+#!/usr/bin/env python3
+
+import argparse
+import fcntl
+import os
+import termios
+import struct
+
+
+def get_terminal_window_size():
+    fd = os.open(os.ctermid(), os.O_NOCTTY | os.O_NDELAY | os.O_RDONLY, mode=0o666)
+    try:
+        res = fcntl.ioctl(fd, termios.TIOCGWINSZ, struct.pack("HHHH", 0, 0, 0, 0))
+    finally:
+        os.close(fd)
+    _, _, width, height = struct.unpack("HHHH", res)
+    return width, height
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(
+        description="print terminal width and height in pixels",
+    )
+    args = parser.parse_args()
+
+    print(*get_terminal_window_size())

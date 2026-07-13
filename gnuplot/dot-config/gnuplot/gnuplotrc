@@ -1,0 +1,7 @@
+function $set_kitty_terminal << EOF
+    local wsize = split(system("~/.local/bin/getwinsize"), " ")
+    set terminal kittycairo scroll size real(wsize[2]),real(wsize[1])/2 fontscale 2.0 linewidth 2
+EOF
+
+term = system("echo $TERM")
+if (term eq "xterm-kitty" || term eq "xterm-ghostty") evaluate $set_kitty_terminal()
