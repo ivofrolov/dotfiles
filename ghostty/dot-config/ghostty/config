@@ -4,3 +4,5 @@ font-size = 15
 macos-option-as-alt = true
 shell-integration-features = ssh-terminfo
 theme = light:Modus Operandi,dark:Modus Vivendi
+
+config-file = ?site-config
