@@ -1,4 +1,4 @@
-set QUIET 'on'
+\set QUIET 'on'
 
 \set HISTCONTROL ignoredups
 
@@ -12,4 +12,3 @@ SET bytea_output = 'escape';
 \timing on
 
 \set QUIET 'off'
-
