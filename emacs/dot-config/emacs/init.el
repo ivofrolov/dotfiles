@@ -591,7 +591,6 @@
         ("C-c C-f" . go-format-buffer)
         ("C-c t t" . my-go-test-function-at-point)
         ("C-c t p" . my-go-test-this-package)
-        ;; ("C-c d d" . dlv-current-func)
         ("C-c d t" . my-go-debug-test-function-at-point))
   :mode
   ("\\.go\\'" . go-ts-mode)

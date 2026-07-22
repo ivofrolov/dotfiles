@@ -95,17 +95,16 @@ flags."
 
 (defun my-go-debug-test-function-at-point (&optional edit-regexp)
   "Debug the unit test at point."
-  (interactive "P")
-  (require 'dape)
+  (interactive)
   (let* ((test-regexp (my-go--get-test-regexp-at (point)))
          (build-tags-flag (go-ts-mode--get-build-tags-flag))
          (build-flags (if (not (string-empty-p build-tags-flag)) (vector build-tags-flag) `[]))
-         (package-name (my-go--get-this-package)))
-    (when edit-regexp
-      (setq test-regexp (read-string "Regexp: " test-regexp)))
-    (dape (dape--config-eval 'dlv `(:mode "test"
-                                    :program ,package-name
-                                    :args ["-test.run" ,test-regexp]
-                                    :buildFlags ,build-flags)))))
+         (package-name (my-go--get-this-package))
+         (dape-command `(dlv
+                         :mode "test"
+                         :program ,package-name
+                         :buildFlags ,build-flags
+                         :args ["-test.run" ,test-regexp])))
+    (call-interactively 'dape)))
 
 (provide 'my-go)
