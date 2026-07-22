@@ -504,8 +504,9 @@
   ("M-g s" . find-sibling-file))
 
 (use-package saveplace
+  :preface
+  (setq save-place-file (file-name-concat user-emacs-state-directory "places"))
   :custom
-  (save-place-file (file-name-concat user-emacs-state-directory "places"))
   (save-place-mode t))
 
 ;;; Languages
@@ -750,6 +751,10 @@
     (interactive "P")
     (let ((current-prefix-arg nil))
       (if edit-command (call-interactively #'compile) (recompile))))
+  :config
+  (add-to-list 'compilation-error-regexp-alist 'go-test)
+  (add-to-list 'compilation-error-regexp-alist-alist
+               '(go-test . ("^\\s-+\\([^()\t\n]+\\):\\([0-9]+\\):? .*$" 1 2 nil nil 1)) t)
   :bind
   (("C-c C-c" . my-recompile)
    ("C-c C-k" . kill-compilation))
@@ -983,6 +988,7 @@
   (org-babel-load-languages
    '((d2 . t)
      (emacs-lisp . t)
+     (gnuplot . t)
      (python . t)
      (shell . t)))
   (org-babel-python-command-nonsession "python3")
@@ -1052,9 +1058,8 @@
   (savehist-mode t))
 
 (use-package tramp
-  :defer
-  :custom
-  (tramp-persistency-file-name (file-name-concat user-emacs-state-directory "tramp")))
+  :preface
+  (setq tramp-persistency-file-name (file-name-concat user-emacs-state-directory "tramp")))
 
 (use-package transient
   :custom
