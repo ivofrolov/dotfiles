@@ -912,6 +912,7 @@
   :bind ("C-x C-b" . ibuffer))
 
 (use-package ibuffer-vc
+  :ensure
   :defer
   :custom
   (ibuffer-formats
