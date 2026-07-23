@@ -38,21 +38,6 @@
   :custom
   (gcmh-mode t))
 
-;;; Abbreviations
-
-(use-package abbrev
-  :delight abbrev-mode
-  :custom
-  (abbrev-file-name (file-name-concat user-emacs-state-directory "abbrev_defs"))
-  (abbrev-mode t)
-  (abbrev-suggest t))
-
-(use-package dabbrev
-  :custom
-  (dabbrev-ignored-buffer-regexps
-   '("^[[:blank:]]+\\*.*"
-     "^\\*.*\\*$")))
-
 ;;; Display
 
 (use-package emacs
@@ -175,6 +160,19 @@
 
 (use-package emacs                      ; mode line
   :custom
+  (mode-line-format '((:propertize
+                       (" "
+                        mode-line-mule-info
+                        mode-line-client
+                        mode-line-modified
+                        mode-line-remote
+                        mode-line-window-dedicated)
+                       display (min-width (6.0)))
+                      mode-line-frame-identification
+                      mode-line-buffer-identification
+                      mode-line-format-right-align
+                      mode-line-position
+                      mode-line-modes))
   (mode-line-compact 'long)
   (column-number-mode t)
   (mode-line-position-column-format '(" C%C"))
@@ -305,6 +303,19 @@
                  (group . 1)
                  (justify . t)
                  (spacing . 0))))
+
+(use-package abbrev
+  :delight abbrev-mode
+  :custom
+  (abbrev-file-name (file-name-concat user-emacs-state-directory "abbrev_defs"))
+  (abbrev-mode t)
+  (abbrev-suggest t))
+
+(use-package dabbrev
+  :custom
+  (dabbrev-ignored-buffer-regexps
+   '("^[[:blank:]]+\\*.*"
+     "^\\*.*\\*$")))
 
 (use-package emacs                      ; clipboard
   :custom
@@ -753,7 +764,7 @@
   :config
   (add-to-list 'compilation-error-regexp-alist 'go-test)
   (add-to-list 'compilation-error-regexp-alist-alist
-               '(go-test . ("^\\s-+\\([^()\t\n]+\\):\\([0-9]+\\):? .*$" 1 2 nil nil 1)) t)
+               '(go-test . ("^\\s-+\\(\\([^()\t\n]+\\):\\([0-9]+\\)\\):?" 2 3 nil nil 1)) t)
   :bind
   (("C-c C-c" . my-recompile)
    ("C-c C-k" . kill-compilation))
