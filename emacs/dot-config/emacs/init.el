@@ -996,9 +996,9 @@
   (org-cycle-hide-block-startup nil)
   (org-cycle-hide-drawer-startup t)
   (org-edit-src-content-indentation 0)
+  (org-id-locations-file (file-name-concat user-emacs-state-directory "org-id-locations"))
   (org-babel-load-languages
-   '((d2 . t)
-     (emacs-lisp . t)
+   '((emacs-lisp . t)
      (gnuplot . t)
      (python . t)
      (shell . t)))
@@ -1021,7 +1021,10 @@
 (use-package ob-d2
   :after org
   :config
-  (add-to-list 'org-src-lang-modes '("d2" . d2-ts)))
+  (add-to-list 'org-src-lang-modes '("d2" . d2-ts))
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   (append org-babel-load-languages '(("d2" . t)))))
 
 (use-package orderless
   :ensure
