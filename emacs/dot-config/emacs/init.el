@@ -284,6 +284,7 @@
 
 (use-package minibuffer
   :custom
+  (history-delete-duplicates t)
   (read-extended-command-predicate #'command-completion-default-include-p)
   (completions-detailed t)
   (minibuffer-electric-default-mode t)
@@ -318,9 +319,14 @@
      "^\\*.*\\*$")))
 
 (use-package emacs                      ; clipboard
+  :preface
+  (defun my-delete-duplicates-from-kill-ring (string &rest _)
+    (set 'kill-ring (delete string kill-ring)))
+  (advice-add 'kill-new :before #'my-delete-duplicates-from-kill-ring)
   :custom
   (kill-do-not-save-duplicates t)
   (kill-whole-line t)
+  (yank-excluded-properties t)
   (select-enable-clipboard nil)
   (select-enable-primary t)
   :bind (("s-c" . clipboard-kill-ring-save)
