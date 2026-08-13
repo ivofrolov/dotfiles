@@ -767,6 +767,8 @@
     (interactive "P")
     (let ((current-prefix-arg nil))
       (if edit-command (call-interactively #'compile) (recompile))))
+  (defun my-compilation-mode-remap-faces ()
+    (face-remap-add-relative 'nobreak-space :underline nil))
   :config
   (add-to-list 'compilation-error-regexp-alist 'go-test)
   (add-to-list 'compilation-error-regexp-alist-alist
@@ -775,6 +777,7 @@
   (("C-c C-c" . my-recompile)
    ("C-c C-k" . kill-compilation))
   :hook
+  (compilation-mode . my-compilation-mode-remap-faces)
   (compilation-mode . visual-line-mode)
   (compilation-mode . visual-wrap-prefix-mode))
 
