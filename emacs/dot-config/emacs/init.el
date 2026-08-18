@@ -913,11 +913,15 @@
   :defer
   :init
   (add-to-list 'project-switch-commands '(ghostel-project "Ghostel") t)
+  (defun my-ghostel-mode-remap-faces ()
+    (face-remap-add-relative 'nobreak-space :underline nil))
   :custom
   (ghostel-readonly-fake-cursor nil)
   (ghostel-readonly-fast-exit nil)
   :bind (:map project-prefix-map
-         ("s" . ghostel-project)))
+              ("s" . ghostel-project))
+  :hook
+  (ghostel-mode . my-ghostel-mode-remap-faces))
 
 (use-package gud
   :defer
