@@ -554,7 +554,9 @@
   ("\\.ino\\'" . c++-ts-mode))
 
 (use-package d2-ts-mode
-  :defer)
+  :defer
+  :mode
+  ("\\.d2\\'" . d2-ts-mode))
 
 (use-package graphql-ts-mode
   :defer
@@ -1037,7 +1039,7 @@
   (add-to-list 'org-src-lang-modes '("d2" . d2-ts))
   (org-babel-do-load-languages
    'org-babel-load-languages
-   (append org-babel-load-languages '(("d2" . t)))))
+   (append org-babel-load-languages '((d2 . t)))))
 
 (use-package orderless
   :ensure
@@ -1111,10 +1113,12 @@
 (use-package verb
   :defer
   :custom
-  (verb-tag "api")
   (verb-json-use-mode 'json-ts-mode)
   :config
-  (define-key org-mode-map (kbd "C-c C-r") verb-command-map))
+  (define-key org-mode-map (kbd "C-c C-r") verb-command-map)
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   (append org-babel-load-languages '((verb . t)))))
 
 (use-package vertico
   :ensure

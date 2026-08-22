@@ -30,8 +30,7 @@
   (treesit-font-lock-rules
    :language 'd2
    :feature 'comment
-   '((line_comment) @font-lock-comment-face
-     (block_comment) @font-lock-comment-face))
+   '((comment) @font-lock-comment-face))
   "Tree-sitter font-lock settings.")
 
 (defvar d2--treesit-indent-rules
