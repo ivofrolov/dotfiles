@@ -1114,6 +1114,7 @@
   :defer
   :custom
   (verb-json-use-mode 'json-ts-mode)
+  (verb-auto-kill-response-buffers t)
   :config
   (define-key org-mode-map (kbd "C-c C-r") verb-command-map)
   (org-babel-do-load-languages
