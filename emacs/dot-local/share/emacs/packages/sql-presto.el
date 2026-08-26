@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (require 'sql)
 (require 'subr-x)
 

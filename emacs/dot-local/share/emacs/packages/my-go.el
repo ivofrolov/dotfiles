@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (require 'go-ts-mode)
 
 (defcustom go-ts-mode-build-tags nil

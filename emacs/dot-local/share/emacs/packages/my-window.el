@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (require 'window)
 
 (defun my-move-buffer-other-window (arg)

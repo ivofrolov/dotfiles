@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (require 'fringe)
 
 (defun fringe-helper-convert (&rest strings)

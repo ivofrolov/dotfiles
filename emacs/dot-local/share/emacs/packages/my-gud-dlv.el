@@ -1,4 +1,4 @@
-;;; gud-dlv.el --- Debug Go programs interactively with the GUD.
+;;; gud-dlv.el --- Debug Go programs interactively with the GUD.  -*- lexical-binding: t; -*-
 
 ;; Original author Marko Bencun <mbencun@gmail.com>, see https://github.com/benma/go-dlv.el/
 

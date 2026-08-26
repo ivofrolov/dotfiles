@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (require 'reformatter)
 
 (defvar astyle-format-args

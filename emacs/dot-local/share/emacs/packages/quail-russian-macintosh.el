@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (require 'quail)
 
 ;; This is mostly `russian-computer'.
