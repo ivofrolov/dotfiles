@@ -9,7 +9,6 @@
   :config
   (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
   ;; (add-to-list 'package-archives '("melpa" . "https://www.mirrorservice.org/sites/melpa.org/packages/") t)
-  (add-to-list 'load-path (file-name-concat user-emacs-data-directory "packages"))
   :custom
   (package-pinned-packages
    '((editorconfig . "nongnu")

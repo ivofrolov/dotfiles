@@ -2,8 +2,9 @@
 
 (require 'fringe)
 
-(defun fringe-helper-convert (&rest strings)
-  "Convert STRINGS into a vector usable for `define-fringe-bitmap'.
+(eval-when-compile
+  (defun fringe-helper-convert (&rest strings)
+    "Convert STRINGS into a vector usable for `define-fringe-bitmap'.
 Each string in STRINGS represents a line of the fringe bitmap.
 Periods (.) are background-colored pixel; Xs are foreground
 colored. The fringe bitmap always is aligned to the right. If the
@@ -19,16 +20,16 @@ For example, the following code defines a diagonal line.
   \"..XX....\"
   \"....XX..\"
   \"......XX\"\)"
-  (unless (cdr strings)
-    ;; only one string, probably with newlines
-    (setq strings (split-string (car strings) "\n")))
-  (apply 'vector
-         (mapcar (lambda (str)
-                   (let ((num 0))
-                     (dolist (c (string-to-list str))
-                       (setq num (+ (* num 2) (if (eq c ?.) 0 1))))
-                     num))
-                 strings)))
+    (unless (cdr strings)
+      ;; only one string, probably with newlines
+      (setq strings (split-string (car strings) "\n")))
+    (apply 'vector
+           (mapcar (lambda (str)
+                     (let ((num 0))
+                       (dolist (c (string-to-list str))
+                         (setq num (+ (* num 2) (if (eq c ?.) 0 1))))
+                       num))
+                   strings))))
 
 (defun define-my-fringe-bitmaps ()
   (define-fringe-bitmap 'my-left-arrow-half-width
