@@ -322,8 +322,19 @@
   :preface
   (defun my-delete-duplicates-from-kill-ring (string &rest _)
     (set 'kill-ring (delete string kill-ring)))
+  (defun my-act-on-line-if-no-active-region (&rest _)
+    (interactive
+     (if mark-active (list (region-beginning) (region-end))
+       (list (line-beginning-position)
+             (line-beginning-position 2)))))
+  :config
   (advice-add 'kill-new :before #'my-delete-duplicates-from-kill-ring)
+  (advice-add 'kill-ring-save :before #'my-act-on-line-if-no-active-region)
+  (advice-add 'kill-region :before #'my-act-on-line-if-no-active-region)
+  (advice-add 'clipboard-kill-ring-save :before #'my-act-on-line-if-no-active-region)
+  (advice-add 'clipboard-kill-region :before #'my-act-on-line-if-no-active-region)
   :custom
+  (copy-region-blink-predicate 'ignore)
   (kill-do-not-save-duplicates t)
   (kill-whole-line t)
   (yank-excluded-properties t)
