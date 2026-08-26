@@ -65,38 +65,8 @@
   (set-face-attribute 'variable-pitch nil :family "Iosevka Aile" :height 1.0))
 
 (use-package treesit
-  :config
-  (setq major-mode-remap-alist
-        '((c-or-c++-mode . c-or-c++-ts-mode)
-          (c-mode . c-ts-mode)
-          (c++-mode . c++-ts-mode)
-          (csharp-mode . csharp-ts-mode)
-          (css-mode . css-ts-mode)
-          (java-mode . java-ts-mode)
-          (javascript-mode . js-ts-mode)
-          (js-json-mode . json-ts-mode)
-          (html-mode . html-ts-mode)
-          (python-mode . python-ts-mode)
-          (ruby-mode . ruby-ts-mode)))
-  (setq treesit-language-source-alist
-        '((c "https://github.com/tree-sitter/tree-sitter-c")
-          (cpp "https://github.com/tree-sitter/tree-sitter-cpp")
-          (css "https://github.com/tree-sitter/tree-sitter-css")
-          (go "https://github.com/tree-sitter/tree-sitter-go" "v0.23.4")
-          (gomod "https://github.com/camdencheek/tree-sitter-go-mod")
-          (graphql "https://github.com/bkegley/tree-sitter-graphql")
-          (html "https://github.com/tree-sitter/tree-sitter-html")
-          (javascript "https://github.com/tree-sitter/tree-sitter-javascript")
-          (json "https://github.com/tree-sitter/tree-sitter-json")
-          (lua "https://github.com/tree-sitter-grammars/tree-sitter-lua")
-          (python "https://github.com/tree-sitter/tree-sitter-python")
-          (rust "https://github.com/tree-sitter/tree-sitter-rust")
-          (swift "https://github.com/alex-pinkus/tree-sitter-swift" "0.7.1-with-generated-files")
-          (toml "https://github.com/tree-sitter/tree-sitter-toml")
-          (tsx "https://github.com/tree-sitter/tree-sitter-typescript")
-          (typescript "https://github.com/tree-sitter/tree-sitter-typescript")
-          (yaml "https://github.com/tree-sitter-grammars/tree-sitter-yaml")))
   :custom
+  (treesit-enabled-modes t)
   (treesit-font-lock-level 2))
 
 (use-package delight
@@ -162,14 +132,12 @@
 
 (use-package emacs                      ; mode line
   :custom
-  (mode-line-format '((:propertize
-                       (" "
-                        mode-line-mule-info
-                        mode-line-client
-                        mode-line-modified
-                        mode-line-remote
-                        mode-line-window-dedicated)
-                       display (min-width (6.0)))
+  (mode-line-format '("" mode-line-front-space
+                      mode-line-mule-info
+                      mode-line-client
+                      mode-line-modified
+                      mode-line-remote
+                      mode-line-window-dedicated
                       mode-line-frame-identification
                       mode-line-buffer-identification
                       mode-line-format-right-align
@@ -364,7 +332,6 @@
          ("M-N" . move-line-down)
          ("M-o" . split-line-at-the-beginning)
          ("M-z" . zap-up-to-char)
-         ("C-S-d" . delete-pair)
          ("M-u" . upcase-dwim)
          ("M-U" . capitalize-dwim)
          ("M-l" . downcase-dwim)
@@ -391,7 +358,8 @@
   (standard-indent 4)
   (tab-width 4)
   ;; (tab-stop-list '(0 4))
-  (comment-column 0))
+  (comment-column 0)
+  (electric-indent-actions '(yank)))
 
 (use-package quail-russian-macintosh
   :custom
@@ -433,7 +401,8 @@
            ("M-s-[" . pop-global-mark)))
   :custom
   (mark-ring-max 6)
-  (global-mark-ring-max 8))
+  (global-mark-ring-max 8)
+  (exchange-point-and-mark-highlight-region nil))
 
 (use-package mouse
   :custom
@@ -465,7 +434,11 @@
   (electric-pair-mode t)
   (electric-pair-skip-whitespace nil)
   (delete-pair-blink-delay 0)
-  (show-paren-when-point-inside-paren t))
+  ;; (delete-pair-push-mark t)
+  (show-paren-when-point-inside-paren t)
+  (show-paren-not-in-comments-or-strings 'all)
+  :bind
+  (("C-S-d" . delete-pair)))
 
 (use-package emacs                      ; scroll
   :custom
