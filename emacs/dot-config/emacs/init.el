@@ -594,8 +594,9 @@
   :bind
   (:map go-ts-mode-map
         ("C-c C-f" . go-format-buffer)
-        ("C-c t t" . my-go-test-function-at-point)
-        ("C-c t p" . my-go-test-this-package)
+        ("C-c t t" . go-ts-mode-test-function-at-point)
+        ("C-c t f" . go-ts-mode-test-this-file)
+        ("C-c t p" . go-ts-mode-test-this-package)
         ("C-c d t" . my-go-debug-test-function-at-point))
   :mode
   ("\\.go\\'" . go-ts-mode)
