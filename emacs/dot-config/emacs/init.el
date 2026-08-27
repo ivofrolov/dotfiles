@@ -613,12 +613,18 @@
   :mode
   ("\\.lua\\'" . lua-ts-mode))
 
-(use-package markdown-mode
-  :custom
-  (markdown-open-command "marked")
-  (markdown-asymmetric-header t)
+;; (use-package markdown-mode
+;;   :custom
+;;   (markdown-open-command "marked")
+;;   (markdown-asymmetric-header t)
+;;   :mode
+;;   ("README\\.md\\'" . gfm-mode))
+
+(use-package markdown-ts-mode
+  :config
+  (require 'markdown-ts-mode-x)
   :mode
-  ("README\\.md\\'" . gfm-mode))
+  ("\\.md\\'" "\\.mdx\\'" "\\.markdown\\'"))
 
 (use-package python
   :defer
@@ -861,8 +867,10 @@
                                        :inlayHintProvider
                                        :semanticTokensProvider))
   (eglot-extend-to-xref t)
+  (eglot-documentation-renderer #'markdown-ts-view-mode)
   (eglot-autoshutdown t)
   (eglot-events-buffer-config '(:size 0 :format full))
+  (eglot-report-progress nil)
   :bind
   (:map eglot-mode-map
         ("C-c ." . eglot-find-implementation)
