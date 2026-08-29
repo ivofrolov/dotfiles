@@ -1080,6 +1080,11 @@
   (savehist-file (file-name-concat user-emacs-state-directory "history"))
   (savehist-mode t))
 
+(use-package shell-maker
+  :defer
+  :custom
+  (shell-maker-root-path user-emacs-state-directory))
+
 (use-package tramp
   :preface
   (setq tramp-persistency-file-name (file-name-concat user-emacs-state-directory "tramp")))
@@ -1096,6 +1101,12 @@
 (use-package uniquify
   :custom
   (uniquify-buffer-name-style 'forward))
+
+(use-package url
+  :defer
+  :custom
+  (url-configuration-directory
+   (file-name-concat user-emacs-state-directory "url")))
 
 (use-package vc
   :custom
