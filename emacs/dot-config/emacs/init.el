@@ -588,6 +588,9 @@
   :config
   (use-package my-reformatter)
   (use-package my-go)
+  (add-to-list 'compilation-error-regexp-alist 'go-test)
+  (add-to-list 'compilation-error-regexp-alist-alist
+               '(go-test . ("^\\s-+\\(?:Error Trace:\\s-+\\)?\\(\\([^()\t\n]+\\):\\([0-9]+\\)\\):?" 2 3 nil nil 1)) t)
   :custom
   (go-ts-mode-indent-offset 4)
   :bind
@@ -769,10 +772,6 @@
       (if edit-command (call-interactively #'compile) (recompile))))
   (defun my-compilation-mode-remap-faces ()
     (face-remap-add-relative 'nobreak-space :underline nil))
-  :config
-  (add-to-list 'compilation-error-regexp-alist 'go-test)
-  (add-to-list 'compilation-error-regexp-alist-alist
-               '(go-test . ("^\\s-+\\(\\([^()\t\n]+\\):\\([0-9]+\\)\\):?" 2 3 nil nil 1)) t)
   :bind
   (("C-c C-c" . my-recompile)
    ("C-c C-k" . kill-compilation))
@@ -899,6 +898,14 @@
   :defer
   :bind
   (("C-." . embark-act)))
+
+(use-package envrc
+  :ensure
+  :custom
+  (envrc-none-lighter nil)
+  (envrc-lighter nil)
+  :hook
+  (after-init . envrc-global-mode))     ; should be loaded late in startup sequence
 
 (use-package flymake
   :custom
@@ -1149,13 +1156,6 @@
 (use-package xref
   :custom
   (xref-history-storage #'xref-window-local-history))
-
-(use-package envrc                      ; should be loaded late in startup sequence
-  :ensure
-  :custom
-  (envrc-none-lighter nil)
-  (envrc-lighter nil)
-  (envrc-global-mode t))
 
 ;;; Epilogue
 
