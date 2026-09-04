@@ -667,25 +667,25 @@
               ("C-c C-h" . python-eldoc-at-point)
               ("C-c C-f" . ruff-format-buffer)))
 
-(use-package python                  ; solves python shell communication issues on macos
-  :defer
-  :preface
-  (defun my-python-delete-eval-expressions (output)
-    (string-join
-     (seq-remove
-      (apply-partially 'string-prefix-p "__PYTHON_EL_")
-      (string-lines output nil t))))
-  (defun my-inferior-python-mode-locals ()
-    (setq-local comint-process-echoes t)
-    (add-to-list (make-local-variable 'comint-preoutput-filter-functions)
-                 #'my-python-delete-eval-expressions))
-  :hook
-  (inferior-python-mode . my-inferior-python-mode-locals)
-  :config
-  (advice-add 'python-eldoc--get-doc-at-point
-              :filter-return #'my-python-delete-eval-expressions)
-  :custom
-  (python-shell-completion-native-enable nil))
+;; (use-package python                  ; solves python shell communication issues on macos
+;;   :defer
+;;   :preface
+;;   (defun my-python-delete-eval-expressions (output)
+;;     (string-join
+;;      (seq-remove
+;;       (apply-partially 'string-prefix-p "__PYTHON_EL_")
+;;       (string-lines output nil t))))
+;;   (defun my-inferior-python-mode-locals ()
+;;     (setq-local comint-process-echoes t)
+;;     (add-to-list (make-local-variable 'comint-preoutput-filter-functions)
+;;                  #'my-python-delete-eval-expressions))
+;;   :hook
+;;   (inferior-python-mode . my-inferior-python-mode-locals)
+;;   :config
+;;   (advice-add 'python-eldoc--get-doc-at-point
+;;               :filter-return #'my-python-delete-eval-expressions)
+;;   :custom
+;;   (python-shell-completion-native-enable nil))
 
 (use-package re-builder
   :custom
@@ -745,6 +745,12 @@
   :defer
   :custom
   (calendar-week-start-day 1))
+
+(use-package code-cells
+  :defer
+  :bind
+  (:map code-cells-mode-map
+        ("C-c C-c" . code-cells-eval)))
 
 (use-package comint
   :defer
