@@ -215,6 +215,9 @@
   (tab-line-new-button-show nil))
 
 (use-package window
+  :config
+  (keymap-unset other-window-repeat-map "o")
+  (keymap-set other-window-repeat-map "O" #'other-window)
   :custom
   ;; (display-buffer-base-action
   ;;  '((display-buffer-reuse-window display-buffer-same-window)
