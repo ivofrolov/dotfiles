@@ -811,11 +811,10 @@
   :defer
   :custom
   (dape-buffer-window-arrangement 'gud)
+  (dape-many-windows nil)
   (dape-info-hide-mode-line nil)
   (dape-inlay-hints nil)
-  (dape-request-timeout 60)
-  :config
-  (remove-hook 'dape-start-hook 'dape-info))
+  (dape-request-timeout 60))
 
 (use-package denote
   :defer
