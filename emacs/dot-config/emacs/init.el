@@ -766,6 +766,7 @@
   :defer
   :custom
   (compilation-max-output-line-length nil)
+  (compilation-filter-hook '(ansi-color-compilation-filter))
   :init
   (defun my-recompile (&optional edit-command)
     (declare (interactive-only "use `compile' or `recompile' instead."))
