@@ -66,7 +66,7 @@
 (use-package treesit
   :custom
   (treesit-enabled-modes t)
-  (treesit-font-lock-level 2))
+  (treesit-font-lock-level '((markdown-ts-mode . 3) (t . 2))))
 
 (use-package delight
   :ensure)
