@@ -932,7 +932,8 @@
   :bind (:map project-prefix-map
               ("s" . ghostel-project))
   :hook
-  (ghostel-mode . my-ghostel-mode-remap-faces))
+  (ghostel-mode . my-ghostel-mode-remap-faces)
+  (ghostel-mode . ghostel-ime-mode))
 
 (use-package gud
   :defer
