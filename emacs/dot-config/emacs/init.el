@@ -538,7 +538,8 @@
   (c-ts-mode-indent-offset 2)
   (c-ts-mode-indent-style 'k&r)
   :mode
-  ("\\.ino\\'" . c++-ts-mode))
+  ("\\.ino\\'" . c++-ts-mode)
+  ("\\.inl\\'" . c++-ts-mode))
 
 (use-package d2-ts-mode
   :defer
