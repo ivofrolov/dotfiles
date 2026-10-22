@@ -50,3 +50,42 @@ install_bootloadhid() {
     fi
     PATH_add $commandline_dir
 }
+
+layout_esp_idf() {
+    local ver="$1"
+    if [[ -z "$ver" ]]; then
+        log_error "ESP-IDF version required (e.g. v6.1 see eim list)"
+        return 1
+    fi
+
+    local cfgpath="$HOME/.espressif/tools/eim_idf.json"
+    if [[ ! -f "$cfgpath" ]]; then
+        log_error "$cfgpath not found"
+        return 1
+    fi
+
+    local filter='.idfInstalled[] | select(.name == $ver) | .activationScript'
+    local script=$(jq -r --arg ver "$ver" "$filter" < $cfgpath)
+    if [[ -z "$script" ]]; then
+        log_error "ESP-IDF version $ver not found (check eim list)"
+        return 1
+    fi
+
+    while IFS= read -r line; do
+        local k=${line%%=*}
+        local v=${line#*=}
+        case $k in
+            "PATH")
+                PATH_add "$v"
+                ;;
+            "SYSTEM_PATH")
+                ;;
+            *)
+                export "$k=$v"
+        esac
+    done < <(bash "$script" -e)
+
+    unset PYTHONHOME
+    export VIRTUAL_ENV="$IDF_PYTHON_ENV_PATH"
+    # python should be in the PATH already
+}
