@@ -3,7 +3,7 @@
 (require 'reformatter)
 
 (defvar astyle-format-args
-  '("--style=attach" "--max-code-length=79" "--indent=spaces=2" "-n")
+  '("--style=attach" "--max-code-length=79" "--indent=spaces=4" "-n")
   "Artistic Style config.")
 
 ;;;###autoload (autoload 'astyle-format-buffer "current-file" nil t)

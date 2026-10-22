@@ -502,6 +502,8 @@
                         ("\\([^/]+\\)\\.hpp\\'" "\\1.cpp")
                         ("\\([^/]+\\)\\.cpp\\'" "\\1.h")
                         ("\\([^/]+\\)\\.h\\'" "\\1.cpp")
+                        ("\\([^/]+\\)\\.cpp\\'" "\\1.inl")
+                        ("\\([^/]+\\)\\.inl\\'" "\\1.cpp")
                         ("\\([^/]+\\)\\.go\\'" "\\1_test.go")
                         ("\\([^/]+\\)_test\\.go\\'" "\\1.go")))
   :bind
@@ -522,7 +524,7 @@
   :bind (:map c-mode-map
               ("C-c C-f" . astyle-format-buffer))
   :custom
-  (c-basic-offset 2)
+  (c-basic-offset 4)
   (c-default-style '((java-mode . "java")
                      (awk-mode . "awk")
                      (csharp-mode . "csharp")
@@ -535,7 +537,7 @@
   :bind (:map c-ts-base-mode-map
               ("C-c C-f" . astyle-format-buffer))
   :custom
-  (c-ts-mode-indent-offset 2)
+  (c-ts-mode-indent-offset 4)
   (c-ts-mode-indent-style 'k&r)
   :mode
   ("\\.ino\\'" . c++-ts-mode)
