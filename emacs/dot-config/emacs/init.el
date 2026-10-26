@@ -634,6 +634,19 @@
   :mode
   ("\\.md\\'" "\\.mdx\\'" "\\.markdown\\'"))
 
+(use-package protobuf-mode
+  :defer
+  :preface
+  (defun my-protobuf-mode-locals ()
+    (defconst protobuf-style
+      '((c-basic-offset . 2)
+        (indent-tabs-mode . nil)))
+    (c-add-style "protobuf" protobuf-style t))
+  :hook
+  (protobuf-mode . my-protobuf-mode-locals)
+  :mode
+  ("\\.proto\\'" . protobuf-mode))
+
 (use-package python
   :defer
   :preface
