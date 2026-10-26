@@ -30,7 +30,7 @@ layout_gover() {
 
     go install "golang.org/dl/go$ver@latest"
     "go$ver" download
-    ln -s "go$ver" "$bindir/go"
+    ln -f -s "go$ver" "$bindir/go"
 }
 
 # Downloads and compiles BootloadHID uploader for AVR microcontrollers.
