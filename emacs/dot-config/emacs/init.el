@@ -945,6 +945,7 @@
   :custom
   (ghostel-readonly-fake-cursor nil)
   (ghostel-readonly-fast-exit nil)
+  (ghostel-status-mode-line-labels 'words)
   :bind (:map project-prefix-map
               ("s" . ghostel-project))
   :hook
